@@ -159,15 +159,15 @@ function update() {
 	}
 
 	// we check if the paddle hit the user or the com paddle
-	let player = ball.x + ball.radius < canvas.width / 2 ? user : com;
+	let playerl = ball.x + ball.radius < canvas.width / 2 ? user : com;
 
 	// if the ball hits a paddle
-	if (collision(ball, player)) {
+	if (collision(ball, playerl)) {
 		// we check where the ball hits the paddle
-		let collidePoint = ball.y - (player.y + player.height / 2);
+		let collidePoint = ball.y - (playerl.y + playerl.height / 2);
 		// normalize the value of collidePoint, we need to get numbers between -1 and 1.
-		// -player.height/2 < collide Point < player.height/2
-		collidePoint = collidePoint / (player.height / 2);
+		// -playerl.height/2 < collide Point < playerl.height/2
+		collidePoint = collidePoint / (playerl.height / 2);
 
 		// when the ball hits the top of a paddle we want the ball, to take a -45degees angle
 		// when the ball hits the center of the paddle we want the ball to take a 0degrees angle
@@ -204,7 +204,7 @@ function update() {
     }
   }
 
-  // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
+  // change the score of playerls, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
   if (ball.x - ball.radius < 0) {
     com.score++;
     resetBall();
@@ -226,15 +226,15 @@ function update() {
   }
 
   // we check if the paddle hit the user or the com paddle
-  let player = ball.x + ball.radius < canvas.width / 2 ? user : com;
+  let playerr = ball.x + ball.radius < canvas.width / 2 ? user : com;
 
   // if the ball hits a paddle
-  if (collision(ball, player)) {
+  if (collision(ball, playerr)) {
     // we check where the ball hits the paddle
-    let collidePoint = ball.y - (player.y + player.height / 2);
+    let collidePoint = ball.y - (playerr.y + playerr.height / 2);
     // normalize the value of collidePoint, we need to get numbers between -1 and 1.
-    // -player.height/2 < collide Point < player.height/2
-    collidePoint = collidePoint / (player.height / 2);
+    // -playerr.height/2 < collide Point < playerr.height/2
+    collidePoint = collidePoint / (playerr.height / 2);
 
     // when the ball hits the top of a paddle we want the ball, to take a -45degees angle
     // when the ball hits the center of the paddle we want the ball to take a 0degrees angle
