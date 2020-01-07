@@ -159,15 +159,15 @@ function update() {
 	}
 
 	// we check if the paddle hit the user or the com paddle
-	let playerl = ball.x + ball.radius < canvas.width / 2 ? user : com;
+	let player = ball.x + ball.radius < canvas.width / 2 ? user : com;
 
 	// if the ball hits a paddle
-	if (collision(ball, playerl)) {
+	if (collision(ball, player)) {
 		// we check where the ball hits the paddle
-		let collidePoint = ball.y - (playerl.y + playerl.height / 2);
+		let collidePoint = ball.y - (player.y + player.height / 2);
 		// normalize the value of collidePoint, we need to get numbers between -1 and 1.
-		// -playerl.height/2 < collide Point < playerl.height/2
-		collidePoint = collidePoint / (playerl.height / 2);
+		// -player.height/2 < collide Point < player.height/2
+		collidePoint = collidePoint / (player.height / 2);
 
 		// when the ball hits the top of a paddle we want the ball, to take a -45degees angle
 		// when the ball hits the center of the paddle we want the ball to take a 0degrees angle
@@ -183,75 +183,75 @@ function update() {
 		// speed up the ball everytime a paddle hits it.
 		ball.speed += 0.1;
 	}
-  document.onkeydown = checkKey;
+  // document.onkeydown = checkKey;
 
-  // Check if key is pressed
-  function checkKey(e) {
-    e = e || window.event;
+  // // Check if key is pressed
+  // function checkKey(e) {
+  //   e = e || window.event;
 
-    if (e.keyCode == "38" && user.y > 7) {
-      let rect = canvas.getBoundingClientRect();
-      user.y = user.y - 15;
-    } else if (e.keyCode == "40" && user.y < 500) {
-      let rect = canvas.getBoundingClientRect();
-      user.y = user.y + 15;
-    } else if (e.keyCode == "37" && com.y > 7) {
-      let rect = canvas.getBoundingClientRect();
-      com.y = com.y - 15;
-    } else if (e.keyCode == "39" && com.y < 500) {
-      let rect = canvas.getBoundingClientRect();
-      com.y = com.y + 15;
-    }
-  }
+  //   if (e.keyCode == "38" && user.y > 7) {
+  //     let rect = canvas.getBoundingClientRect();
+  //     user.y = user.y - 15;
+  //   } else if (e.keyCode == "40" && user.y < 500) {
+  //     let rect = canvas.getBoundingClientRect();
+  //     user.y = user.y + 15;
+  //   } else if (e.keyCode == "37" && com.y > 7) {
+  //     let rect = canvas.getBoundingClientRect();
+  //     com.y = com.y - 15;
+  //   } else if (e.keyCode == "39" && com.y < 500) {
+  //     let rect = canvas.getBoundingClientRect();
+  //     com.y = com.y + 15;
+  //   }
+  // }
 
-  // change the score of playerls, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
-  if (ball.x - ball.radius < 0) {
-    com.score++;
-    resetBall();
-  } else if (ball.x + ball.radius > canvas.width) {
-    user.score++;
-    resetBall();
-  }
+  // // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
+  // if (ball.x - ball.radius < 0) {
+  //   com.score++;
+  //   resetBall();
+  // } else if (ball.x + ball.radius > canvas.width) {
+  //   user.score++;
+  //   resetBall();
+  // }
 
-  // the ball has a velocity
-  ball.x += ball.velocityX;
-  ball.y += ball.velocityY;
+  // // the ball has a velocity
+  // ball.x += ball.velocityX;
+  // ball.y += ball.velocityY;
 
-  // simple AI
-  //com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
+  // // simple AI
+  // //com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 
-  // when the ball collides with bottom and top walls we inverse the y velocity.
-  if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-    ball.velocityY = -ball.velocityY;
-  }
+  // // when the ball collides with bottom and top walls we inverse the y velocity.
+  // if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+  //   ball.velocityY = -ball.velocityY;
+  // }
 
-  // we check if the paddle hit the user or the com paddle
-  let playerr = ball.x + ball.radius < canvas.width / 2 ? user : com;
+  // // we check if the paddle hit the user or the com paddle
+  // let player = ball.x + ball.radius < canvas.width / 2 ? user : com;
 
-  // if the ball hits a paddle
-  if (collision(ball, playerr)) {
-    // we check where the ball hits the paddle
-    let collidePoint = ball.y - (playerr.y + playerr.height / 2);
-    // normalize the value of collidePoint, we need to get numbers between -1 and 1.
-    // -playerr.height/2 < collide Point < playerr.height/2
-    collidePoint = collidePoint / (playerr.height / 2);
+  // // if the ball hits a paddle
+  // if (collision(ball, player)) {
+  //   // we check where the ball hits the paddle
+  //   let collidePoint = ball.y - (player.y + player.height / 2);
+  //   // normalize the value of collidePoint, we need to get numbers between -1 and 1.
+  //   // -player.height/2 < collide Point < player.height/2
+  //   collidePoint = collidePoint / (player.height / 2);
 
-    // when the ball hits the top of a paddle we want the ball, to take a -45degees angle
-    // when the ball hits the center of the paddle we want the ball to take a 0degrees angle
-    // when the ball hits the bottom of the paddle we want the ball to take a 45degrees
-    // Math.PI/4 = 45degrees
-    //let angleRad = (Math.PI / 4) * collidePoint;
+  //   // when the ball hits the top of a paddle we want the ball, to take a -45degees angle
+  //   // when the ball hits the center of the paddle we want the ball to take a 0degrees angle
+  //   // when the ball hits the bottom of the paddle we want the ball to take a 45degrees
+  //   // Math.PI/4 = 45degrees
+  //   //let angleRad = (Math.PI / 4) * collidePoint;
 
-    // change the X and Y velocity direction
-    //let direction = ball.x + ball.radius < canvas.width / 2 ? 1 : -1;
-    //ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-    //ball.velocityY = ball.speed * Math.sin(angleRad);
-    ball.velocityX = -ball.velocityX;
-    ball.velocityY = ball.velocityY;
+  //   // change the X and Y velocity direction
+  //   //let direction = ball.x + ball.radius < canvas.width / 2 ? 1 : -1;
+  //   //ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+  //   //ball.velocityY = ball.speed * Math.sin(angleRad);
+  //   ball.velocityX = -ball.velocityX;
+  //   ball.velocityY = ball.velocityY;
 
-    // speed up the ball everytime a paddle hits it.
-    ball.speed += 0.1;
-  }
+  //   // speed up the ball everytime a paddle hits it.
+  //   ball.speed += 0.1;
+  // }
 }
 
 // render function, the function that does al the drawing
