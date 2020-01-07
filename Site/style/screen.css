@@ -53,10 +53,11 @@ canvas {
 .c-topbar--score {
     color: #fff;
     text-align: center;
-    padding: 20px 24px;
-    font-size: 24px;
+    font-size: 48px;
+    justify-content: center;
+    justify-self: center;
 }
 
 .c-space {
-    padding: 0 58px 0 58px;
+    padding: 0 93.72px 0 93.72px;
 }

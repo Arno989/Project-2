@@ -4,6 +4,9 @@ canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - 100;
 //width="1900" height="900"
 
+// select score div
+var ScoreDiv = document.getElementById('score');
+
 // getContext of canvas = methods and properties to draw and do a lot of thing to the canvas
 const ctx = canvas.getContext("2d");
 console.log(ctx);
@@ -43,9 +46,9 @@ const com = {
 const net = {
   x: (canvas.width - 2) / 2,
   y: 0,
-  height: 10,
+  height: 1000,
   width: 2,
-  color: "WHITE"
+  color: "#3385FF4d"
 };
 
 // draw a rectangle, will be used to draw paddles
@@ -82,9 +85,10 @@ function resetBall() {
 
 // draw the net
 function drawNet() {
-  for (let i = 0; i <= canvas.height; i += 15) {
-    drawRect(net.x, net.y + i, net.width, net.height, net.color);
-  }
+  //for (let i = 0; i <= canvas.height; i += 15) {
+    //drawRect(net.x, net.y + i, net.width, net.height, net.color);
+  //}
+  drawRect(net.x, net.y, net.width, net.height, net.color);
 }
 
 // draw text
@@ -188,10 +192,11 @@ function render() {
   drawRect(0, 0, canvas.width, canvas.height, "#1B4186");
 
   // draw the user score to the left
-  drawText(user.score, canvas.width / 4, canvas.height / 5);
+  ScoreDiv.innerHTML = user.score + ' - ' + com.score;
+  //drawText(user.score, canvas.width / 4, canvas.height / 5);
 
   // draw the COM score to the right
-  drawText(com.score, (3 * canvas.width) / 4, canvas.height / 5);
+  //drawText(com.score, (3 * canvas.width) / 4, canvas.height / 5);
 
   // draw the net
   drawNet();
