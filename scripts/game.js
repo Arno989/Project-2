@@ -189,16 +189,16 @@ function update() {
   function checkKey(e) {
     e = e || window.event;
 
-    if (e.keyCode == "38") {
+    if (e.keyCode == "38" && user.y > 7) {
       let rect = canvas.getBoundingClientRect();
       user.y = user.y - 15;
-    } else if (e.keyCode == "40") {
+    } else if (e.keyCode == "40" && user.y < 500) {
       let rect = canvas.getBoundingClientRect();
       user.y = user.y + 15;
-    } else if (e.keyCode == "37") {
+    } else if (e.keyCode == "37" && com.y > 7) {
       let rect = canvas.getBoundingClientRect();
       com.y = com.y - 15;
-    } else if (e.keyCode == "39") {
+    } else if (e.keyCode == "39" && com.y < 500) {
       let rect = canvas.getBoundingClientRect();
       com.y = com.y + 15;
     }
@@ -217,7 +217,6 @@ function update() {
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
 
-  // computer plays for itself, and we must be able to beat it
   // simple AI
   //com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 
@@ -241,12 +240,14 @@ function update() {
     // when the ball hits the center of the paddle we want the ball to take a 0degrees angle
     // when the ball hits the bottom of the paddle we want the ball to take a 45degrees
     // Math.PI/4 = 45degrees
-    let angleRad = (Math.PI / 4) * collidePoint;
+    //let angleRad = (Math.PI / 4) * collidePoint;
 
     // change the X and Y velocity direction
-    let direction = ball.x + ball.radius < canvas.width / 2 ? 1 : -1;
-    ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-    ball.velocityY = ball.speed * Math.sin(angleRad);
+    //let direction = ball.x + ball.radius < canvas.width / 2 ? 1 : -1;
+    //ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+    //ball.velocityY = ball.speed * Math.sin(angleRad);
+    ball.velocityX = -ball.velocityX;
+    ball.velocityY = ball.velocityY;
 
     // speed up the ball everytime a paddle hits it.
     ball.speed += 0.1;
