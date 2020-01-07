@@ -74,7 +74,7 @@ namespace project2_backend
                 }
                 catch (Exception ex)
                 {
-                    log.LogInformation(ex + "--> post HighScores");
+                    log.LogInformation(ex + "--> get HighScores");
                     return new StatusCodeResult(500);
                 }
             }
