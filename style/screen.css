@@ -53,18 +53,35 @@ canvas {
 }
 
 .c-topbar--score {
+    height: 100%;
 	grid-column: 2;
 	color: #fff;
-	display: flex;
-	justify-content: center;
-	align-content: center;
+	display: grid;
+	grid-template-columns: 45% 10% 45%;
 }
+
 .c-topbar--score > p {
-	padding-top: 2.5vh;
+	padding: 2.5vh 0;
 	margin: 0;
     font-size: 5vh;
     line-height: 5vh;
-	height: 5vh;
+    height: 5vh;
+}
+
+.c-topbar--score-l {
+    justify-self: flex-end;
+	grid-column: 1;
+}
+
+.c-topbar--score-c {
+    justify-self: center;
+	grid-column: 2;
+    padding: 10px;
+}
+
+.c-topbar--score-r {
+    justify-self: flex-start;
+	grid-column: 3;
 }
 
 .c-topbar--img {
