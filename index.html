@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>ExerPong</title>
+		<link rel="stylesheet" href="./style/screen.css" />
+		<link rel="icon" type="image/png" href="./img/favicon.png" />
+		<meta name="description" content="An app where you can play Exerpong." />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>ExerPong</title>
-    <link rel="stylesheet" href="./style/screen.css">
-    <link rel="icon" 
-      type="image/png" 
-      href="./img/favicon.png">
-    <meta name="description" content="An app where you can play Exerpong.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    <div class="c-topbar">
-        <div class="c-space"><span> </span></div>
-        <div id="score" class="c-topbar--score">0 - 0</div>
-        <img class="img img-align" src="./img/howest-wit.png" alt="Logo Howest">
-    </div>
-    <canvas id="pong"  z-index:1 position:absolute left:0px top:0px;> </canvas>
-    <script src="./scripts/game.js"></script>
-</body>
-
+	<body>
+		<div class="c-topbar">
+			<div class="c-topbar--score">
+				<p id="score-l">0</p>
+				<p>-</p>
+				<p id="score-r">0</p>
+			</div>
+			<div class="c-topbar--img"><img class="img img-align" src="./img/howest-wit.png" alt="Logo Howest" /></div>
+		</div>
+		<canvas id="pong" z-index:1 position:absolute left:0px top:0px;> </canvas>
+		<script src="./scripts/game.js"></script>
+	</body>
 </html>
