@@ -80,7 +80,7 @@ namespace project2_backend
             }
             else
             {
-                return new BadRequestObjectResult("Enkel GET en POST requests worden verwerkt.");
+                return new BadRequestObjectResult("Enkel GET en POST worden verwerkt.");
             }
         }
     }
