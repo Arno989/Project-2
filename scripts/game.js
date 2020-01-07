@@ -24,7 +24,7 @@ const ball = {
 
 // User Paddle
 const user = {
-  x: 0, // left side of canvas
+  x: 15, // left side of canvas
   y: (canvas.height - 100) / 2, // -100 the height of paddle
   width: 20,
   height: 150,
@@ -34,7 +34,7 @@ const user = {
 
 // COM Paddle
 const com = {
-  x: canvas.width - 20, // - width of paddle
+  x: canvas.width - 35, // - width of paddle
   y: (canvas.height - 150) / 2, // -100 the height of paddle
   width: 20,
   height: 150,
@@ -130,10 +130,10 @@ function update() {
       user.y = user.y + 15;
     } else if (e.keyCode == "37") {
       let rect = canvas.getBoundingClientRect();
-      com.y = com.y - 15;
+      user.y = user.y - 15;
     } else if (e.keyCode == "39") {
       let rect = canvas.getBoundingClientRect();
-      com.y = com.y + 15;
+      user.y = user.y + 15;
     }
   }
 
@@ -152,7 +152,7 @@ function update() {
 
   // computer plays for itself, and we must be able to beat it
   // simple AI
-  //com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
+  com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 
   // when the ball collides with bottom and top walls we inverse the y velocity.
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
