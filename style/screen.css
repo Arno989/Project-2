@@ -6,10 +6,10 @@ html {
 body {
 	background-color: dimgray;
 	margin: 0;
+	padding: 0;
 }
 #pong {
-	position: bottom;
-	margin: auto;
+	margin: 0;
 	top: 0;
 	right: 0;
 	left: 0;
