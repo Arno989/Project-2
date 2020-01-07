@@ -74,7 +74,7 @@ namespace project2_backend
                 }
                 catch (Exception ex)
                 {
-                    log.LogInformation(ex + "                -------->GetRegistrationsV2");
+                    log.LogInformation(ex + "--> post HighScores");
                     return new StatusCodeResult(500);
                 }
             }
