@@ -46,7 +46,7 @@ canvas {
 .c-topbar {
 	height: 10vh;
 	display: grid;
-	width: 100%;
+	width: 100vw;
 	grid-template-columns: 25% 50% 25%;
 	overflow: hidden;
 	background-color: #3385ff;
@@ -78,7 +78,7 @@ canvas {
 }
 
 .c-modal {
-	display: block; /* Hidden by default */
+	display: none; /* Hidden by default */ /* set this to block for testing <------------------- */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
 	left: 0;
@@ -105,8 +105,8 @@ canvas {
 	font-size: 140px;
 }
 
-.c-menu-button{
-	background-color: #3385FF;
+.c-menu-button {
+	background-color: #3385ff;
 	color: #fff;
 	font-size: 40px;
 	text-align: center;
