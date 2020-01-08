@@ -10,7 +10,7 @@ var upPressed = false;
 var downPressed = false;
 
 //Select mode
-let GameMode = 'single';
+let GameMode = 'multi';
 
 var ScoreDivl = document.getElementById('score-l');
 var ScoreDivr = document.getElementById('score-r');
@@ -158,15 +158,15 @@ function update() {
 	// Check if key is pressed
 	if (rightPressed && GameMode == "multi") {
 		user2.y = user2.y + user2.speed;
-	}else if (leftPressed && GameMode == "multi") {
+	}if (leftPressed && GameMode == "multi") {
 		user2.y = user2.y - user2.speed;
-	}else if (rightPressed && GameMode == "single") {
+	}if (rightPressed && GameMode == "single") {
 		com.y = com.y - com.speed;
-	}else if (leftPressed && GameMode == "single") {
+	}if (leftPressed && GameMode == "single") {
 		com.y = com.y + com.speed;
-	}else if (downPressed) {
+	}if (downPressed) {
 		user.y = user.y + user.speed;
-	}else if (upPressed) {
+	}if (upPressed) {
 		user.y = user.y - user.speed;
 	}
 
