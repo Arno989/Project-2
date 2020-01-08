@@ -114,7 +114,7 @@ function update() {
 
 	function checkKey(e) {
 		e = e || window.event;
-
+    
 		if (e.keyCode == '38' && user.y > 0) {
 			let rect = canvas.getBoundingClientRect();
 			user.y = user.y - 15;
@@ -131,7 +131,8 @@ function update() {
 				let rect = canvas.getBoundingClientRect();
 				user2.y = user2.y + 15;
 			}
-		} else if (GameMode == 'single') {
+		} 
+    else if (GameMode == 'single') {
 			if (e.keyCode == '37' && com.y > 0) {
 				let rect = canvas.getBoundingClientRect();
 				com.y = com.y - 15;
