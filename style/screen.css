@@ -99,7 +99,7 @@ canvas {
 }
 
 .c-modal {
-	display: none; /* Hidden by default */ /* set this to block for testing <------------------- */
+	display: block; /* Hidden by default */ /* set this to block for testing <------------------- */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
 	left: 0;
@@ -114,7 +114,7 @@ canvas {
 .c-modal-content {
 	margin: auto;
 	width: 50vw;
-	height: 100vh;
+	height: 80vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
