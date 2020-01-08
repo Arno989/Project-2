@@ -10,7 +10,7 @@ var upPressed = false;
 var downPressed = false;
 
 //Select mode
-let GameMode = 'multi';
+let GameMode = 'single';
 
 var ScoreDivl = document.getElementById('score-l');
 var ScoreDivr = document.getElementById('score-r');
@@ -30,34 +30,34 @@ const ball = {
 
 // User Paddle left
 const user = {
-  x: 15, // left side of canvas
-  y: (canvas.height - 100) / 2, // -100 the height of paddle
-  width: 20,
-  height: 150,
-  score: 0,
-  speed: 4,
-  color: "WHITE"
+	x: 15, // left side of canvas
+	y: (canvas.height - 100) / 2, // -100 the height of paddle
+	width: 20,
+	height: 150,
+	score: 0,
+	speed: 4,
+	color: "WHITE"
 };
 
 // User Paddle right
 const user2 = {
-  x: canvas.width - 35, // - width of paddle
-  y: (canvas.height - 150) / 2, // -100 the height of paddle
-  width: 20,
-  height: 150,
-  score: 0,
-  speed: 4,
-  color: "WHITE"
+	x: canvas.width - 35, // - width of paddle
+	y: (canvas.height - 150) / 2, // -100 the height of paddle
+	width: 20,
+	height: 150,
+	score: 0,
+	speed: 4,
+	color: "WHITE"
 };
 
 const com = {
-  x: canvas.width - 35, // - width of paddle
-  y: (canvas.height - 150) / 2, // -100 the height of paddle
-  width: 20,
-  height: 150,
-  score: 0,
-  speed: 4,
-  color: "WHITE"
+	x: canvas.width - 35, // - width of paddle
+	y: (canvas.height - 150) / 2, // -100 the height of paddle
+	width: 20,
+	height: 150,
+	score: 0,
+	speed: 4,
+	color: "WHITE"
 };
 
 const net = {
@@ -119,77 +119,56 @@ function collision(b, p) {
 }
 
 function keyDownHandler(event) {
-  if(event.keyCode == 39) {
-      rightPressed = true;
-  }
-  else if(event.keyCode == 37) {
-      leftPressed = true;
-  }
-  if(event.keyCode == 40) {
-    downPressed = true;
-  }
-  else if(event.keyCode == 38) {
-    upPressed = true;
-  }
+	if (event.keyCode == 39) {
+		rightPressed = true;
+	}else if (event.keyCode == 37) {
+		leftPressed = true;
+	}else if (event.keyCode == 40) {
+		downPressed = true;
+	}else if (event.keyCode == 38) {
+		upPressed = true;
+	}
 }
 
 function keyUpHandler(event) {
-  if(event.keyCode == 39) {
-      rightPressed = false;
-  }
-  else if(event.keyCode == 37) {
-      leftPressed = false;
-  }
-  if(event.keyCode == 40) {
-    downPressed = false;
-  }
-  else if(event.keyCode == 38) {
-    upPressed = false;
-  }
+	if (event.keyCode == 39) {
+		rightPressed = false;
+	}else if (event.keyCode == 37) {
+		leftPressed = false;
+	}else if (event.keyCode == 40) {
+		downPressed = false;
+	}else if (event.keyCode == 38) {
+		upPressed = false;
+	}
 }
 
 // update function, the function that does all calculations
 function update() {
-  console.log(user2.y);
-  console.log(canvas.height - user2.height);
 
-  if(GameMode == "multi" && user2.y < canvas.height - user2.height)
-  {
-    leftPressed = false;
-  }
-  else if(GameMode == "multi" && user2.y > 10)
-  {
-    rightPressed = false;
-
-  }
-  else if(GameMode == "single" && com.y > 10)
-  {
-    rightPressed = false;
-  }
-  else if(GameMode == "single" && com.y < canvas.height - com.height)
-  {
-    leftPressed = false;
-  }
+	if (user2.y < 10) {
+		leftPressed = false;
+	}else if (user2.y > canvas.height - user2.height) {
+		rightPressed = false;
+	}else if (user.y < 10) {
+		upPressed = false
+	}else if (user.y > canvas.height - user.height) {
+		downPressed = false;
+	}
 
 	// Check if key is pressed
-  if(rightPressed && GameMode == "multi") {
-    user2.y = user2.y + user2.speed;
-  }
-  else if(leftPressed && GameMode == "multi") {
-    user2.y = user2.y - user2.speed;
-  }
-  if(rightPressed && GameMode == "single") {
-    com.y = com.y - com.speed;
-  }
-  else if(leftPressed && GameMode == "single") {
-    com.y = com.y + com.speed;
-  }
-  else if(downPressed) {
-    user.y = user.y + user.speed;
-  }
-  else if(upPressed) {
-    user.y = user.y - user.speed;
-  }
+	if (rightPressed && GameMode == "multi") {
+		user2.y = user2.y + user2.speed;
+	}else if (leftPressed && GameMode == "multi") {
+		user2.y = user2.y - user2.speed;
+	}else if (rightPressed && GameMode == "single") {
+		com.y = com.y - com.speed;
+	}else if (leftPressed && GameMode == "single") {
+		com.y = com.y + com.speed;
+	}else if (downPressed) {
+		user.y = user.y + user.speed;
+	}else if (upPressed) {
+		user.y = user.y - user.speed;
+	}
 
 	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
 	if (ball.x - ball.radius < 0 && GameMode == 'single') {
@@ -197,7 +176,6 @@ function update() {
 		resetBall();
 	} else if (ball.x - ball.radius < 0 && GameMode == 'multi') {
 		user2.score++;
-		console.log('player2 scored');
 		resetBall();
 	} else if (ball.x + ball.radius > canvas.width) {
 		user.score++;
