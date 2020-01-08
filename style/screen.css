@@ -6,10 +6,10 @@ html {
 body {
 	background-color: dimgray;
 	margin: 0;
+	padding: 0;
 }
 #pong {
-	position: bottom;
-	margin: auto;
+	margin: 0;
 	top: 0;
 	right: 0;
 	left: 0;
@@ -82,14 +82,72 @@ canvas {
 .c-topbar--score-r {
     justify-self: flex-start;
 	grid-column: 3;
+	font-size: 5vh;
+	line-height: 5vh;
+	height: 5vh;
 }
 
 .c-topbar--img {
-    grid-column: 3;
-    display: flex;
-    justify-content: end;
+	grid-column: 3;
+	display: flex;
+	justify-content: end;
 }
 
 .c-space {
 	padding: 0 93.72px 0 93.72px;
+}
+
+.c-modal {
+	display: block; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100vw; /* Full width */
+	height: 100vh; /* Full height */
+	overflow: hidden; /* Enable scroll if needed */
+	background-color: rgba(0, 0, 0, 0.3); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.c-modal-content {
+	margin: auto;
+	width: 50vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.c-menu-score {
+	color: #fff;
+	font-size: 140px;
+}
+
+.c-menu-button{
+	background-color: #3385FF;
+	color: #fff;
+	font-size: 40px;
+	text-align: center;
+	margin: 16px;
+	width: 310px;
+	height: 70px;
+	border: none;
+	border-radius: 10px;
+}
+
+/* The Close Button */
+.c-modal-close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.c-modal-close:hover,
+.c-modal-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
 }
