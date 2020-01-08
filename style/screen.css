@@ -8,6 +8,7 @@ body {
 	padding: 0;
 	overflow: hidden;
 }
+
 #pong {
 	margin: 0;
 	top: 0;
@@ -17,31 +18,13 @@ body {
 	text-align: end;
 }
 
-img {
-	padding: 20px 24px;
-	max-height: 46px;
-	max-width: 116px;
-}
-
 canvas {
 	display: inline;
-}
-
-.menu {
-	background-color: brown;
-	height: 100px;
-	width: 200px;
 }
 
 /*------------------------------------*\
 #COMPONENTS
 \*------------------------------------*/
-
-/* 
-    Component: Topbar
-    --- 
-    Topbar
-*/
 
 .c-topbar {
 	height: 10vh;
@@ -93,23 +76,25 @@ canvas {
 	justify-content: end;
 }
 
-.c-space {
-	padding: 0 93.72px 0 93.72px;
+.c-topbar--img > img {
+	padding: 1vw;
+	height: 6vh;
 }
+
+
 
 .c-modal {
-	display: block; /* Hidden by default */ /* set this to block for testing <------------------- */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
+	display: block; /* set this to block for testing <------------------- */
+	position: fixed;
+	z-index: 1;
 	left: 0;
 	top: 0;
-	width: 100vw; /* Full width */
-	height: 100vh; /* Full height */
-	overflow: hidden; /* Enable scroll if needed */
-	background-color: rgba(0, 0, 0, 0.3); /* Black w/ opacity */
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* Modal Content */
 .c-modal-content {
 	margin: auto;
 	width: 50vw;
@@ -122,7 +107,7 @@ canvas {
 
 .c-menu-score {
 	color: #fff;
-	font-size: 140px;
+	font-size: 16vh;
 }
 
 .c-menu-button {
