@@ -234,9 +234,6 @@ function render() {
 	// clear the canvas
 	drawRect(0, 0, canvas.width, canvas.height, '#1B4186');
 
-	// draw the user score
-	ScoreDivl.innerHTML = user.score;
-	ScoreDivr.innerHTML = com.score;
 	// draw the user score to the left
 	//drawText(user.score, canvas.width / 4, canvas.height / 5);
 
@@ -251,11 +248,17 @@ function render() {
 
 	if (GameMode == "multi") {
 		// draw the user's right paddle
-		drawPlayerRight();
+    drawPlayerRight();
+    // draw the user score
+	ScoreDivl.innerHTML = user.score;
+	ScoreDivr.innerHTML = user2.score;
 	}
 	else if (GameMode == "single") {
 		// draw the COM's  paddle
-		drawCom();
+    drawCom();
+    // draw the user score
+	ScoreDivl.innerHTML = user.score;
+	ScoreDivr.innerHTML = com.score;
 	}
 
 	// draw the ball
