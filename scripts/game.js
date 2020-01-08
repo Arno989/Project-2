@@ -137,30 +137,30 @@ function update() {
 	function checkKey(e) {
 		e = e || window.event;
 
-		if (e.keyCode == "38" && user.y > 0) {
+		if (e.keyCode == "38" && user.y > 10) {
 			let rect = canvas.getBoundingClientRect();
 			user.y = user.y - 15;
 		}
-		else if (e.keyCode == "40" && user.y < canvas.height - user.height) {
+		else if (e.keyCode == "40" && user.y < canvas.height - user.height - 10) {
 			let rect = canvas.getBoundingClientRect();
 			user.y = user.y + 15;
 		}
 		if (GameMode == "multi") { // Kiddo is playing right side
-			if (e.keyCode == "37" && user2.y > 0) {
+			if (e.keyCode == "37" && user2.y > 10) {
 				let rect = canvas.getBoundingClientRect();
 				user2.y = user2.y - 15;
 			}
-			else if (e.keyCode == "39" && user2.y < canvas.height - user2.height) {
+			else if (e.keyCode == "39" && user2.y < canvas.height - user2.height - 10) {
 				let rect = canvas.getBoundingClientRect();
 				user2.y = user2.y + 15;
 			}
 		}
 		else if (GameMode == "single") { // COM is playing right side
-			if (e.keyCode == "37" && com.y > 0) {
+			if (e.keyCode == "37" && com.y > 10) {
 				let rect = canvas.getBoundingClientRect();
 				com.y = com.y - 15;
 			}
-			else if (e.keyCode == "39" && com.y < canvas.height - com.height) {
+			else if (e.keyCode == "39" && com.y < canvas.height - com.height -10) {
 				let rect = canvas.getBoundingClientRect();
 				com.y = com.y + 15;
 			}
