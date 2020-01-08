@@ -4,6 +4,13 @@ canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - 98;
 //width="1900" height="900"
 
+document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('keyup', keyUpHandler, false);
+var rightPressed = false;
+var leftPressed = false;
+var upPressed = false;
+var downPressed = false;
+
 //Select mode
 let GameMode = "multi";
 
@@ -33,6 +40,7 @@ const user = {
   width: 20,
   height: 150,
   score: 0,
+  speed: 4,
   color: "WHITE"
 };
 
@@ -43,6 +51,7 @@ const user2 = {
   width: 20,
   height: 150,
   score: 0,
+  speed: 4,
   color: "WHITE"
 };
 
@@ -53,6 +62,7 @@ const com = {
   width: 20,
   height: 150,
   score: 0,
+  speed: 4,
   color: "WHITE"
 };
 
@@ -131,42 +141,57 @@ function collision(b, p) {
   );
 }
 
+function keyDownHandler(event) {
+  if(event.keyCode == 39) {
+      rightPressed = true;
+  }
+  else if(event.keyCode == 37) {
+      leftPressed = true;
+  }
+  if(event.keyCode == 40) {
+    downPressed = true;
+  }
+  else if(event.keyCode == 38) {
+    upPressed = true;
+  }
+}
+
+function keyUpHandler(event) {
+  if(event.keyCode == 39) {
+      rightPressed = false;
+  }
+  else if(event.keyCode == 37) {
+      leftPressed = false;
+  }
+  if(event.keyCode == 40) {
+    downPressed = false;
+  }
+  else if(event.keyCode == 38) {
+    upPressed = false;
+  }
+}
+
 // update function, the function that does all calculations
 function update() {
-	// Check if key is pressed
-	document.onkeydown = checkKey;
-	function checkKey(e) {
-		e = e || window.event;
-
-		if (e.keyCode == "38" && user.y > 0) {
-			let rect = canvas.getBoundingClientRect();
-			user.y = user.y - 15;
-		}
-		else if (e.keyCode == "40" && user.y < canvas.height - user.height) {
-			let rect = canvas.getBoundingClientRect();
-			user.y = user.y + 15;
-		}
-		if (GameMode == "multi") { // Kiddo is playing right side
-			if (e.keyCode == "37" && user2.y > 0) {
-				let rect = canvas.getBoundingClientRect();
-				user2.y = user2.y - 15;
-			}
-			else if (e.keyCode == "39" && user2.y < canvas.height - user2.height) {
-				let rect = canvas.getBoundingClientRect();
-				user2.y = user2.y + 15;
-			}
-		}
-		else if (GameMode == "single") { // COM is playing right side
-			if (e.keyCode == "37" && com.y > 0) {
-				let rect = canvas.getBoundingClientRect();
-				com.y = com.y - 15;
-			}
-			else if (e.keyCode == "39" && com.y < canvas.height - com.height) {
-				let rect = canvas.getBoundingClientRect();
-				com.y = com.y + 15;
-			}
-		}
-	}
+		// Check if key is pressed
+    if(rightPressed && GameMode == "multi" && user2.y > 10) {
+      user2.y = user2.y + user2.speed;
+    }
+    else if(leftPressed && GameMode == "multi" && user2.y < canvas.height - user2.height) {
+      user2.y = user2.y - user2.speed;
+    }
+    if(rightPressed && GameMode == "single" && com.y > 10) {
+      com.y = com.y - com.speed;
+    }
+    else if(leftPressed && GameMode == "single" && com.y < canvas.height - com.height) {
+      com.y = com.y + com.speed;
+    }
+    else if(downPressed) {
+      user.y = user.y + user.speed;
+    }
+    else if(upPressed) {
+      user.y = user.y - user.speed;
+    }
 
   // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
   if (ball.x - ball.radius < 0 && GameMode == "single") {
@@ -174,7 +199,6 @@ function update() {
     resetBall();
   } else if (ball.x - ball.radius < 0 && GameMode == "multi") {
     user2.score++;
-    console.log("player2 scored");
     resetBall();
   } else if (ball.x + ball.radius > canvas.width) {
     user.score++;
