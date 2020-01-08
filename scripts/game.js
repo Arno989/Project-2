@@ -1,21 +1,16 @@
-// select canvas element
 const canvas = document.getElementById('pong');
 canvas.width = document.documentElement.clientWidth;
-canvas.height = document.documentElement.clientHeight - 98;
-//width="1900" height="900"
+canvas.height = document.documentElement.clientHeight - 90;
 
 //Select mode
-let GameMode = "multi";
+let GameMode = 'multi';
 
-// select score div
 var ScoreDivl = document.getElementById('score-l');
 var ScoreDivr = document.getElementById('score-r');
 
-// getContext of canvas = methods and properties to draw and do a lot of thing to the canvas
 const ctx = canvas.getContext('2d');
 console.log(ctx);
 
-// Ball object
 const ball = {
 	x: canvas.width / 2,
 	y: canvas.height / 2,
@@ -46,7 +41,6 @@ const user2 = {
 	color: 'WHITE'
 };
 
-// COM Paddle
 const com = {
 	x: canvas.width - 35, // - width of paddle
 	y: (canvas.height - 150) / 2, // -100 the height of paddle
@@ -56,7 +50,6 @@ const com = {
 	color: 'WHITE'
 };
 
-// NET
 const net = {
 	x: (canvas.width - 2) / 2,
 	y: 0,
@@ -80,16 +73,6 @@ function drawArc(x, y, r, color) {
 	ctx.fill();
 }
 
-// listening to the mouse
-//canvas.addEventListener("mousemove", getMousePos);
-
-//function getMousePos(evt) {
-//let rect = canvas.getBoundingClientRect();
-
-//user.y = evt.clientY - rect.top - user.height / 2;
-//}
-
-// when COM or USER scores, we reset the ball
 function resetBall() {
 	ball.x = canvas.width / 2;
 	ball.y = canvas.height / 2;
@@ -97,25 +80,20 @@ function resetBall() {
 	ball.speed = 7;
 }
 
-// draw the net
 function drawNet() {
-	//daw dotted line
+	drawRect(net.x, net.y, net.width, net.height, net.color);
+
 	//for (let i = 0; i <= canvas.height; i += 15) {
 	//drawRect(net.x, net.y + i, net.width, net.height, net.color);
 	//}
-
-	// draw full line
-	drawRect(net.x, net.y, net.width, net.height, net.color);
 }
 
-// draw text
 function drawText(text, x, y) {
 	ctx.fillStyle = '#FFF';
 	ctx.font = '75px fantasy';
 	ctx.fillText(text, x, y);
 }
 
-// collision detection
 function collision(b, p) {
 	p.top = p.y;
 	p.bottom = p.y + p.height;
@@ -132,35 +110,33 @@ function collision(b, p) {
 
 // update function, the function that does all calculations
 function update() {
-	// Check if key is pressed
 	document.onkeydown = checkKey;
+
 	function checkKey(e) {
 		e = e || window.event;
-
-		if (e.keyCode == "38" && user.y > 10) {
+    
+		if (e.keyCode == '38' && user.y > 0) {
 			let rect = canvas.getBoundingClientRect();
 			user.y = user.y - 15;
-		}
-		else if (e.keyCode == "40" && user.y < canvas.height - user.height - 10) {
+		} else if (e.keyCode == '40' && user.y < canvas.height - user.height) {
 			let rect = canvas.getBoundingClientRect();
 			user.y = user.y + 15;
 		}
-		if (GameMode == "multi") { // Kiddo is playing right side
-			if (e.keyCode == "37" && user2.y > 10) {
+
+		if (GameMode == 'multi') {
+			if (e.keyCode == '37' && user2.y > 0) {
 				let rect = canvas.getBoundingClientRect();
 				user2.y = user2.y - 15;
-			}
-			else if (e.keyCode == "39" && user2.y < canvas.height - user2.height - 10) {
+			} else if (e.keyCode == '39' && user2.y < canvas.height - user2.height) {
 				let rect = canvas.getBoundingClientRect();
 				user2.y = user2.y + 15;
 			}
-		}
-		else if (GameMode == "single") { // COM is playing right side
-			if (e.keyCode == "37" && com.y > 10) {
+		} 
+    else if (GameMode == 'single') {
+			if (e.keyCode == '37' && com.y > 0) {
 				let rect = canvas.getBoundingClientRect();
 				com.y = com.y - 15;
-			}
-			else if (e.keyCode == "39" && com.y < canvas.height - com.height -10) {
+			} else if (e.keyCode == '39' && com.y < canvas.height - com.height) {
 				let rect = canvas.getBoundingClientRect();
 				com.y = com.y + 15;
 			}
@@ -168,15 +144,14 @@ function update() {
 	}
 
 	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
-	if (ball.x - ball.radius < 0 && GameMode == "single") {
+	if (ball.x - ball.radius < 0 && GameMode == 'single') {
 		com.score++;
 		resetBall();
-	}
-	else if (ball.x - ball.radius < 0 && GameMode == "multi") {
+	} else if (ball.x - ball.radius < 0 && GameMode == 'multi') {
 		user2.score++;
+		console.log('player2 scored');
 		resetBall();
-	} 
-	else if (ball.x + ball.radius > canvas.width) {
+	} else if (ball.x + ball.radius > canvas.width) {
 		user.score++;
 		resetBall();
 	}
@@ -192,12 +167,9 @@ function update() {
 
 	// we check if the paddle hit the user or the com paddle and set simple computer AI
 	let player;
-	if (GameMode == "multi")
-	{
+	if (GameMode == 'multi') {
 		player = ball.x + ball.radius < canvas.width / 2 ? user : user2;
-	}
-	else if (GameMode == "single")
-	{
+	} else if (GameMode == 'single') {
 		// simple AI
 		com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 		player = ball.x + ball.radius < canvas.width / 2 ? user : com;
@@ -208,13 +180,7 @@ function update() {
 		// we check where the ball hits the paddle
 		let collidePoint = ball.y - (player.y + player.height / 2);
 		// normalize the value of collidePoint, we need to get numbers between -1 and 1.
-		// -player.height/2 < collide Point < player.height/2
 		collidePoint = collidePoint / (player.height / 2);
-
-		// when the ball hits the top of a paddle we want the ball, to take a -45degees angle
-		// when the ball hits the center of the paddle we want the ball to take a 0degrees angle
-		// when the ball hits the bottom of the paddle we want the ball to take a 45degrees
-		// Math.PI/4 = 45degrees
 		//let angleRad = (Math.PI / 4) * collidePoint;
 
 		// change the X and Y velocity direction
@@ -226,43 +192,8 @@ function update() {
 
 		// speed up the ball everytime a paddle hits it.
 		ball.speed += 0.1;
+		console.log('speed up');
 	}
-}
-
-// render function, the function that does al the drawing
-function render() {
-	// clear the canvas
-	drawRect(0, 0, canvas.width, canvas.height, '#1B4186');
-
-	// draw the user score to the left
-	//drawText(user.score, canvas.width / 4, canvas.height / 5);
-
-	// draw the COM score to the right
-	//drawText(com.score, (3 * canvas.width) / 4, canvas.height / 5);
-
-	// draw the net
-	drawNet();
-
-	// draw the user's left paddle
-	drawPlayerLeft();
-
-	if (GameMode == "multi") {
-		// draw the user's right paddle
-    drawPlayerRight();
-    // draw the user score
-	ScoreDivl.innerHTML = user.score;
-	ScoreDivr.innerHTML = user2.score;
-	}
-	else if (GameMode == "single") {
-		// draw the COM's  paddle
-    drawCom();
-    // draw the user score
-	ScoreDivl.innerHTML = user.score;
-	ScoreDivr.innerHTML = com.score;
-	}
-
-	// draw the ball
-	drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 
 function drawPlayerLeft() {
@@ -283,11 +214,54 @@ function drawCom() {
 	drawArc(com.x + com.width / 2, com.y + com.height, 10, com.color);
 }
 
+// render function, the function that does al the drawing
+function render() {
+	// clear the canvas
+	drawRect(0, 0, canvas.width, canvas.height, '#1B4186');
+	drawNet();
+	drawPlayerLeft();
+
+	if (GameMode == 'multi') {
+		// draw the user's right paddle
+		drawPlayerRight();
+		// draw the user score
+		ScoreDivl.innerHTML = user.score;
+		ScoreDivr.innerHTML = user2.score;
+	} else if (GameMode == 'single') {
+		// draw the COM's  paddle
+		drawCom();
+		// draw the user score
+		ScoreDivl.innerHTML = user.score;
+		ScoreDivr.innerHTML = com.score;
+	}
+
+	// draw the ball
+	drawArc(ball.x, ball.y, ball.radius, ball.color);
+}
+
+const resize = () => {
+	canvas.width = document.documentElement.clientWidth;
+	canvas.height = document.documentElement.clientHeight - 90;
+
+	ball.x = canvas.width / 2;
+	ball.y = canvas.height / 2;
+
+	user.y = (canvas.height - 100) / 2;
+
+	user2.x = canvas.width - 35;
+	user2.y = (canvas.height - 150) / 2;
+
+	com.x = canvas.width - 35;
+	com.y = (canvas.height - 150) / 2;
+
+	net.x = (canvas.width - 2) / 2;
+};
+
 function game() {
 	update();
 	render();
 }
+
 // number of frames per second
 let framePerSecond = 90;
-
 let loop = setInterval(game, 1000 / framePerSecond);

@@ -4,10 +4,11 @@ html {
 }
 
 body {
-	background-color: dimgray;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 }
+
 #pong {
 	margin: 0;
 	top: 0;
@@ -17,62 +18,121 @@ body {
 	text-align: end;
 }
 
-img {
-	padding: 20px 24px;
-	max-height: 46px;
-	max-width: 116px;
-}
-
 canvas {
 	display: inline;
-}
-
-.menu {
-	background-color: brown;
-	height: 100px;
-	width: 200px;
 }
 
 /*------------------------------------*\
 #COMPONENTS
 \*------------------------------------*/
 
-/* 
-    Component: Topbar
-    --- 
-    Topbar
-*/
-
 .c-topbar {
 	height: 10vh;
 	display: grid;
-	width: 100%;
+	width: 100vw;
 	grid-template-columns: 25% 50% 25%;
 	overflow: hidden;
 	background-color: #3385ff;
 }
 
 .c-topbar--score {
+    height: 100%;
 	grid-column: 2;
 	color: #fff;
-	display: flex;
-	justify-content: center;
-	align-content: center;
+	display: grid;
+	grid-template-columns: 45% 10% 45%;
 }
+
 .c-topbar--score > p {
-	padding-top: 2.5vh;
+	padding: 2.5vh 0;
 	margin: 0;
     font-size: 5vh;
     line-height: 5vh;
+    height: 5vh;
+}
+
+.c-topbar--score-l {
+    justify-self: flex-end;
+	grid-column: 1;
+}
+
+.c-topbar--score-c {
+    justify-self: center;
+	grid-column: 2;
+    padding: 10px;
+}
+
+.c-topbar--score-r {
+    justify-self: flex-start;
+	grid-column: 3;
+	font-size: 5vh;
+	line-height: 5vh;
 	height: 5vh;
 }
 
 .c-topbar--img {
-    grid-column: 3;
-    display: flex;
-    justify-content: end;
+	grid-column: 3;
+	display: flex;
+	justify-content: end;
 }
 
-.c-space {
-	padding: 0 93.72px 0 93.72px;
+.c-topbar--img > img {
+	padding: 1vw;
+	height: 6vh;
+}
+
+
+
+.c-modal {
+	display: block; /* set this to block for testing <------------------- */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.c-modal-content {
+	margin: auto;
+	width: 50vw;
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.c-menu-score {
+	color: #fff;
+	font-size: 16vh;
+}
+
+.c-menu-button {
+	background-color: #3385ff;
+	color: #fff;
+	font-size: 40px;
+	text-align: center;
+	margin: 16px;
+	width: 310px;
+	height: 70px;
+	border: none;
+	border-radius: 10px;
+}
+
+/* The Close Button */
+.c-modal-close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.c-modal-close:hover,
+.c-modal-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
 }
