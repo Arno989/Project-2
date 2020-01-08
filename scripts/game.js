@@ -1,7 +1,7 @@
 // select canvas element
 const canvas = document.getElementById("pong");
 canvas.width = document.documentElement.clientWidth;
-canvas.height = document.documentElement.clientHeight - 98;
+canvas.height = document.documentElement.clientHeight - 90;
 //width="1900" height="900"
 
 //Select mode
