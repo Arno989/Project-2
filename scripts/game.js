@@ -2,6 +2,10 @@ const canvas = document.getElementById('pong');
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - 90;
 
+const gameOverScreen =  document.getElementsByClassName("c-modal-gameover");
+const gameOverScore =  document.getElementsByClassName("c-menu-score");
+console.log(gameOverScore);
+
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 var rightPressed = false;
@@ -9,8 +13,9 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 
+var pointsToWin = 3;
 //Select mode
-let GameMode = 'multi';
+let GameMode = 'single';
 
 var ScoreDivl = document.getElementById('score-l');
 var ScoreDivr = document.getElementById('score-r');
@@ -118,6 +123,19 @@ function collision(b, p) {
 	return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
 }
 
+function clickRestart(){
+	gameOverScreen[0].style.display = "none";
+	if (GameMode == 'multi') {
+		gameOverScore[0].text = user.score + " - " + user2.score;
+	} else if (GameMode == 'single') {
+		gameOverScore[0].text = user.score + " - " + com.score;
+		console.log("set score");
+	}
+	user.score = 0;
+	user.score = 0;
+	com.score = 0;
+}
+
 function keyDownHandler(event) {
 	if (event.keyCode == 39) {
 		rightPressed = true;
@@ -168,6 +186,14 @@ function update() {
 		user.y = user.y + user.speed;
 	}if (upPressed) {
 		user.y = user.y - user.speed;
+	}
+	
+	if (GameMode == 'multi' && user.score == pointsToWin || user2.score == pointsToWin) {
+		gameOverScreen[0].style.display = "block";
+		gameOverScore[0].innerText = user.score + " - " + user2.score;
+	} else if (GameMode == 'single' && user.score == pointsToWin || com.score == pointsToWin) {
+		gameOverScreen[0].style.display = "block";
+		gameOverScore[0].innerText = user.score + " - " + com.score;
 	}
 
 	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win

@@ -83,8 +83,8 @@ canvas {
 
 
 
-.c-modal {
-	display: block; /* set this to block for testing <------------------- */
+.c-modal-gameover {
+	display: none; /* set this to block for testing <------------------- */
 	position: fixed;
 	z-index: 1;
 	left: 0;
