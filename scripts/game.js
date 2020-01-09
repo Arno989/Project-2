@@ -28,14 +28,14 @@ const ball = {
 	radius: 20,
 	velocityX: 5,
 	velocityY: 5,
-	speed: 0.2,
+	speed: 0.15,
 	color: 'WHITE'
 };
 
 // User Paddle left
 const user = {
 	x: 15, // left side of canvas
-	y: (canvas.height - 100) / 2, // -100 the height of paddle
+	y: (canvas.height - 150) / 2, // -100 the height of paddle
 	width: 20,
 	height: 150,
 	score: 0,
@@ -110,7 +110,7 @@ function drawText(text, x, y) {
 }
 
 function collision(b, p) {
-	p.top = p.y;
+	p.top = p.y + 10;
 	p.bottom = p.y + p.height;
 	p.left = p.x;
 	p.right = p.x + p.width;
@@ -242,24 +242,17 @@ function update() {
 		//ball.velocityY = ball.speed * Math.sin(angleRad);
 		ball.velocityX = -ball.velocityX - (direction * ball.speed);
     ball.velocityY = ball.velocityY + (direction * ball.speed);
-    if(ball.velocityY < 0){
-      if(ball.velocityX < 0){
+    if(ball.velocityY < 0){if(ball.velocityX < 0){
         ball.velocityY = ball.velocityX;
-      }
-      if(ball.velocityX > 0){
+      }if(ball.velocityX > 0){
         ball.velocityY = -ball.velocityX;
       }
-    }
-    if(ball.velocityY > 0){
-      if(ball.velocityX < 0){
+    }if(ball.velocityY > 0){if(ball.velocityX < 0){
         ball.velocityY = -ball.velocityX;
-      }
-      if(ball.velocityX > 0){
+      }if(ball.velocityX > 0){
         ball.velocityY = ball.velocityX;
       }
     }
-    console.log(ball.velocityX);
-    console.log(ball.velocityY);
 	}
 }
 
