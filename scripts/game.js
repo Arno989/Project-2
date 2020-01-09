@@ -163,13 +163,13 @@ function keyUpHandler(event) {
 // update function, the function that does all calculations
 function update() {
 	// check if paddle is too high or to low
-	if (user2.y < 10) {
+	if (user2.y < 11) {
 		leftPressed = false;
-	}else if (user2.y > canvas.height - (user2.height + 10)) {
+	}else if (user2.y > canvas.height - (user2.height + 12)) {
 		rightPressed = false;
-	}else if (user.y < 10) {
+	}else if (user.y < 11) {
 		upPressed = false
-	}else if (user.y > canvas.height - (user.height + 10)) {
+	}else if (user.y > canvas.height - (user.height + 12)) {
 		downPressed = false;
 	}
 
