@@ -12,7 +12,10 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 
+var beginVelocityX = beginVelocityY = 5;
+var ballIncrementSpeed = 0.1;
 var pointsToWin = 15;
+
 //Select mode
 let GameMode = 'single';
 
@@ -26,16 +29,16 @@ const ball = {
 	x: canvas.width / 2,
 	y: canvas.height / 2,
 	radius: 20,
-	velocityX: 5,
-	velocityY: 5,
-	speed: 0.15,
+	velocityX: beginVelocityX,
+	velocityY: beginVelocityY,
+	speed: ballIncrementSpeed,
 	color: 'WHITE'
 };
 
 // User Paddle left
 const user = {
-	x: 15, // left side of canvas
-	y: (canvas.height - 150) / 2, // -100 the height of paddle
+	x: 15, // left side of canvas + 15 pixels space between edge
+	y: canvas.height / 2 - 150 / 2, // -75 the half height of paddle
 	width: 20,
 	height: 150,
 	score: 0,
@@ -45,8 +48,8 @@ const user = {
 
 // User Paddle right
 const user2 = {
-	x: canvas.width - 35, // - width of paddle
-	y: (canvas.height - 150) / 2, // -100 the height of paddle
+	x: canvas.width - 35, // - width of paddle + 15 pixels space between edge
+	y: canvas.height / 2 - 150 / 2, // -75 the half height of paddle
 	width: 20,
 	height: 150,
 	score: 0,
@@ -56,7 +59,7 @@ const user2 = {
 
 const com = {
 	x: canvas.width - 35, // - width of paddle
-	y: (canvas.height - 150) / 2, // -100 the height of paddle
+	y: canvas.height / 2 - 150 / 2, // -75 the half height of paddle
 	width: 20,
 	height: 150,
 	score: 0,
@@ -71,6 +74,10 @@ const net = {
 	width: 2,
 	color: '#3385FF4d'
 };
+
+function getRndInteger(min, max) {  //min and max included
+	return (Math.random() * (max - min + 1) ) + min;
+  }
 
 // draw a rectangle, will be used to draw paddles
 function drawRect(x, y, w, h, color) {
@@ -90,9 +97,9 @@ function drawArc(x, y, r, color) {
 function resetBall() {
 	ball.x = canvas.width / 2;
 	ball.y = canvas.height / 2;
-	ball.velocityX = 5;
-	ball.velocityY = 5;
-	ball.speed = 0.5;
+	ball.velocityX = getRndInteger(4.5,5.5);
+	ball.velocityY = getRndInteger(4.5,5.5);
+	ball.speed = ballIncrementSpeed;
 }
 
 function drawNet() {
@@ -110,7 +117,7 @@ function drawText(text, x, y) {
 }
 
 function collision(b, p) {
-	p.top = p.y + 10;
+	p.top = p.y;
 	p.bottom = p.y + p.height;
 	p.left = p.x;
 	p.right = p.x + p.width;
@@ -129,7 +136,6 @@ function clickRestart() {
 		gameOverScore[0].text = user.score + ' - ' + user2.score;
 	} else if (GameMode == 'single') {
 		gameOverScore[0].text = user.score + ' - ' + com.score;
-		console.log('set score');
 	}
 	user.score = 0;
 	user.score = 0;
@@ -165,31 +171,26 @@ function update() {
 	// check if paddle is too high or to low
 	if (user2.y < 11) {
 		leftPressed = false;
-	}else if (user2.y > canvas.height - (user2.height + 12)) {
+	} else if (user2.y > canvas.height - (user2.height - 7)) {
 		rightPressed = false;
-	}else if (user.y < 11) {
+	} else if (user.y < 11) {
 		upPressed = false
-	}else if (user.y > canvas.height - (user.height + 12)) {
+	} else if (user.y > canvas.height - (user.height - 7)) {
 		downPressed = false;
 	}
 
 	// Check if key is pressed between the modes
 	if (rightPressed && GameMode == 'multi') {
 		user2.y = user2.y + user2.speed;
-	}
-	if (leftPressed && GameMode == 'multi') {
+	} if (leftPressed && GameMode == 'multi') {
 		user2.y = user2.y - user2.speed;
-	}
-	if (rightPressed && GameMode == 'single') {
+	} if (rightPressed && GameMode == 'single') {
 		com.y = com.y - com.speed;
-	}
-	if (leftPressed && GameMode == 'single') {
+	} if (leftPressed && GameMode == 'single') {
 		com.y = com.y + com.speed;
-	}
-	if (downPressed) {
+	} if (downPressed) {
 		user.y = user.y + user.speed;
-	}
-	if (upPressed) {
+	} if (upPressed) {
 		user.y = user.y - user.speed;
 	}
 
@@ -235,48 +236,55 @@ function update() {
 
 	// if the ball hits a paddle
 	if (collision(ball, player)) {
+		console.log("collide");
+		console.log(ball.left + ", " + ball.right);
 		// we check where the ball hits the paddle
-		let collidePoint = ball.y - (player.y + player.height / 2);
+		//let collidePoint = ball.y - (player.y + player.height / 2);
 		// normalize the value of collidePoint, we need to get numbers between -1 and 1.
-		collidePoint = collidePoint / (player.height / 2);
-		let angleRad = (Math.PI / 4) * collidePoint;
+		//collidePoint = collidePoint / (player.height / 2);
+		//let angleRad = (Math.PI / 4) * collidePoint;
+		if(ball.left < 30){
+			ball.x += 15;
+		}if(ball.right > 1300){
+			ball.x -= 15;
+		} 
 
 		// change the X and Y velocity direction
 		let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
-		//ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-		//ball.velocityY = ball.speed * Math.sin(angleRad);
 		ball.velocityX = -ball.velocityX - (direction * ball.speed);
-    ball.velocityY = ball.velocityY + (direction * ball.speed);
-    if(ball.velocityY < 0){if(ball.velocityX < 0){
-        ball.velocityY = ball.velocityX;
-      }if(ball.velocityX > 0){
-        ball.velocityY = -ball.velocityX;
-      }
-    }if(ball.velocityY > 0){if(ball.velocityX < 0){
-        ball.velocityY = -ball.velocityX;
-      }if(ball.velocityX > 0){
-        ball.velocityY = ball.velocityX;
-      }
-    }
+		ball.velocityY = ball.velocityY + (direction * ball.speed);
+		if (ball.velocityY < 0) {
+			if (ball.velocityX < 0) {
+				ball.velocityY = ball.velocityX;
+			} if (ball.velocityX > 0) {
+				ball.velocityY = -ball.velocityX;
+			}
+		} if (ball.velocityY > 0) {
+			if (ball.velocityX < 0) {
+				ball.velocityY = -ball.velocityX;
+			} if (ball.velocityX > 0) {
+				ball.velocityY = ball.velocityX;
+			}
+		}
 	}
 }
 
 function drawPlayerLeft() {
-	drawRect(user.x, user.y, user.width, user.height, user.color);
+	drawRect(user.x, user.y, user.width, user.height - 20, user.color);
 	drawArc(user.x + user.width / 2, user.y, 10, user.color);
-	drawArc(user.x + user.width / 2, user.y + user.height, 10, user.color);
+	drawArc(user.x + user.width / 2, user.y + user.height - 20, 10, user.color);
 }
 
 function drawPlayerRight() {
-	drawRect(user2.x, user2.y, user2.width, user2.height, user2.color);
+	drawRect(user2.x, user2.y, user2.width, user2.height - 20, user2.color);
 	drawArc(user2.x + user2.width / 2, user2.y, 10, user2.color);
-	drawArc(user2.x + user2.width / 2, user2.y + user2.height, 10, user2.color);
+	drawArc(user2.x + user2.width / 2, user2.y + user2.height - 20, 10, user2.color);
 }
 
 function drawCom() {
-	drawRect(com.x, com.y, com.width, com.height, com.color);
+	drawRect(com.x, com.y, com.width, com.height - 20, com.color);
 	drawArc(com.x + com.width / 2, com.y, 10, com.color);
-	drawArc(com.x + com.width / 2, com.y + com.height, 10, com.color);
+	drawArc(com.x + com.width / 2, com.y + com.height - 20, 10, com.color);
 }
 
 // render function, the function that does al the drawing
