@@ -165,11 +165,11 @@ function update() {
   // check if paddle is too high or to low
 	if (user2.y < 10) {
 		leftPressed = false;
-	}else if (user2.y > canvas.height - user2.height) {
+	}else if (user2.y > canvas.height - (user2.height + 10)) {
 		rightPressed = false;
 	}else if (user.y < 10) {
 		upPressed = false
-	}else if (user.y > canvas.height - user.height) {
+	}else if (user.y > canvas.height - (user.height + 10)) {
 		downPressed = false;
 	}
 
