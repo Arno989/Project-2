@@ -74,7 +74,7 @@ canvas {
 .c-topbar--img {
 	grid-column: 3;
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 }
 
 .c-topbar--img > img {
