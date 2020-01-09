@@ -4,7 +4,6 @@ canvas.height = document.documentElement.clientHeight - 90;
 
 const gameOverScreen =  document.getElementsByClassName("c-modal-gameover");
 const gameOverScore =  document.getElementsByClassName("c-menu-score");
-console.log(gameOverScore);
 
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
@@ -13,7 +12,7 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 
-var pointsToWin = 3;
+var pointsToWin = 15;
 //Select mode
 let GameMode = 'single';
 
@@ -29,7 +28,7 @@ const ball = {
 	radius: 20,
 	velocityX: 5,
 	velocityY: 5,
-	speed: 7,
+	speed: 0.2,
 	color: 'WHITE'
 };
 
@@ -90,9 +89,10 @@ function drawArc(x, y, r, color) {
 
 function resetBall() {
 	ball.x = canvas.width / 2;
-	ball.y = canvas.height / 2;
-	ball.velocityX = -ball.velocityX;
-	ball.speed = 7;
+  ball.y = canvas.height / 2;
+  ball.velocityX = 5;
+  ball.velocityY = 5;
+	ball.speed = 0.5;
 }
 
 function drawNet() {
@@ -162,7 +162,7 @@ function keyUpHandler(event) {
 
 // update function, the function that does all calculations
 function update() {
-
+  // check if paddle is too high or to low
 	if (user2.y < 10) {
 		leftPressed = false;
 	}else if (user2.y > canvas.height - user2.height) {
@@ -173,7 +173,7 @@ function update() {
 		downPressed = false;
 	}
 
-	// Check if key is pressed
+	// Check if key is pressed between the modes
 	if (rightPressed && GameMode == "multi") {
 		user2.y = user2.y + user2.speed;
 	}if (leftPressed && GameMode == "multi") {
@@ -187,7 +187,8 @@ function update() {
 	}if (upPressed) {
 		user.y = user.y - user.speed;
 	}
-	
+  
+  // show game over menu and set the score board on the menu
 	if (GameMode == 'multi' && user.score == pointsToWin || user2.score == pointsToWin) {
 		gameOverScreen[0].style.display = "block";
 		gameOverScore[0].innerText = user.score + " - " + user2.score;
@@ -233,18 +234,32 @@ function update() {
 		let collidePoint = ball.y - (player.y + player.height / 2);
 		// normalize the value of collidePoint, we need to get numbers between -1 and 1.
 		collidePoint = collidePoint / (player.height / 2);
-		//let angleRad = (Math.PI / 4) * collidePoint;
+    let angleRad = (Math.PI / 4) * collidePoint;
 
 		// change the X and Y velocity direction
-		//let direction = ball.x + ball.radius < canvas.width / 2 ? 1 : -1;
+		let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
 		//ball.velocityX = direction * ball.speed * Math.cos(angleRad);
 		//ball.velocityY = ball.speed * Math.sin(angleRad);
-		ball.velocityX = -ball.velocityX;
-		ball.velocityY = ball.velocityY;
-
-		// speed up the ball everytime a paddle hits it.
-		ball.speed += 0.1;
-		console.log('speed up');
+		ball.velocityX = -ball.velocityX - (direction * ball.speed);
+    ball.velocityY = ball.velocityY + (direction * ball.speed);
+    if(ball.velocityY < 0){
+      if(ball.velocityX < 0){
+        ball.velocityY = ball.velocityX;
+      }
+      if(ball.velocityX > 0){
+        ball.velocityY = -ball.velocityX;
+      }
+    }
+    if(ball.velocityY > 0){
+      if(ball.velocityX < 0){
+        ball.velocityY = -ball.velocityX;
+      }
+      if(ball.velocityX > 0){
+        ball.velocityY = ball.velocityX;
+      }
+    }
+    console.log(ball.velocityX);
+    console.log(ball.velocityY);
 	}
 }
 

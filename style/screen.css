@@ -82,8 +82,6 @@ canvas {
 	height: 6vh;
 }
 
-
-
 .c-modal-gameover {
 	display: none; /* set this to block for testing <------------------- */
 	position: fixed;
