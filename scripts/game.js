@@ -149,15 +149,18 @@ function collision(b, p) {
 
 function clickRestart() {
 	gameOverScreen[0].style.display = 'none';
+	user.score = 0;
+  user.score = 0;
+  comLeft.score = 0;
+	com.score = 0;
 	GameMode = chosenGameMode;
 	if (GameMode == 'multi') {
 		gameOverScore[0].text = user.score + ' - ' + user2.score;
 	} else if (GameMode == 'single') {
 		gameOverScore[0].text = user.score + ' - ' + com.score;
-	}
-	user.score = 0;
-	user.score = 0;
-	com.score = 0;
+	} else if (GameMode == "ai"){
+    gameOverScore[0].text = comLeft.score + ' - ' + com.score;
+  }
 }
 
 function keyDownHandler(event) {
@@ -348,7 +351,9 @@ function render() {
 		ScoreDivr.innerHTML = com.score;
 	} else if (GameMode == "ai"){
 		drawComLeft();
-		drawCom();
+    drawCom();
+    ScoreDivl.innerHTML = comLeft.score;
+		ScoreDivr.innerHTML = com.score;
 	}
 
 	// draw the ball
