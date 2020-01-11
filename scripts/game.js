@@ -12,13 +12,13 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 
-var beginVelocityX = beginVelocityY = 5;
-var ballIncrementSpeed = 0.1;
-var pointsToWin = 3;
+var beginVelocityX = (beginVelocityY = 5);
+var ballIncrementSpeed = 0.2;
+var pointsToWin = 15;
 
 //Select mode
-let chosenGameMode = "multi"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "multi";       //keep track of what the selected gamemode was.
+let chosenGameMode = 'single'; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+let GameMode = 'single'; //keep track of what the selected gamemode was.
 
 var ScoreDivl = document.getElementById('score-l');
 var ScoreDivr = document.getElementById('score-r');
@@ -43,7 +43,7 @@ const user = {
 	width: 20,
 	height: 150,
 	score: 0,
-	speed: 4,
+	speed: 5,
 	color: 'WHITE'
 };
 
@@ -54,7 +54,7 @@ const user2 = {
 	width: 20,
 	height: 150,
 	score: 0,
-	speed: 4,
+	speed: 5,
 	color: 'WHITE'
 };
 
@@ -86,8 +86,9 @@ const net = {
 	color: '#3385FF4d'
 };
 
-function getRndInteger(min, max) {  //min and max included
-	return (Math.random() * (max - min + 1)) + min;
+function getRndInteger(min, max) {
+	//min and max included
+	return Math.random() * (max - min + 1) + min;
 }
 
 // draw a rectangle, will be used to draw paddles
@@ -113,7 +114,7 @@ function resetBall() {
 		ball.velocityX = getRndInteger(4.5, 5.5);
 		ball.velocityY = getRndInteger(4.5, 5.5);
 	} else if (dir > 0.5) {
-		ball.velocityX = getRndInteger(4.5, 5.5);
+		ball.velocityX = getRndInteger(-4.5, -5.5);
 		ball.velocityY = getRndInteger(-4.5, -5.5);
 	}
 	ball.speed = ballIncrementSpeed;
@@ -150,39 +151,39 @@ function collision(b, p) {
 function clickRestart() {
 	gameOverScreen[0].style.display = 'none';
 	user.score = 0;
-  user.score = 0;
-  comLeft.score = 0;
+	user.score = 0;
+	comLeft.score = 0;
 	com.score = 0;
 	GameMode = chosenGameMode;
 	if (GameMode == 'multi') {
 		gameOverScore[0].text = user.score + ' - ' + user2.score;
 	} else if (GameMode == 'single') {
 		gameOverScore[0].text = user.score + ' - ' + com.score;
-	} else if (GameMode == "ai"){
-    gameOverScore[0].text = comLeft.score + ' - ' + com.score;
-  }
+	} else if (GameMode == 'ai') {
+		gameOverScore[0].text = comLeft.score + ' - ' + com.score;
+	}
 }
 
 function keyDownHandler(event) {
-	if (event.keyCode == 39) {
+	if (event.keyCode == 83) {
 		rightPressed = true;
-	} else if (event.keyCode == 37) {
+	} else if (event.keyCode == 81) {
 		leftPressed = true;
-	} else if (event.keyCode == 40) {
+	} else if (event.keyCode == 68) {
 		downPressed = true;
-	} else if (event.keyCode == 38) {
+	} else if (event.keyCode == 90) {
 		upPressed = true;
 	}
 }
 
 function keyUpHandler(event) {
-	if (event.keyCode == 39) {
+	if (event.keyCode == 83) {
 		rightPressed = false;
-	} else if (event.keyCode == 37) {
+	} else if (event.keyCode == 81) {
 		leftPressed = false;
-	} else if (event.keyCode == 40) {
+	} else if (event.keyCode == 68) {
 		downPressed = false;
-	} else if (event.keyCode == 38) {
+	} else if (event.keyCode == 90) {
 		upPressed = false;
 	}
 }
@@ -195,7 +196,7 @@ function update() {
 	} else if (user2.y > canvas.height - (user2.height - 7)) {
 		rightPressed = false;
 	} else if (user.y < 11) {
-		upPressed = false
+		upPressed = false;
 	} else if (user.y > canvas.height - (user.height - 7)) {
 		downPressed = false;
 	}
@@ -203,34 +204,39 @@ function update() {
 	// Check if key is pressed between the modes
 	if (rightPressed && GameMode == 'multi') {
 		user2.y = user2.y + user2.speed;
-	} if (leftPressed && GameMode == 'multi') {
+	}
+	if (leftPressed && GameMode == 'multi') {
 		user2.y = user2.y - user2.speed;
-	} if (rightPressed && GameMode == 'single') {
+	}
+	if (rightPressed && GameMode == 'single') {
 		com.y = com.y - com.speed;
-	} if (leftPressed && GameMode == 'single') {
+	}
+	if (leftPressed && GameMode == 'single') {
 		com.y = com.y + com.speed;
-	} if (downPressed) {
+	}
+	if (downPressed) {
 		user.y = user.y + user.speed;
-	} if (upPressed) {
+	}
+	if (upPressed) {
 		user.y = user.y - user.speed;
 	}
 	// game has ended
 	// show game over menu and set the score board on the menu
-	if ((user.score == pointsToWin) || (user2.score == pointsToWin) || (com.score == pointsToWin)) {
+	if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin) {
 		oldGameMode = GameMode;
 		if (GameMode == 'multi') {
 			gameOverScreen[0].style.display = 'block';
 			gameOverScore[0].innerText = user.score + ' - ' + user2.score;
 			ScoreDivl.innerHTML = 0;
 			ScoreDivr.innerHTML = 0;
-			console.log("resetting score");
-			GameMode = "ai";
+			console.log('resetting score');
+			GameMode = 'ai';
 		} else if (GameMode == 'single') {
 			gameOverScreen[0].style.display = 'block';
 			gameOverScore[0].innerText = user.score + ' - ' + com.score;
 			ScoreDivl.innerHTML = 0;
 			ScoreDivr.innerHTML = 0;
-			GameMode = "ai";
+			GameMode = 'ai';
 		}
 	}
 
@@ -263,7 +269,7 @@ function update() {
 		// simple AI
 		com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 		player = ball.x + ball.radius < canvas.width / 2 ? user : com;
-	} else if(GameMode == "ai"){
+	} else if (GameMode == 'ai') {
 		// simple AI
 		com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 		comLeft.y += (ball.y - (comLeft.y + comLeft.height / 2)) * 0.1;
@@ -272,8 +278,8 @@ function update() {
 
 	// if the ball hits a paddle
 	if (collision(ball, player)) {
-		console.log("collide");
-		console.log(ball.left + ", " + ball.right);
+		console.log('collide');
+		console.log(ball.left + ', ' + ball.right);
 		// we check where the ball hits the paddle
 		//let collidePoint = ball.y - (player.y + player.height / 2);
 		// normalize the value of collidePoint, we need to get numbers between -1 and 1.
@@ -281,24 +287,28 @@ function update() {
 		//let angleRad = (Math.PI / 4) * collidePoint;
 		if (ball.left < 30) {
 			ball.x += 15;
-		} if (ball.right > 1300) {
+		}
+		if (ball.right > 1300) {
 			ball.x -= 15;
 		}
 
 		// change the X and Y velocity direction
 		let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
-		ball.velocityX = -ball.velocityX - (direction * ball.speed);
-		ball.velocityY = ball.velocityY + (direction * ball.speed);
+		ball.velocityX = -ball.velocityX - direction * ball.speed;
+		ball.velocityY = ball.velocityY + direction * ball.speed;
 		if (ball.velocityY < 0) {
 			if (ball.velocityX < 0) {
 				ball.velocityY = ball.velocityX;
-			} if (ball.velocityX > 0) {
+			}
+			if (ball.velocityX > 0) {
 				ball.velocityY = -ball.velocityX;
 			}
-		} if (ball.velocityY > 0) {
+		}
+		if (ball.velocityY > 0) {
 			if (ball.velocityX < 0) {
 				ball.velocityY = -ball.velocityX;
-			} if (ball.velocityX > 0) {
+			}
+			if (ball.velocityX > 0) {
 				ball.velocityY = ball.velocityX;
 			}
 		}
@@ -349,10 +359,10 @@ function render() {
 		// draw the user score
 		ScoreDivl.innerHTML = user.score;
 		ScoreDivr.innerHTML = com.score;
-	} else if (GameMode == "ai"){
+	} else if (GameMode == 'ai') {
 		drawComLeft();
-    drawCom();
-    ScoreDivl.innerHTML = comLeft.score;
+		drawCom();
+		ScoreDivl.innerHTML = comLeft.score;
 		ScoreDivr.innerHTML = com.score;
 	}
 
