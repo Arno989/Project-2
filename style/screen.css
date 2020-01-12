@@ -1,25 +1,28 @@
+:root {
+	--global-font:'Poppins', Arial, Helvetica, sans-serif;
+	--background-color: #1b4186;
+	--background-color-menu:rgba(0, 0, 0, 0.3);
+	--topbar-color: #3385ff;
+	--text-color:#fff;
+	--btn-backgrond-color:#3385ff;
+	--btn-text-color:#fff;
+}
+
+
+
 html {
-	font-family: 'Poppins', Arial, Helvetica, sans-serif;
-	background-color: #1b4186;
+	font-family: var(--global-font);
+	background-color: var(--background-color);
+	text-decoration: none;
 }
 
 body {
-	margin: 0;
-	padding: 0;
 	overflow: hidden;
 }
 
-#pong {
-	margin: 0;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	text-align: end;
-}
+#pong {}
 
 canvas {
-	display: inline;
 }
 
 /*------------------------------------*\
@@ -32,13 +35,13 @@ canvas {
 	width: 100vw;
 	grid-template-columns: 25% 50% 25%;
 	overflow: hidden;
-	background-color: #3385ff;
+	background-color: var(--topbar-color);
 }
 
 .c-topbar--score {
     height: 100%;
 	grid-column: 2;
-	color: #fff;
+	color: var(--text-color);
 	display: grid;
 	grid-template-columns: 45% 10% 45%;
 }
@@ -65,18 +68,15 @@ canvas {
 .c-topbar--score-r {
     justify-self: flex-start;
 	grid-column: 3;
-	font-size: 5vh;
-	line-height: 5vh;
-	height: 5vh;
 }
 
-.c-topbar--img {
+.c-topbar--logo {
 	grid-column: 3;
 	display: flex;
 	justify-content: flex-end;
 }
 
-.c-topbar--img > img {
+.c-topbar--logo > img {
 	padding: 1vw;
 	height: 6vh;
 }
@@ -90,7 +90,7 @@ canvas {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: var(--background-color-menu)
 }
 
 .c-modal-content {
@@ -104,13 +104,13 @@ canvas {
 }
 
 .c-menu-score {
-	color: #fff;
+	color: var(--text-color);
 	font-size: 16vh;
 }
 
 .c-menu-button {
-	background-color: #3385ff;
-	color: #fff;
+	background-color: var(--topbar-color);
+	color: var(--text-color);
 	font-size: 40px;
 	text-align: center;
 	margin: 16px;
@@ -118,19 +118,4 @@ canvas {
 	height: 70px;
 	border: none;
 	border-radius: 10px;
-}
-
-/* The Close Button */
-.c-modal-close {
-	color: #aaaaaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.c-modal-close:hover,
-.c-modal-close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
 }
