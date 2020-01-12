@@ -46,6 +46,8 @@ const user = {
 	color: 'WHITE'
 };
 
+var lastPaddleHit = user;
+
 // User right Paddle right
 const user2 = {
 	x: canvas.width - 35, // - width of paddle + 15 pixels space between edge
@@ -118,17 +120,21 @@ function startMovingBall(direction){ // start moving the ball in the chosen dire
 		if(direction == "left"){
 			ball.velocityX = getRndInteger(-4.5, -5.5);
 			ball.velocityY = getRndInteger(-4.5, -5.5);
+			lastPaddleHit = user2;
 		}else if(direction == "right"){
 			ball.velocityX = getRndInteger(4.5, 5.5);
 			ball.velocityY = getRndInteger(-4.5, -5.5);
+			lastPaddleHit = user;
 		}
 	} else if (dir > 0.5) {
 		if(direction == "left"){
 			ball.velocityX = getRndInteger(-4.5, -5.5);
 			ball.velocityY = getRndInteger(4.5, 5.5);
+			lastPaddleHit = user2;
 		}else if(direction == "right"){
 			ball.velocityX = getRndInteger(4.5, 5.5);
 			ball.velocityY = getRndInteger(4.5, 5.5);
+			lastPaddleHit = user;
 		}
 	}
 }
@@ -158,10 +164,6 @@ function collision(b, p) {
 	b.right = b.x + b.radius;
 
 	return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
-}
-
-function setGameMode(){
-
 }
 
 function clickRestart() {
@@ -199,6 +201,27 @@ function keyUpHandler(event) {
 		downPressed = false;
 	} else if (event.keyCode == 38) {
 		upPressed = false;
+	}
+}
+
+function comAI(playerHit){
+	console.log(playerHit);
+	if(playerHit.x == 15){
+		com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
+	}else if(com.y > canvas.height / 2 && playerHit.x == canvas.width - 35){
+		com.y -= com.speed;
+	}else if(com.y < canvas.height / 2 && playerHit.x == canvas.width - 35){
+		com.y += com.speed;
+	}
+}
+
+function comLeftAI(playerHit){
+	if(playerHit.x == canvas.width - 35){
+		comLeft.y += (ball.y - (comLeft.y + comLeft.height / 2)) * 0.1;
+	}else if(comLeft.y > canvas.height / 2 && playerHit.x == 15){
+		comLeft.y -= comLeft.speed;
+	}else if(comLeft.y < canvas.height / 2 && playerHit.x == 15){
+		comLeft.y += comLeft.speed;
 	}
 }
 
@@ -267,26 +290,19 @@ function update() {
 		ball.velocityY = -ball.velocityY;
 	}
 
-	// we check if the paddle hit the user or the com paddle and set simple computer AI
+	// we check if the paddle hit the user or the com paddle
 	let player;
 	if (GameMode == 'multi') {
 		player = ball.x + ball.radius < canvas.width / 2 ? user : user2;
 	} else if (GameMode == 'single') {
-		// simple AI
-		com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
 		player = ball.x + ball.radius < canvas.width / 2 ? user : com;
 	} else if (GameMode == 'ai') {
-		// simple AI
-		com.y += (ball.y - (com.y + com.height / 2)) * 0.1;
-		comLeft.y += (ball.y - (comLeft.y + comLeft.height / 2)) * 0.1;
 		player = ball.x + ball.radius < canvas.width / 2 ? comLeft : com;
 	}
 
 	// if the ball hits a paddle
 	if (collision(ball, player)) {
-		console.log('collide');
-		console.log(ball.left + ', ' + ball.right);
-		console.log(canvas.width);
+		lastPaddleHit = player;
 		//when ball hits the rounded top or bottom of the paddle, it bugs out, so i just teleport the ball into the field to fix that and not have to calcuate the bounce.
 		if (ball.left < 30) {
 			ball.x += 15;
@@ -321,6 +337,14 @@ function update() {
 				ball.velocityY = ball.velocityX;
 			}
 		}
+	}
+
+	// set simple ai
+	if(GameMode == "single"){
+		comAI(lastPaddleHit);
+	}else if(GameMode == "ai"){
+		comAI(lastPaddleHit);
+		comLeftAI(lastPaddleHit);
 	}
 }
 
