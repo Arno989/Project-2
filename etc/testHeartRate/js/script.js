@@ -80,7 +80,7 @@ const init = function()
     {
         bluetooth(hartslag2, 2);
     });
-    Console.lo("test kraken");
+    Console.lo("test git kraken");
 };
 
 document.addEventListener("DOMContentLoaded", init);
