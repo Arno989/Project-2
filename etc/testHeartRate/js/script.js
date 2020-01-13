@@ -36,6 +36,14 @@ const bluetooth = function(x, y)
                     let value = characteristic.value;
                     value = parseHeartRate(value);
                     x.innerHTML = value.heartRate;
+                    if(y == 1)
+                    {
+                        h1 = value.heartRate;
+                    }
+                    else
+                    {
+                        h2 = value.heartRate;
+                    }
                 });
                 console.log('Notifications have been started.');
             })
@@ -72,6 +80,7 @@ const init = function()
     {
         bluetooth(hartslag2, 2);
     });
+    Console.lo("test kraken");
 };
 
 document.addEventListener("DOMContentLoaded", init);
