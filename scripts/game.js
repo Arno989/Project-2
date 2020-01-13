@@ -19,8 +19,8 @@ var ballIncrementSpeed = 0.2;
 var pointsToWin = 3;
 
 //Select mode
-let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "single"; //keep track of what the selected gamemode was.
+let chosenGameMode = "ai"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+let GameMode = "ai"; //keep track of what the selected gamemode was.
 
 var ScoreDivl = document.getElementById("score-l");
 var ScoreDivr = document.getElementById("score-r");
@@ -212,23 +212,23 @@ function keyUpHandler(event) {
 function movePaddleTo(paddle, y, objectif) {
   if (objectif == "center") {
     if (paddle.y < y) {
-      if (y - paddle.y > 10) {
+      if (y - paddle.y > 1) {
         paddle.y += paddle.speed / 2;
       }
-      if (y - paddle.y < 10) {
+      if (y - paddle.y < 1) {
         paddle.y += 1;
       }
     }
     if (paddle.y > y) {
-      if (paddle.y - y > 10) {
+      if (paddle.y - y > 1) {
         paddle.y -= paddle.speed / 2;
       }
-      if (paddle.y - y < 10) {
+      if (paddle.y - y < 1) {
         paddle.y -= 1;
       }
     }
   } else if (objectif == "ai") {
-    if (paddle.y + paddle.height / 2 < ball.y + ball.radius && paddle.y + paddle.height){
+    if (paddle.y + paddle.height / 2 < ball.y + ball.radius && paddle.y + paddle.height < canvas.height + 5) {
       paddle.y += paddle.speed;
     }
     if (paddle.y > ball.y) {
@@ -285,10 +285,7 @@ function update() {
   }
   // game has ended
   // show game over menu and set the score board on the menu
-  if (
-    user.score == pointsToWin ||
-    user2.score == pointsToWin ||
-    com.score == pointsToWin
+  if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin
   ) {
     if (GameMode == "multi") {
       gameOverScreen[0].style.display = "block";
