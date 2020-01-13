@@ -1,0 +1,50 @@
+.c-flex
+{
+    display: flex;
+    justify-content: space-around;
+}
+
+.c-wait
+{
+    display: none;
+}
+
+.c-wait-part
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.c-wait-line__holder
+{
+    width: 100%;
+    background-color: lightblue;
+    height: 24px;
+    border-radius: 24px;
+}
+
+.c-wait-line 
+{
+    background-color: blue;
+    width: 0%;
+    height: 24px;
+    border-radius: 100px;
+    transition: linear 1s;
+}
+
+#start
+{
+    display: none;
+}
+
+.c-heart
+{
+    height: 100;
+}
+
+/* .c-knop__start
+{
+    display: block;
+    display: none;
+} */
