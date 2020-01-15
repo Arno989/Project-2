@@ -1,14 +1,12 @@
 :root {
-	--global-font:'Poppins', Arial, Helvetica, sans-serif;
+	--global-font: 'Poppins', Arial, Helvetica, sans-serif;
 	--background-color: #1b4186;
-	--background-color-menu:rgba(0, 0, 0, 0.3);
+	--background-color-menu: rgba(0, 0, 0, 0.3);
 	--topbar-color: #3385ff;
-	--text-color:#fff;
-	--btn-backgrond-color:#3385ff;
-	--btn-text-color:#fff;
+	--text-color: #fff;
+	--btn-backgrond-color: #3385ff;
+	--btn-text-color: #fff;
 }
-
-
 
 html {
 	font-family: var(--global-font);
@@ -18,11 +16,6 @@ html {
 
 body {
 	overflow: hidden;
-}
-
-#pong {}
-
-canvas {
 }
 
 /*------------------------------------*\
@@ -39,7 +32,7 @@ canvas {
 }
 
 .c-topbar--score {
-    height: 100%;
+	height: 100%;
 	grid-column: 2;
 	color: var(--text-color);
 	display: grid;
@@ -49,24 +42,24 @@ canvas {
 .c-topbar--score > p {
 	padding: 2.5vh 0;
 	margin: 0;
-    font-size: 5vh;
-    line-height: 5vh;
-    height: 5vh;
+	font-size: 5vh;
+	line-height: 5vh;
+	height: 5vh;
 }
 
 .c-topbar--score-l {
-    justify-self: flex-end;
+	justify-self: flex-end;
 	grid-column: 1;
 }
 
 .c-topbar--score-c {
-    justify-self: center;
+	justify-self: center;
 	grid-column: 2;
-    padding: 10px;
+	padding: 10px;
 }
 
 .c-topbar--score-r {
-    justify-self: flex-start;
+	justify-self: flex-start;
 	grid-column: 3;
 }
 
@@ -90,7 +83,7 @@ canvas {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	background-color: var(--background-color-menu)
+	background-color: var(--background-color-menu);
 }
 
 .c-modal-content {
@@ -118,4 +111,33 @@ canvas {
 	height: 70px;
 	border: none;
 	border-radius: 10px;
+}
+
+/* Page sideswipe */
+
+.c-overflow {
+	overflow: hidden;
+	min-height: 100vh;
+	width: 100vw;
+}
+
+.c-container-stars {
+	/* modal */
+	display: flex;
+	justify-content: center;
+}
+
+.c-container {
+	will-change: scroll-position;
+	/*transition-duration: 0.75s;
+	transition-timing-function: ease-out;*/
+	display: flex;
+	flex-wrap: nowrap;
+	height: 100vh;
+	width: 100vw;
+}
+
+.c-content {
+	min-width: 100vw;
+	width: 100vw;
 }
