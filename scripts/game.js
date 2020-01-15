@@ -17,6 +17,8 @@ var downPressed = false;
 var beginVelocityX = (beginVelocityY = 5);
 var ballIncrementSpeed = 0.2;
 var pointsToWin = 3;
+var angle = null; //this is to predict the bounce
+var hitPoint
 
 //Select mode
 let chosenGameMode = "ai"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
@@ -392,8 +394,29 @@ function update() {
     comLeftAI(lastPaddleHit);
   }
 
-  // set prediction angle to make the game easier
-  if(ball.velocityY > 0 && ball.velocityX > 0 && (ball.y > screen.height - 200)){
+  //console.log(ball.y, ball.velocityY, canvas.height);
+
+  // set prediction angle to make the game easier for kiddo
+  y = ball.y;
+  if(ball.velocityY > 0 && ball.velocityX > 0 && (ball.y > canvas.height - ball.velocityX * 100)){
+    if(hitPoint == 0){
+      hitPoint = ball.x;
+      for(y; y < canvas.height - 13; y++){
+        hitPoint++;
+      }
+    }
+    if(hitPoint < screen.width - 35){
+      angle = "upRight";
+    }
+  }else if(ball.velocityY > 0 && ball.velocityX < 0 && (ball.y > canvas.height - 200)){
+    angle = "upLeft";
+  }else if(ball.velocityY < 0 && ball.velocityX > 0 && (ball.y < 200)){
+    angle = "downRight";
+  }else if(ball.velocityY < 0 && ball.velocityX < 0 && (ball.y < 200)){
+    angle = "downLeft";
+  }else if(ball.y < canvas.height - 200 && ball.y > 200){
+    angle = "none";
+    hitPoint = 0;
   }
 }
 
@@ -406,11 +429,7 @@ function drawPlayerLeft() {
 function drawPlayerRight() {
   drawRect(user2.x, user2.y, user2.width, user2.height - 20, user2.color);
   drawArc(user2.x + user2.width / 2, user2.y, 10, user2.color);
-  drawArc(
-    user2.x + user2.width / 2,
-    user2.y + user2.height - 20,
-    10,
-    user2.color
+  drawArc(user2.x + user2.width / 2,user2.y + user2.height - 20, 10,user2.color
   );
 }
 
@@ -463,7 +482,16 @@ function render() {
   // draw the ball
   drawArc(ball.x, ball.y, ball.radius, ball.color);
 
-  drawLine(ball.x, ball.y, ball.x + (ball.velocityX * 10), ball.y + (ball.velocityY * 10), 2, 'white');
+  if(angle == "upRight"){
+    if(ball.velocityY > 0){
+      drawLine(ball.x, ball.y, hitPoint, canvas.height - ball.radius, 5, 'white');
+      drawLine(hitPoint, canvas.height - ball.radius, hitPoint + (ball.velocityX * 32), (canvas.height - ball.radius) + ( - Math.abs(ball.velocityY * 32)), 5, 'white');
+    }else if(ball.velocityY < 0){
+      drawLine(ball.x, ball.y, hitPoint + (ball.velocityX * 32), (canvas.height - ball.radius) + ( - Math.abs(ball.velocityY * 32)), 5, 'white');
+    }
+    
+    //drawArc(hitPoint, canvas.height - 10, 10, "white");
+  }
 }
 
 const resize = () => {
