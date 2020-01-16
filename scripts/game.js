@@ -19,6 +19,8 @@ var ballIncrementSpeed = 0.2;
 var pointsToWin = 3;
 var angle = null; //this is to predict the bounce
 var hitPoint
+var beginPoint = 50;
+var endpoint = 60;
 
 //Select mode
 let chosenGameMode = "ai"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
@@ -398,10 +400,10 @@ function update() {
 
   // set prediction angle to make the game easier for kiddo
   y = ball.y;
-  if(ball.velocityY > 0 && ball.velocityX > 0 && (ball.y > canvas.height - ball.velocityX * 100)){
+  if(ball.velocityY > 0 && ball.velocityX > 0 && (ball.y > canvas.height - ball.velocityX * beginPoint)){
     if(hitPoint == 0){
       hitPoint = ball.x;
-      for(y; y < canvas.height - 13; y++){
+      for(y; y < canvas.height - 17; y++){
         hitPoint++;
       }
     }
@@ -482,12 +484,19 @@ function render() {
   // draw the ball
   drawArc(ball.x, ball.y, ball.radius, ball.color);
 
-  if(angle == "upRight"){
-    if(ball.velocityY > 0){
+  if(angle == "upRight" && ball.velocityX > 0){
+    if(ball.velocityY > 0){ // when ball is still going down, draw line from ball to hitpoint and from hitpoint to prediction point
       drawLine(ball.x, ball.y, hitPoint, canvas.height - ball.radius, 5, 'white');
-      drawLine(hitPoint, canvas.height - ball.radius, hitPoint + (ball.velocityX * 32), (canvas.height - ball.radius) + ( - Math.abs(ball.velocityY * 32)), 5, 'white');
-    }else if(ball.velocityY < 0){
-      drawLine(ball.x, ball.y, hitPoint + (ball.velocityX * 32), (canvas.height - ball.radius) + ( - Math.abs(ball.velocityY * 32)), 5, 'white');
+      drawLine(hitPoint, canvas.height - ball.radius, hitPoint + (ball.velocityX * endpoint), (canvas.height - ball.radius) - ( Math.abs(ball.velocityY * endpoint)), 5, 'white');
+    }else if(ball.velocityY < 0){ // when ball is going up after the bounce, draw line from hitpoint to prediction point
+      endpointX = hitPoint + (ball.velocityX * endpoint);
+      console.log(endpointX + " " + hitPoint);
+      if(endpointX < canvas.width - 35){
+        drawLine(ball.x, ball.y, endpointX, (canvas.height - ball.radius) - ( Math.abs(ball.velocityY * endpoint)), 5, 'white');
+      }else if(endpointX > canvas.width - 35){
+        drawLine(ball.x, ball.y, canvas.width - 35, (canvas.height - ball.radius) - ( Math.abs(ball.velocityY * endpoint)), 5, 'white');
+        console.log("test");
+      }
     }
     
     //drawArc(hitPoint, canvas.height - 10, 10, "white");
