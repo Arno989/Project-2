@@ -18,7 +18,10 @@ var beginVelocityX = (beginVelocityY = 5);
 var ballIncrementSpeed = 0.2;
 var pointsToWin = 3;
 var angle = null; //this is to predict the bounce
-var hitPoint
+var hitPointX;
+var hitPointY;
+var beginPoint = 50;
+var endpoint = 60;
 
 //Select mode
 let chosenGameMode = "ai"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
@@ -372,15 +375,15 @@ function update() {
       if (ball.velocityX < 0) {
         ball.velocityY = ball.velocityX;
       }
-      if (ball.velocityX > 0) {
+      else if (ball.velocityX > 0) {
         ball.velocityY = -ball.velocityX;
       }
     }
-    if (ball.velocityY > 0) {
+    else if (ball.velocityY > 0) {
       if (ball.velocityX < 0) {
         ball.velocityY = -ball.velocityX;
       }
-      if (ball.velocityX > 0) {
+      else if (ball.velocityX > 0) {
         ball.velocityY = ball.velocityX;
       }
     }
@@ -398,14 +401,23 @@ function update() {
 
   // set prediction angle to make the game easier for kiddo
   y = ball.y;
-  if(ball.velocityY > 0 && ball.velocityX > 0 && (ball.y > canvas.height - ball.velocityX * 100)){
-    if(hitPoint == 0){
-      hitPoint = ball.x;
-      for(y; y < canvas.height - 13; y++){
-        hitPoint++;
+  if(ball.velocityY > 0 && ball.velocityX > 0 && (ball.y >= canvas.height - ball.velocityX * beginPoint)){
+    if(hitPointX == 0){
+      hitPointX = ball.x;
+      hitPointY = y;
+      if(GameMode != "ai"){
+        for(y; y < (canvas.height - ball.radius); y += (ball.velocityX * ball.speed) ){
+          hitPointX += (ball.velocityX * ball.speed);
+          hitPointY += (ball.velocityY * ball.speed);
+        }
+      }else if(GameMode == "ai"){
+        for(y; y < (canvas.height - ball.radius); y += (ball.velocityX) ){
+          hitPointX += (ball.velocityX);
+          hitPointY += (ball.velocityY);
+        }
       }
     }
-    if(hitPoint < screen.width - 35){
+    if(hitPointX < screen.width - 35){
       angle = "upRight";
     }
   }else if(ball.velocityY > 0 && ball.velocityX < 0 && (ball.y > canvas.height - 200)){
@@ -416,7 +428,7 @@ function update() {
     angle = "downLeft";
   }else if(ball.y < canvas.height - 200 && ball.y > 200){
     angle = "none";
-    hitPoint = 0;
+    hitPointX = 0;
   }
 }
 
@@ -482,15 +494,21 @@ function render() {
   // draw the ball
   drawArc(ball.x, ball.y, ball.radius, ball.color);
 
-  if(angle == "upRight"){
-    if(ball.velocityY > 0){
-      drawLine(ball.x, ball.y, hitPoint, canvas.height - ball.radius, 5, 'white');
-      drawLine(hitPoint, canvas.height - ball.radius, hitPoint + (ball.velocityX * 32), (canvas.height - ball.radius) + ( - Math.abs(ball.velocityY * 32)), 5, 'white');
-    }else if(ball.velocityY < 0){
-      drawLine(ball.x, ball.y, hitPoint + (ball.velocityX * 32), (canvas.height - ball.radius) + ( - Math.abs(ball.velocityY * 32)), 5, 'white');
+  if(angle == "upRight" && ball.velocityX > 0){
+    if(ball.velocityY > 0){ // when ball is still going down, draw line from ball to hitPointX and from hitPointX to prediction point
+      drawLine(ball.x, ball.y, hitPointX, hitPointY, 5, 'white');
+      drawLine(hitPointX, hitPointY, hitPointX + (ball.velocityX * endpoint), (canvas.height - ball.radius) - ( Math.abs(ball.velocityY * endpoint)), 5, 'white');
+    }else if(ball.velocityY < 0){ // when ball is going up after the bounce, draw line from hitPointX to prediction point
+      endpointX = hitPointX + (ball.velocityX * endpoint);
+      if(endpointX < canvas.width - 35){ // if ball doesnt hit paddle inside prediction
+        drawLine(ball.x, ball.y, endpointX, (canvas.height - ball.radius) - ( Math.abs(ball.velocityY * endpoint)), 5, 'white');
+      }else if(endpointX > canvas.width - 35){ /// if ball does hit paddle within predition, make prediction shorter
+        drawLine(ball.x, ball.y, canvas.width - 35, (canvas.height - ball.radius) - ( Math.abs(ball.velocityY * endpoint)), 5, 'white');
+        console.log("test");
+      }
     }
     
-    //drawArc(hitPoint, canvas.height - 10, 10, "white");
+    //drawArc(hitPointX, canvas.height - 10, 10, "white");
   }
 }
 
