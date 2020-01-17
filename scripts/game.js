@@ -27,8 +27,8 @@ var PredictionEnd = 60;
 var predictionColor = '#7474748d';
 
 //Select mode
-let chosenGameMode = "ai"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "ai"; //keep track of what the selected gamemode was.
+let chosenGameMode = "multi"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+let GameMode = "multi"; //keep track of what the selected gamemode was.
 
 var ScoreDivl = document.getElementById("score-l");
 var ScoreDivr = document.getElementById("score-r");
@@ -275,10 +275,6 @@ function comLeftAI(playerHit) {
   }
 }
 
-function test(){
-  console.log("test");
-}
-
 function calcuatePredictionHit(direction){
   if (PredictionHitX == 0 && PredictionHitY == 0 && direction == "up") { // if there is no prediction yet and ball is going up
     PredictionHitX = x;
@@ -453,6 +449,7 @@ function update() {
       angle = "downLeft";
     }
   } else if (ball.y < (canvas.height / 4) * 3  && (ball.y > (canvas.height / 4))) {
+    console.log("test");
     angle = "none";
     PredictionHitX = 0;
     PredictionHitY = 0;
