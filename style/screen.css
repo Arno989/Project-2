@@ -1,5 +1,5 @@
 :root {
-	--global-font: 'Poppins', Arial, Helvetica, sans-serif;
+    --global-font: 'Neucha', cursive, Arial, Helvetica, sans-serif;
 	--background-color: #1b4186;
 	--background-color-menu: rgba(0, 0, 0, 0.3);
 	--topbar-color: #FFFFFF;
@@ -77,6 +77,7 @@ body {
 .c-modal-gameover {
 	display: none; /* set this to block for testing <------------------- */
 	position: fixed;
+    font-family: var(--global-font);
 	z-index: 1;
 	left: 0;
 	top: 0;
@@ -89,7 +90,7 @@ body {
 .c-modal-content {
 	margin: auto;
 	width: 50vw;
-	height: 80vh;
+    height: 80vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
