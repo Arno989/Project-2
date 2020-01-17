@@ -301,11 +301,11 @@ function calcuatePredictionHit(direction){
 // update function, the function that does most of the calculations
 function update() {
   // check if paddle is too high or too low
-  if (user2.y < 11) {
+  if (user2.y < 13) {
     leftPressed = false;
   } else if (user2.y > canvas.height - (user2.height - 7)) {
     rightPressed = false;
-  } else if (user.y < 11) {
+  } else if (user.y < 13) {
     upPressed = false;
   } else if (user.y > canvas.height - (user.height - 7)) {
     downPressed = false;
