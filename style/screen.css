@@ -183,8 +183,8 @@ body {
 .c-loadingbar__bar
 {
 	height: 40px;
-	width: 20%;
 	border-radius: 250px 0px 0px 250px;
+	transition: 2s ease-in-out;
 }
 
 .c-loadingcon-pink
@@ -221,8 +221,42 @@ body {
 	margin-bottom: 52px;
 }
 
+.c-menu__buttons
+{
+	width: 1200px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .c-tekst__menu
 {
 	margin: 2px 0;
 	font-size: 24px;
+}
+
+/*----- utilities -----*/
+.u-0-procent
+{
+	width: 0%;
+}
+
+.u-20-procent {
+	width: 20%;
+}
+
+.u-40-procent {
+	width: 40%;
+}
+
+.u-60-procent {
+	width: 60%;
+}
+
+.u-80-procent {
+	width: 80%;
+}
+
+.u-100-procent {
+	width: 100%;
 }
