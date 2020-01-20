@@ -4,6 +4,8 @@ canvas.height = document.documentElement.clientHeight - document.documentElement
 
 const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
+const btnAgain = document.getElementById('again');
+//btnAgain.addEventListener("click", clickRestart);
 
 // input variables
 document.addEventListener("keydown", keyDownHandler, false);
@@ -215,15 +217,6 @@ function clickRestart() {
   console.log(gameOverScreen);
   console.log("test");
   GameMode = chosenGameMode;
-  if (GameMode == "multi") {
-    gameOverScore[0].text = user.score + " - " + user2.score;
-  } else if (GameMode == "single") {
-    gameOverScore[0].text = user.score + " - " + com.score;
-  } else if (GameMode == "ai") {
-    gameOverScore[0].text = comLeft.score + " - " + com.score;
-  } else if (GameMode == "wall") {
-    gameOverScore[0].text = user.score;
-  }
 }
 
 function logKey(event) {
@@ -386,14 +379,14 @@ function update() {
     user2.score++;
     resetBall();
     startMovingBall("right");
+  } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
+    wall.score++;
+    resetBall();
   } else if (ball.x + ball.radius > canvas.width) {
     user.score++;
     resetBall();
     startMovingBall("left");
-  } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
-    wall.score++;
-    resetBall();
-  }
+  } 
 
   // the ball has a velocity
   ball.x += ball.velocityX;
@@ -548,8 +541,6 @@ function drawPlayersAndScore() {
   } else if (GameMode == "ai") {
     drawComLeft();
     drawCom();
-    ScoreDivl.innerHTML = comLeft.score;
-    ScoreDivr.innerHTML = com.score;
     ScoreDivc.innerHTML = "-";
   } else if (GameMode == "wall") {
     drawWall();
@@ -563,7 +554,7 @@ function drawPlayersAndScore() {
 function clearCanvas() {
   //drawRect(0, 0, canvas.width, canvas.height, "#1B4186");
   var grd = ctx.createLinearGradient(0, 0, 0, canvas.height - 200);
-  grd.addColorStop(0, "WHITE");
+  grd.addColorStop(0, "#EEF7FE");
   grd.addColorStop(1, "#9DDCFF");
   ctx.fillStyle = grd;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
