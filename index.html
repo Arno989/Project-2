@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="./style/normalize.css" />
 
 	<script src="./scripts/UI.js"></script>
+	<script src="./scripts/pages.js"></script>
 </head>
 
 <body onresize="resize()">
@@ -32,11 +33,25 @@
 				<canvas id="pong" class="c-game"> </canvas>
 				<script src="./scripts/game.js"></script>
 
-				<div id="GameOverScreen" class="c-modal-gameover">
+				<div class="c-modal-gameover js-gameOver">
 					<div class="c-modal-content">
 						<p class="c-menu-score">0 - 0</p>
 						<button class="c-menu-button" onclick="clickRestart()">Opnieuw</button>
 						<button class="c-menu-button">Hoofdmenu</button>
+					</div>
+				</div>
+
+				<div class="c-modal-gameover c-menu js-makey">
+					<div class="c-modal-content">
+						<p class="c-menu-score">Makey Makey</p>
+						<button class="c-menu-button c-menu-button-yellow">doe dingen</button>
+					</div>
+				</div>
+
+				<div class="c-modal-gameover c-menu js-welcome">
+					<div class="c-modal-content">
+						<p class="c-menu-score">Exerpong</p>
+						<button class="c-menu-button c-menu-button-pink js-index-start">Spel opstarten</button>
 					</div>
 				</div>
 			</div>

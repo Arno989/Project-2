@@ -2,7 +2,7 @@ const canvas = document.getElementById("pong");
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
 
-const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
+//const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
 
 // input variables
@@ -193,7 +193,7 @@ function collision(b, p) {
 function clickRestart() {
   resetBall();
   startMovingBall();
-  gameOverScreen[0].style.display = "none";
+  //gameOverScreen[0].style.display = "none";
   GameMode = chosenGameMode;
   if (GameMode == "multi") {
     gameOverScore[0].text = user.score + " - " + user2.score;
@@ -342,13 +342,13 @@ function update() {
   if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin
   ) {
     if (GameMode == "multi") {
-      gameOverScreen[0].style.display = "block";
+      //gameOverScreen[0].style.display = "block";
       gameOverScore[0].innerText = user.score + " - " + user2.score;
       user.score = 0;
       user2.score = 0;
       GameMode = "ai";
     } else if (GameMode == "single") {
-      gameOverScreen[0].style.display = "block";
+      //gameOverScreen[0].style.display = "block";
       gameOverScore[0].innerText = user.score + " - " + com.score;
       user.score = 0;
       com.score = 0;
