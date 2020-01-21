@@ -12,7 +12,7 @@ const bluetooth = function (y)
             }]
         })
         .then(device => {
-            connect(device, 'heart_rate', 'heart_rate_measurement', y);
+            connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
         })
         .then(function () 
         {
@@ -30,7 +30,7 @@ const bluetooth = function (y)
 };
 
 //connect heartRateMonitor followed by battery service
-const connect = function (device, server, service, y) {
+const connectDevice = function (device, server, service, y) {
     device.gatt.connect()
         .then(a => {
             console.log("device connected");
@@ -55,7 +55,7 @@ const connect = function (device, server, service, y) {
                     hartslag1.innerHTML = `hartslag: ${parseHeartRate(d.value).heartRate} slagen per minuut`;
 
                 });
-                connect(device, 'battery_service', 'battery_level', y);
+                connectDevice(device, 'battery_service', 'battery_level', y);
             } else if (server === 'battery_service') {
                 d.readValue()
                     .then(e => {
