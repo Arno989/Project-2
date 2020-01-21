@@ -95,6 +95,18 @@ body {
 	background-color: var(--background-color-menu);
 }
 
+.c-logo-group {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.c-logo {
+	margin: 5px;
+	width: 13vh;
+	height: auto;
+}
+
 .c-menu
 {
 	background-image: url(/img/background.svg);

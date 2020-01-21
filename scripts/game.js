@@ -2,10 +2,15 @@ const canvas = document.getElementById("pong");
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
 
+window.addEventListener('blur', pauseOn); // detect when user is not on page, so tabbed out or focus onother window
 const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
+let gamePausedScreen = null;
 let countdownNumber = null;
 let btnAgain = null;
+let btnMain = null;
+let btnResume = null;
+let btnMainPause = null;
 
 // input variables
 document.addEventListener("keydown", keyDownHandler, false);
@@ -18,7 +23,7 @@ var downPressed = false;
 
 var beginVelocityX = (beginVelocityY = 5);
 var increasementSpeed = 0.1;
-var pointsToWin = 3;
+var pointsToWin = 5;
 
 // prediction variables
 var prediction = true;
@@ -32,6 +37,9 @@ var predictionColor = '#7474746d';
 //Select mode
 let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
 let GameMode = "single"; //keep track of what the selected gamemode was.
+let gameLoop = false; // set it to false by default so the game doesnt play in the background.
+let loop = null;
+let framePerSecond = 90; // number of frames per second
 
 var ScoreDivl = document.getElementById("score-l");
 var ScoreDivr = document.getElementById("score-r");
@@ -117,6 +125,16 @@ function getRndInteger(min, max) {
   return Math.random() * (max - min + 1) + min;
 }
 
+function pauseOn() {
+  gamePausedScreen = document.querySelector('.js-gamePaused');
+  gamePausedScreen.style.display = "block";
+  clearInterval(loop);
+  btnResume = document.querySelector('.js-btn-resume');
+  btnMainPause = document.querySelector('.js-btn-mainPagePaused');
+  btnResume.addEventListener("click", clickResume);
+  btnMainPause.addEventListener("click", clickMainPaused);
+}
+
 // draw a rectangle, used to draw paddles
 function drawRect(x, y, w, h, color) {
   ctx.fillStyle = color;
@@ -147,9 +165,8 @@ function resetBall() {
   ball.y = canvas.height / 2;
 }
 
-function countdown(){
+function countdown() {
   countdownNumber = document.querySelector(".c-modal-countdown-number");
-  console.log(countdownNumber);
   countdownNumber.style.display = "block";
   countdownNumber.style.fontSize = "1px";
 }
@@ -213,6 +230,16 @@ function collision(b, p) {
   );
 }
 
+function clickResume(){
+  loop = setInterval(game, 1000 / framePerSecond);
+  gamePausedScreen.style.display = "none";
+}
+
+function clickMainPaused(){
+  clickMain();
+  gamePausedScreen.style.display = "none";
+}
+
 function clickRestart() {
   resetBall();
   startMovingBall("right");
@@ -225,11 +252,21 @@ function clickRestart() {
   GameMode = chosenGameMode;
 }
 
+function clickMain() {
+  user.score = 0;
+  user2.score = 0;
+  com.score = 0;
+  comLeft.score = 0;
+  wall.score = 0;
+  setPage("main");
+  loop = null;
+  clearInterval(loop);
+}
+
 function logKey(event) {
-  if(event.KeyCode == "KeyP"){
-    console.log("test");
+  if (event.KeyCode == "KeyP") {
     framePerSecond = 1;
-  }else if(event.Code == 27){
+  } else if (event.Code == 27) {
     framePerSecond = 90;
   }
 }
@@ -306,7 +343,7 @@ function comLeftAI(playerHit) {
   }
 }
 
-function calcuatePredictionHit(direction){
+function calcuatePredictionHit(direction) {
   PredictionHitX = 0;
   PredictionHitY = 0;
   if (direction == "up") { // if there is no prediction yet and ball is going up
@@ -325,7 +362,7 @@ function calcuatePredictionHit(direction){
       PredictionHitY += (ball.velocityY);
     }
   }
-  if(PredictionHitX > canvas.width - 35 || PredictionHitX < 35){ // if prediction is out of boundries set it to nothing
+  if (PredictionHitX > canvas.width - 35 || PredictionHitX < 35) { // if prediction is out of boundries set it to nothing
     PredictionHitX = 0;
     PredictionHitY = 0;
   }
@@ -366,9 +403,9 @@ function update() {
       gameOverScore[0].innerText = "Gewonnen!";
       GameMode = "ai";
     } else if (GameMode == "single") {
-      if(com.score > user.score){
+      if (com.score > user.score) {
         gameOverScore[0].innerText = "verloren!";
-      } else{
+      } else {
         gameOverScore[0].innerText = "Gewonnen!";
       }
       gameOverScreen[0].style.display = "block";
@@ -378,9 +415,13 @@ function update() {
       gameOverScore[0].innerText = user.score;
       GameMode = "ai";
     }
-    if(btnAgain == null){ // get button again if it is not defined yet.
-      btnAgain = document.querySelector('.js-btnAgain');
+    if (btnAgain == null) { // get button again if it is not defined yet.
+      btnAgain = document.querySelector('.js-btn-again');
       btnAgain.addEventListener("click", clickRestart);
+    }
+    if (btnMain == null) { // get button again if it is not defined yet.
+      btnMain = document.querySelector('.js-btn-mainPage');
+      btnMain.addEventListener("click", clickMain);
     }
   }
 
@@ -400,7 +441,7 @@ function update() {
     user.score++;
     resetBall();
     startMovingBall("left");
-  } 
+  }
 
   // the ball has a velocity
   ball.x += ball.velocityX;
@@ -431,7 +472,7 @@ function update() {
       ball.velocityY = - ball.velocityY;
     }
 
-    if(GameMode == "wall" && lastPaddleHit.x == 15){
+    if (GameMode == "wall" && lastPaddleHit.x == 15) {
       user.score += 1;
       prediction = false;
     }
@@ -470,13 +511,13 @@ function update() {
     prediction = true;
   } else if (GameMode == "multi" || GameMode == "wall") {
     prediction = true;
-  }else if (GameMode == "ai") {
+  } else if (GameMode == "ai") {
     comAI(lastPaddleHit);
     comLeftAI(lastPaddleHit);
     prediction = false;
   } else if (GameMode == "wall") {
     prediction = true;
-    if(lastPaddleHit.x = 15){
+    if (lastPaddleHit.x = 15) {
       prediction = false;
     }
   }
@@ -504,14 +545,14 @@ function update() {
     if (PredictionHitX > 35) {
       angle = "downLeft";
     }
-  } else if (ball.y < (canvas.height / 4) * 3  && (ball.y > (canvas.height / 4))) {
+  } else if (ball.y < (canvas.height / 4) * 3 && (ball.y > (canvas.height / 4))) {
     angle = "none";
     PredictionHitX = 0;
     PredictionHitY = 0;
   }
 }
 
-function drawWall(){
+function drawWall() {
   drawRect(wall.x, wall.y, wall.width, wall.height, wall.color);
 }
 
@@ -585,76 +626,91 @@ function drawPrediction() {
       PredictionEndY = (canvas.height - ball.radius) - (Math.abs(ball.velocityY * PredictionEnd));
       x = PredictionEndX;
       for (x; x > (canvas.width - 35); x -= ball.velocityX) {
-        PredictionEndY += (Math.abs(ball.velocityY));}
+        PredictionEndY += (Math.abs(ball.velocityY));
+      }
       if (ball.velocityY > 0) { // when ball is still going down, draw line from ball to PredictionHitX and from PredictionHitX to prediction point
         drawLine(ball.x, ball.y, PredictionHitX, PredictionHitY, 2, predictionColor);
         if (PredictionEndX < canvas.width - 35) { // if ball doesnt hit paddle inside prediction
           drawLine(PredictionHitX, PredictionHitY, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX > canvas.width - 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(PredictionHitX, PredictionHitY, canvas.width - 35, PredictionEndY, 2, predictionColor);}
+          drawLine(PredictionHitX, PredictionHitY, canvas.width - 35, PredictionEndY, 2, predictionColor);
+        }
       } else if (ball.velocityY < 0 && ball.y > PredictionEndY) { // when ball is going up after the bounce, draw line from PredictionHitX to prediction point
         if (PredictionEndX < canvas.width - 35) { // if ball doesnt hit paddle inside prediction
           drawLine(ball.x, ball.y, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX > canvas.width - 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(ball.x, ball.y, canvas.width - 35, PredictionEndY, 2, predictionColor);}}
-    }else if (angle == "upLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - (canvas.width / 5)) { // only predict when ball is far enough away from the side that it makes sense to predict the angle
+          drawLine(ball.x, ball.y, canvas.width - 35, PredictionEndY, 2, predictionColor);
+        }
+      }
+    } else if (angle == "upLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - (canvas.width / 5)) { // only predict when ball is far enough away from the side that it makes sense to predict the angle
       PredictionEndX = PredictionHitX + (ball.velocityX * PredictionEnd);                                      //first calcuate the predictions 2d
       PredictionEndY = (canvas.height - ball.radius) - (Math.abs(ball.velocityY * PredictionEnd));
       x = PredictionEndX; // this is to predict where the x position will be when the ball bounces off to the other direction
       for (x; x < 35; x -= ball.velocityX) {  // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off. 
-        PredictionEndY += (Math.abs(ball.velocityY));}
+        PredictionEndY += (Math.abs(ball.velocityY));
+      }
       if (ball.velocityY > 0) { // when ball is still going down, draw line from ball to PredictionHitX and from PredictionHitX to prediction point
         drawLine(ball.x, ball.y, PredictionHitX, PredictionHitY, 2, predictionColor);
         if (PredictionEndX > 35) { // if ball doesnt hit paddle inside prediction
           drawLine(PredictionHitX, PredictionHitY, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX < 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(PredictionHitX, PredictionHitY, 35, PredictionEndY, 2, predictionColor);}
+          drawLine(PredictionHitX, PredictionHitY, 35, PredictionEndY, 2, predictionColor);
+        }
       } else if (ball.velocityY < 0 && ball.y > PredictionEndY) { // when ball is going up after the bounce, draw line from PredictionHitX to prediction point
         if (PredictionEndX > 35) { // if ball doesnt hit paddle inside prediction
           drawLine(ball.x, ball.y, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX < 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(ball.x, ball.y, 35, PredictionEndY, 2, predictionColor);}}
-    }else if (angle == "downRight" && ball.velocityX > 0 && PredictionHitX > (canvas.width / 5)) { // only predict when ball is far enough away from the side that it makes sense to predict the angle
+          drawLine(ball.x, ball.y, 35, PredictionEndY, 2, predictionColor);
+        }
+      }
+    } else if (angle == "downRight" && ball.velocityX > 0 && PredictionHitX > (canvas.width / 5)) { // only predict when ball is far enough away from the side that it makes sense to predict the angle
       PredictionEndX = PredictionHitX + (ball.velocityX * PredictionEnd);                          //first calcuate the predictions 2d
       PredictionEndY = ball.radius + (Math.abs(ball.velocityY * PredictionEnd));
       x = PredictionEndX;
       for (x; x > (canvas.width - 35); x -= ball.velocityX) {
-        PredictionEndY -= (Math.abs(ball.velocityY));}  // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off.
+        PredictionEndY -= (Math.abs(ball.velocityY));
+      }  // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off.
       if (ball.velocityY < 0) { // when ball is still going up, draw line from ball to PredictionHitX and from PredictionHitX to prediction point
         drawLine(ball.x, ball.y, PredictionHitX, PredictionHitY, 2, predictionColor);
         if (PredictionEndX < canvas.width - 35) { // if ball doesnt hit paddle inside prediction
           drawLine(PredictionHitX, PredictionHitY, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX > canvas.width - 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(PredictionHitX, PredictionHitY, canvas.width - 35, PredictionEndY, 2, predictionColor);}
+          drawLine(PredictionHitX, PredictionHitY, canvas.width - 35, PredictionEndY, 2, predictionColor);
+        }
       } else if (ball.velocityY > 0 && ball.y < PredictionEndY) { // when ball is going down after the bounce, draw line from PredictionHitX to prediction point
         if (PredictionEndX < canvas.width - 35) { // if ball doesnt hit paddle inside prediction
           drawLine(ball.x, ball.y, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX > canvas.width - 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(ball.x, ball.y, canvas.width - 35, PredictionEndY, 2, predictionColor);}}
-    }else if (angle == "downLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - (canvas.width / 5)) { // only predict when ball is far enough away from the side that it makes sense to predict the angle
+          drawLine(ball.x, ball.y, canvas.width - 35, PredictionEndY, 2, predictionColor);
+        }
+      }
+    } else if (angle == "downLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - (canvas.width / 5)) { // only predict when ball is far enough away from the side that it makes sense to predict the angle
       PredictionEndX = PredictionHitX + (ball.velocityX * PredictionEnd);                                        //first calcuate the predictions 2d
       PredictionEndY = ball.radius + (Math.abs(ball.velocityY * PredictionEnd));
       x = PredictionEndX;
       for (x; x < 35; x -= ball.velocityX) {
-        PredictionEndY -= (Math.abs(ball.velocityY));}  // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off.
+        PredictionEndY -= (Math.abs(ball.velocityY));
+      }  // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off.
       if (ball.velocityY < 0) { // when ball is still going up, draw line from ball to PredictionHitX and from PredictionHitX to prediction point
         drawLine(ball.x, ball.y, PredictionHitX, PredictionHitY, 2, predictionColor);
         if (PredictionEndX > 35) { // if ball doesnt hit paddle inside prediction
           drawLine(PredictionHitX, PredictionHitY, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX < 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(PredictionHitX, PredictionHitY, 35, PredictionEndY, 2, predictionColor);}
+          drawLine(PredictionHitX, PredictionHitY, 35, PredictionEndY, 2, predictionColor);
+        }
       } else if (ball.velocityY > 0 && ball.y < PredictionEndY) { // when ball is going down after the bounce, draw line from PredictionHitX to prediction point
         if (PredictionEndX > 35) { // if ball doesnt hit paddle inside prediction
           drawLine(ball.x, ball.y, PredictionEndX, PredictionEndY, 2, predictionColor);
         } else if (PredictionEndX < 35) { /// if ball does hit paddle inside prediction, make prediction shorter
-          drawLine(ball.x, ball.y, 35, PredictionEndY, 2, predictionColor);}}
+          drawLine(ball.x, ball.y, 35, PredictionEndY, 2, predictionColor);
+        }
+      }
     }
   }
 }
 
 // render function, the function that does al the drawing
 function render() {
-  //console.log(PredictionHitX, + " " + PredictionHitY);
   clearCanvas();
   drawNet();
   drawPlayersAndScore();
@@ -687,6 +743,17 @@ const resize = () => {
   net.x = (canvas.width - 2) / 2;
 };
 
-// number of frames per second
-let framePerSecond = 90;
-let loop = setInterval(game, 1000 / framePerSecond);
+function startGame(state, mode_p) {
+  if (loop == null || mode_p == "ai") {
+    chosenGameMode = mode_p;
+    GameMode = mode_p;
+    if (state) {
+      loop = setInterval(game, 1000 / framePerSecond);
+    } else {
+      clearInterval(loop);
+      resetBall();
+    }
+  }
+}
+
+//let loopStart = setInterval(start, 100);
