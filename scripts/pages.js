@@ -42,8 +42,14 @@ const setHeartMain = function()
 
 const setConnect = function() 
 {
+    btnNo = document.querySelector('.js-btn-connect-back');
+    btnPlayerOne = document.querySelector('.js-btn-connect-playerOne');
     bar = document.querySelector('.js-bar-three');
     bar.style.width = "60%";
+    btnNo.addEventListener("click", function () {
+        setPage("hart");
+        btn.removeEventListener("click", this);
+    });
 };
 
 const setPage = function(page)
@@ -113,7 +119,6 @@ const initialize = function ()
     makey = document.querySelector('.js-makey');
     hartMain = document.querySelector('.js-hartbeat__main');
     connect = document.querySelector('.js-connect');
-    console.log(connect);
     setPage("index");
 };
 
