@@ -4,6 +4,7 @@ canvas.height = document.documentElement.clientHeight - document.documentElement
 
 //const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
+let btnAgain = null;
 
 // input variables
 document.addEventListener("keydown", keyDownHandler, false);
@@ -15,7 +16,7 @@ var upPressed = false;
 var downPressed = false;
 
 var beginVelocityX = (beginVelocityY = 5);
-var ballIncrementSpeed = 0.1;
+var increasementSpeed = 0.1;
 var pointsToWin = 3;
 
 // prediction variables
@@ -28,11 +29,12 @@ var PredictionEnd = 30;
 var predictionColor = '#7474746d';
 
 //Select mode
-let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "single"; //keep track of what the selected gamemode was.
+let chosenGameMode = "multi"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+let GameMode = "multi"; //keep track of what the selected gamemode was.
 
 var ScoreDivl = document.getElementById("score-l");
 var ScoreDivr = document.getElementById("score-r");
+var ScoreDivc = document.getElementById("score-c");
 
 const ctx = canvas.getContext("2d");
 
@@ -42,8 +44,17 @@ const ball = {
   radius: 20,
   velocityX: beginVelocityX,
   velocityY: beginVelocityY,
-  speed: ballIncrementSpeed,
+  speed: increasementSpeed,
   color: "#4699DB"
+};
+
+const wall = {
+  x: canvas.width - 35,
+  y: 0,
+  width: 35,
+  height: canvas.height,
+  score: 0,
+  color: "White"
 };
 
 // User left Paddle left
@@ -137,24 +148,27 @@ function resetBall() {
 
 function startMovingBall(direction) {
   // start moving the ball in the chosen direction and sets the speed and velocity to standard.
+  ball.speed = increasementSpeed;
+  ball.velocityY = beginVelocityY;
+  ball.velocityX = beginVelocityX;
   let dir = getRndInteger(0, 1);
   if (dir < 0.5) {
     if (direction == "left") {
-      ball.velocityX = getRndInteger(-4.5, -5.5);
+      ball.velocityX = 4 + Math.random();
       ball.velocityY = ball.velocityX;
       lastPaddleHit = user2;
     } else if (direction == "right") {
-      ball.velocityX = getRndInteger(4.5, 5.5);
+      ball.velocityX = 4 + Math.random();
       ball.velocityY = - ball.velocityX;
       lastPaddleHit = user;
     }
   } else if (dir > 0.5) {
     if (direction == "left") {
-      ball.velocityX = getRndInteger(-4.5, -5.5);
+      ball.velocityX = 4 + Math.random();
       ball.velocityY = Math.abs(ball.velocityX);
       lastPaddleHit = user2;
     } else if (direction == "right") {
-      ball.velocityX = getRndInteger(4.5, 5.5);
+      ball.velocityX = 4 + Math.random();
       ball.velocityY = ball.velocityX;
       lastPaddleHit = user;
     }
@@ -192,22 +206,20 @@ function collision(b, p) {
 
 function clickRestart() {
   resetBall();
-  startMovingBall();
-  //gameOverScreen[0].style.display = "none";
+  startMovingBall("right");
+  gameOverScreen[0].style.display = "none";
+  user.score = 0;
+  user2.score = 0;
+  com.score = 0;
+  comLeft.score = 0;
+  wall.score = 0;
   GameMode = chosenGameMode;
-  if (GameMode == "multi") {
-    gameOverScore[0].text = user.score + " - " + user2.score;
-  } else if (GameMode == "single") {
-    gameOverScore[0].text = user.score + " - " + com.score;
-  } else if (GameMode == "ai") {
-    gameOverScore[0].text = comLeft.score + " - " + com.score;
-  }
 }
 
 function logKey(event) {
   if(event.KeyCode == "KeyP"){
     console.log("test");
-    framePerSecond = 0;
+    framePerSecond = 1;
   }else if(event.Code == 27){
     framePerSecond = 90;
   }
@@ -255,7 +267,7 @@ function movePaddleTo(paddle, y, objectif) {
         paddle.y -= 1;
       }
     }
-  } else if (objectif == "ai") {
+  } else if (objectif == "ai") { // center the paddle if in ai mode
     if (paddle.y + paddle.height / 2 < ball.y + ball.radius && paddle.y + (paddle.height + paddle.width / 2) < canvas.height) {
       paddle.y += paddle.speed;
     }
@@ -339,20 +351,23 @@ function update() {
 
   // game has ended
   // show game over menu and set the score board on the menu
-  if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin
-  ) {
+  if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
     if (GameMode == "multi") {
       //gameOverScreen[0].style.display = "block";
       gameOverScore[0].innerText = user.score + " - " + user2.score;
-      user.score = 0;
-      user2.score = 0;
       GameMode = "ai";
     } else if (GameMode == "single") {
       //gameOverScreen[0].style.display = "block";
       gameOverScore[0].innerText = user.score + " - " + com.score;
-      user.score = 0;
-      com.score = 0;
       GameMode = "ai";
+    } else if (GameMode == "wall" && wall.score > 0) {
+      gameOverScreen[0].style.display = "block";
+      gameOverScore[0].innerText = user.score;
+      GameMode = "ai";
+    }
+    if(btnAgain == null){ // get button again if it is not defined yet.
+      btnAgain = document.querySelector('.js-btnAgain');
+      btnAgain.addEventListener("click", clickRestart);
     }
   }
 
@@ -365,11 +380,14 @@ function update() {
     user2.score++;
     resetBall();
     startMovingBall("right");
+  } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
+    wall.score++;
+    resetBall();
   } else if (ball.x + ball.radius > canvas.width) {
     user.score++;
     resetBall();
     startMovingBall("left");
-  }
+  } 
 
   // the ball has a velocity
   ball.x += ball.velocityX;
@@ -388,6 +406,8 @@ function update() {
     player = ball.x + ball.radius < canvas.width / 2 ? user : com;
   } else if (GameMode == "ai") {
     player = ball.x + ball.radius < canvas.width / 2 ? comLeft : com;
+  } else if (GameMode == "wall") {
+    player = ball.x + ball.radius < canvas.width / 2 ? user : wall;
   }
 
   // if the ball hits a paddle
@@ -396,6 +416,11 @@ function update() {
     //when ball hits the rounded top or bottom of the paddle, it bugs out, so i just teleport the ball into the field to fix that and not have to calcuate the bounce.
     if (ball.left < 28 || ball.right > screen.width - 28) {
       ball.velocityY = - ball.velocityY;
+    }
+
+    if(GameMode == "wall" && lastPaddleHit.x == 15){
+      user.score += 1;
+      prediction = false;
     }
 
     // change the X and Y velocity direction and accelerate the ball when not in ai mode
@@ -430,12 +455,17 @@ function update() {
   if (GameMode == "single") {
     comAI(lastPaddleHit);
     prediction = true;
-  } else if (GameMode == "multi") {
+  } else if (GameMode == "multi" || GameMode == "wall") {
     prediction = true;
   }else if (GameMode == "ai") {
     comAI(lastPaddleHit);
     comLeftAI(lastPaddleHit);
     prediction = false;
+  } else if (GameMode == "wall") {
+    prediction = true;
+    if(lastPaddleHit.x = 15){
+      prediction = false;
+    }
   }
 
   // set prediction angle to make the game easier for kiddo
@@ -468,6 +498,10 @@ function update() {
   }
 }
 
+function drawWall(){
+  drawRect(wall.x, wall.y, wall.width, wall.height, wall.color);
+}
+
 function drawPlayerLeft() {
   drawRect(user.x, user.y, user.width, user.height, user.color);
   drawArc(user.x + user.width / 2, user.y, user.width / 2, user.color);
@@ -498,23 +532,30 @@ function drawPlayersAndScore() {
     drawPlayerRight();
     ScoreDivl.innerHTML = user.score;
     ScoreDivr.innerHTML = user2.score;
+    ScoreDivc.innerHTML = "-";
   } else if (GameMode == "single") {
     drawPlayerLeft();
     drawCom();
     ScoreDivl.innerHTML = user.score;
     ScoreDivr.innerHTML = com.score;
+    ScoreDivc.innerHTML = "-";
   } else if (GameMode == "ai") {
     drawComLeft();
     drawCom();
-    ScoreDivl.innerHTML = comLeft.score;
-    ScoreDivr.innerHTML = com.score;
+    ScoreDivc.innerHTML = "-";
+  } else if (GameMode == "wall") {
+    drawWall();
+    drawPlayerLeft();
+    ScoreDivl.innerHTML = null;
+    ScoreDivr.innerHTML = null;
+    ScoreDivc.innerHTML = user.score;
   }
 }
 
 function clearCanvas() {
   //drawRect(0, 0, canvas.width, canvas.height, "#1B4186");
   var grd = ctx.createLinearGradient(0, 0, 0, canvas.height - 200);
-  grd.addColorStop(0, "WHITE");
+  grd.addColorStop(0, "#EEF7FE");
   grd.addColorStop(1, "#9DDCFF");
   ctx.fillStyle = grd;
   ctx.fillRect(0, 0, canvas.width, canvas.height);

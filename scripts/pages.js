@@ -22,6 +22,17 @@ const setMakey = function()
     bar.style.width = "20%";
 };
 
+const setHeartMain = function() 
+{
+    //btn = document.querySelector('.js-button-next');
+    bar = document.querySelector('.js-bar-two');
+    btn.addEventListener("click", function () {
+        setPage("hart");
+        btn.removeEventListener("click", this);
+    });
+    bar.style.width = "40%";
+};
+
 const setPage = function(page)
 {
     switch (page) 
@@ -57,6 +68,7 @@ const setPage = function(page)
             gameOver.style.display = "none";
             makey.style.display = "none";
             hartMain.style.display = "block";
+            setHeartMain();
             break;
         default:
             index.style.display = "none";
