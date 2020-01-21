@@ -134,14 +134,31 @@ body {
 	background-color: var(--menu-pink-color);
 }
 
+.c-menu-button-pink:disabled
+{
+	background-color: var(--loading-pink-dark-color);
+	color: var(--loading-pink-light-color);
+	box-shadow: 0 0 0 0;
+}
+
 .c-menu-button-yellow 
 {
 	background-color: var(--menu-yellow-color);
 }
 
+.c-menu-button-yellow:disabled
+{
+	background-color: var(--loading-yellow-light-color);
+}
+
 .c-menu-button-blue
 {
 	background-color: var(--loading-blue-dark-color);
+}
+
+.c-menu-button-blue:disabled
+{
+	background-color: var(--loading-blue-light-color);
 }
 
 /* Page sideswipe */

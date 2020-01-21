@@ -18,6 +18,7 @@ const bluetooth = function (y)
             {
                 document.querySelector('.js-tekenConnectie').style.display = "none";
                 document.querySelector('.js-loading').style.display = "block";
+                document.querySelector('.js-btn-connect-playerOne').disabled = true;
             })
         .catch(error => {
             console.log(error);
@@ -53,11 +54,14 @@ const connectDevice = function (device, server, service, y) {
                         console.log("batterij: " + e.getUint8(0));
                         if(y===1)
                         {
-                            document.querySelector('.js-btn-connect-playerOne').innerHTML = "Doorgaan naar speler 2";
+                            bnt = document.querySelector('.js-btn-connect-playerOne');
+                            bnt.innerHTML = "Doorgaan naar speler 2";
+                            bnt.disabled = false;
                             document.querySelector('.js-tekenConnectie').style.display = "block";
                             document.querySelector('.js-loading').style.display = "none";
                             document.querySelector('.js-tekenConnectie').src = "/img/svg/vink.svg";
                             document.querySelector('.js-bar-three').style.width = 100 / 6 * 4 + "%";
+                            bnt.removeEventListener("click", this);
                         }
                     });
                 d.addEventListener('characteristicvaluechanged', function () 
