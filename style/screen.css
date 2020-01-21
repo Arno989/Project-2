@@ -12,6 +12,7 @@
 	--loading-pink-dark-color: #E5C9EF;
 	--loading-blue-light-color: #ECF3F9;
 	--loading-blue-dark-color: #96C2E5;
+	--loading-yellow-light-color: #FEF1D1;
 }
 
 html {
@@ -205,6 +206,16 @@ body {
 .c-loadingbar-blue
 {
 	background-color: var(--loading-blue-dark-color);
+}
+
+.c-loadingcon-yellow 
+{
+	background-color: var(--loading-yellow-light-color);
+}
+
+.c-loadingbar-yellow 
+{
+	background-color: var(--menu-yellow-color);
 }
 
 .c-title
