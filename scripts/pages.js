@@ -2,7 +2,7 @@
 let index, gameOver, makey, hartMain, connect;
 
 //bluetooth connector
-const bluetooth = function (y) 
+const bluetooth = function 󰀀 
 {
     navigator.bluetooth.requestDevice({
             filters: [{
