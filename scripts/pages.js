@@ -135,7 +135,7 @@ const setConnect = function()
     });
     btnPlayerOne.addEventListener("click", function() 
     {
-
+        bluetooth(1);
     });
 };
 
