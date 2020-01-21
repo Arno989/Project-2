@@ -1,5 +1,88 @@
+//global variables
 let index, gameOver, makey, hartMain, connect;
 
+//bluetooth connector
+const bluetooth = function (y) 
+{
+    navigator.bluetooth.requestDevice({
+            filters: [{
+                services: ['battery_service']
+            }, {
+                services: ['heart_rate']
+            }]
+        })
+        .then(device => {
+            connect(device, 'heart_rate', 'heart_rate_measurement', y);
+        })
+        .then(function () 
+        {
+            if (y === 1) 
+            {
+                button1 = document.querySelector('.');
+                button1.style.display = "none";
+            } else {
+                button2.style.display = "none";
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+//connect heartRateMonitor followed by battery service
+const connect = function (device, server, service, y) {
+    device.gatt.connect()
+        .then(a => {
+            console.log("device connected");
+            console.log(a);
+            return a.getPrimaryService(server);
+        })
+        .then(b => {
+            console.log("server connected");
+            console.log(b);
+            return b.getCharacteristic(service);
+        })
+        .then(c => {
+            console.log("service connected ");
+            console.log(c);
+            return c.startNotifications();
+        })
+        .then(d => {
+            console.log("notifications have been started");
+            if (server === 'heart_rate') {
+                d.addEventListener('characteristicvaluechanged', function () {
+                    console.log(parseHeartRate(d.value).heartRate);
+                    hartslag1.innerHTML = `hartslag: ${parseHeartRate(d.value).heartRate} slagen per minuut`;
+
+                });
+                connect(device, 'battery_service', 'battery_level', y);
+            } else if (server === 'battery_service') {
+                d.readValue()
+                    .then(e => {
+                        console.log("batterij: " + e.getUint8(0));
+                    });
+                d.addEventListener('characteristicvaluechanged', function () {
+                    console.log("zit in eventlisten")
+                    d.readValue()
+                        .then(e => 
+                            {
+                            batterijWaardeEen.innerHTML = `batterij: ${e.getUint8(0)}%`;
+                            batterijLijnEen.style.width = e.getUint8(0) + "%";
+                        });
+                });
+
+            }
+        })
+};
+
+const parseHeartRate = function (value) {
+    value = value.buffer ? value : new DataView(value);
+    let result = {};
+    result.heartRate = value.getUint8(1);
+    return result;
+}
+
+//setups for pages
 const setIndex = function() 
 {
     btn = document.querySelector('.js-index-start');
@@ -50,8 +133,13 @@ const setConnect = function()
         setPage("hart");
         btn.removeEventListener("click", this);
     });
+    btnPlayerOne.addEventListener("click", function() 
+    {
+
+    });
 };
 
+//page setter
 const setPage = function(page)
 {
     switch (page) 
@@ -112,6 +200,7 @@ const setPage = function(page)
     }
 };
 
+//initialize
 const initialize = function ()
 {
     index = document.querySelector('.js-welcome');
