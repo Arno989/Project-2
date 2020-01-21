@@ -2,7 +2,7 @@ const canvas = document.getElementById("pong");
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
 
-//const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
+const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
 let btnAgain = null;
 
@@ -358,7 +358,7 @@ function update() {
       GameMode = "ai";
     } else if (GameMode == "single") {
       if(com.score > user.score){
-        gameOverScore[0].innerText = "De computer heeft gewonnen!";
+        gameOverScore[0].innerText = "verloren!";
       } else{
         gameOverScore[0].innerText = "Gewonnen!";
       }

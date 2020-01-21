@@ -1,122 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="An app where you can play Exerpong." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExerPong</title>
+    <link rel="icon" type="image/png" href="./img/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Neucha&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style/screen.css" />
+    <link rel="stylesheet" href="./style/normalize.css" />
 
+    <script src="./scripts/UI.js"></script>
+    <script src="./scripts/pages.js"></script>
+  </head>
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="description" content="An app where you can play Exerpong." />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>ExerPong</title>
-	<link rel="icon" type="image/png" href="./img/favicon.png" />
-    <link href="https://fonts.googleapis.com/css?family=Neucha&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="./style/screen.css" />
-	<link rel="stylesheet" href="./style/normalize.css" />
+  <body onresize="resize()">
+    <div class="c-overflow c-hidden">
+      <div class="c-container">
+        <div class="c-content">
+          <div class="c-topbar">
+            <div class="c-topbar--score">
+              <p class="c-topbar--score-l" id="score-l">0</p>
+              <p class="c-topbar--score-c" id="score-c">-</p>
+              <p class="c-topbar--score-r" id="score-r">0</p>
+            </div>
+          </div>
+          <canvas id="pong" class="c-game"> </canvas>
+          <script src="./scripts/game.js"></script>
 
-	<script src="./scripts/UI.js"></script>
-	<script src="./scripts/pages.js"></script>
-</head>
+          <div class="c-modal-gameover js-gameOver">
+            <div class="c-modal-content">
+              <p class="c-menu-score">0 - 0</p>
+              <div class="c-menu__buttons">
+                <button class="c-menu-button c-menu-button-blue js-btnAgain">Opnieuw!</button>
+                <button class="c-menu-button c-menu-button-yellow">Hoodmenu</button>
+              </div>
+            </div>
+          </div>
 
-<body onresize="resize()">
-	<div class="c-overflow c-hidden">
-		<div class="c-container">
+          <div class="c-modal-gameover c-menu js-connect">
+            <div class="c-modal-content">
+              <div class="c-loadingbar__container c-loadingcon-blue">
+                <div
+                  class="c-loadingbar__bar c-loadingbar-blue u-40-procent js-bar-three"
+                ></div>
+              </div>
+              <p class="c-menu-score c-title">Hartslagmeter</p>
+              <div class="c-menu__buttons">
+                <button class="c-menu-button c-menu-button-blue">
+                  Ga terug
+                </button>
+                <button class="c-menu-button c-menu-button-yellow">
+                  Verbind speler 1
+                </button>
+              </div>
+              <img class="" src="/img/hartslagmeter.svg" alt="hartslagmeter" />
+            </div>
+          </div>
 
+          <div class="c-modal-gameover c-menu js-hartbeat__main">
+            <div class="c-modal-content">
+              <div class="c-loadingbar__container c-loadingcon-blue">
+                <div
+                  class="c-loadingbar__bar c-loadingbar-blue u-20-procent js-bar-two"
+                ></div>
+              </div>
+              <p class="c-menu-score c-title">Hartslagmeter</p>
+              <div class="c-menu__buttons">
+                <button
+                  class="c-menu-button c-menu-button-blue js-btn-noHeartRate"
+                >
+                  Geen hartslagmeter
+                </button>
+                <button
+                  class="c-menu-button c-menu-button-yellow js-btn-connectHeartRate"
+                >
+                  Verbind hartslagmeter
+                </button>
+              </div>
+              <img class="" src="/img/hartslagmeter.svg" alt="hartslagmeter" />
+            </div>
+          </div>
 
-			<div class="c-content">
-				<div class="c-topbar">
-					<div class="c-topbar--score">
-						<p class="c-topbar--score-l" id="score-l">0</p>
-						<p class="c-topbar--score-c" id="score-c"> - </p>
-						<p class="c-topbar--score-r" id="score-r">0</p>
-					</div>
-				</div>
-				<canvas id="pong" class="c-game"> </canvas>
-				<script src="./scripts/game.js"></script>
+          <div class="c-modal-gameover c-menu js-makey">
+            <div class="c-modal-content">
+              <div class="c-loadingbar__container c-loadingcon-pink">
+                <div
+                  class="c-loadingbar__bar c-loadingbar-pink u-0-procent js-bar-one"
+                ></div>
+              </div>
+              <p class="c-menu-score c-title">Makey Makey</p>
+              <div class="c-menu__tekst">
+                <p class="c-tekst__menu">
+                  Controleer of het lampje op de Makey Makey aanstaat.
+                </p>
+                <p class="c-tekst__menu">
+                  Als het lampje brand, klik op "Doorgaan".
+                </p>
+                <p class="c-tekst__menu">
+                  Als het lampje niet brand, ga naar de Installatiehandleiding.
+                </p>
+              </div>
+              <button class="c-menu-button c-menu-button-yellow js-button-next">
+                Doorgaan
+              </button>
+            </div>
+		  </div>
+		  
+		  <div class="c-modal-gameover c-menu js-main">
+            <div class="c-modal-content">
+              <p class="c-menu-score c-title">ExerPong</p>
+              <div class="c-main__buttons">
+                <button class="c-menu-button c-menu-button-pink js-index-start">Begin!</button>
+                <button class="c-menu-button c-menu-button-pink js-index-start">Highscores</button>
+              </div>
+              <img class="" src="/img/logo1.png" alt="Logo 1 howest" />
+            </div>
+          </div>
 
-				<div class="c-modal-gameover js-gameOver">
-					<div class="c-modal-content">
-						<p class="c-menu-score">0 - 0</p>
-						<button class="c-menu-button js-btnAgain">Opnieuw</button>
-						<button class="c-menu-button">Hoofdmenu</button>
-					</div>
-				</div>
+          <div class="c-modal-gameover c-menu js-welcome">
+            <div class="c-modal-content">
+              <p class="c-menu-score">Exerpong</p>
+              <button class="c-menu-button c-menu-button-pink js-index-start">
+                Spel opstarten
+              </button>
+            </div>
+          </div>
+        </div>
 
-				<div class="c-modal-gameover c-menu js-connect">
-					<div class="c-modal-content">
-						<div class="c-loadingbar__container c-loadingcon-blue">
-							<div class="c-loadingbar__bar c-loadingbar-blue u-40-procent js-bar-three"></div>
-						</div>
-						<p class="c-menu-score c-title">Hartslagmeter</p>
-						<div class="c-menu__buttons">
-							<button class="c-menu-button c-menu-button-blue">Ga terug</button>
-							<button class="c-menu-button c-menu-button-yellow">Verbind speler 1</button>
-						</div>
-						<img class="" src="/img/hartslagmeter.svg" alt="hartslagmeter">
-					</div>
-				</div>
+        <div class="c-content">
+          <div class="c-topbar" style="background-color: black;">
+            <div class="c-topbar--score">
+              <p class="c-topbar--score-l" id="score-l">0</p>
+              <p class="c-topbar--score-c">-</p>
+              <p class="c-topbar--score-r" id="score-r">0</p>
+            </div>
+            <div class="c-topbar--logo">
+              <img src="./img/howest-wit.png" alt="Logo Howest" />
+            </div>
+          </div>
+        </div>
 
-				<div class="c-modal-gameover c-menu js-hartbeat__main">
-					<div class="c-modal-content">
-						<div class="c-loadingbar__container c-loadingcon-blue">
-							<div class="c-loadingbar__bar c-loadingbar-blue u-20-procent js-bar-two"></div>
-						</div>
-						<p class="c-menu-score c-title">Hartslagmeter</p>
-						<div class="c-menu__buttons">
-							<button class="c-menu-button c-menu-button-blue js-btn-noHeartRate">Geen hartslagmeter</button>
-							<button class="c-menu-button c-menu-button-yellow js-btn-connectHeartRate">Verbind hartslagmeter</button>
-						</div>
-						<img class="" src="/img/hartslagmeter.svg" alt="hartslagmeter">
-					</div>
-				</div>
-
-				<div class="c-modal-gameover c-menu js-makey">
-					<div class="c-modal-content">
-						<div class="c-loadingbar__container c-loadingcon-pink">
-							<div class="c-loadingbar__bar c-loadingbar-pink u-0-procent js-bar-one"></div>
-						</div>
-						<p class="c-menu-score c-title">Makey Makey</p>
-						<div class="c-menu__tekst">
-							<p class="c-tekst__menu">Controleer of het lampje op de Makey Makey aanstaat.</p>
-							<p class="c-tekst__menu">Als het lampje brand, klik op "Doorgaan".</p>
-							<p class="c-tekst__menu">Als het lampje niet brand, ga naar de Installatiehandleiding.</p>
-						</div>
-						<button class="c-menu-button c-menu-button-yellow js-button-next">Doorgaan</button>
-					</div>
-				</div>
-
-				<div class="c-modal-gameover c-menu js-welcome">
-					<div class="c-modal-content">
-						<p class="c-menu-score">Exerpong</p>
-						<button class="c-menu-button c-menu-button-pink js-index-start">Spel opstarten</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="c-content">
-				<div class="c-topbar" style="background-color: black;">
-					<div class="c-topbar--score">
-						<p class="c-topbar--score-l" id="score-l">0</p>
-						<p class="c-topbar--score-c"> - </p>
-						<p class="c-topbar--score-r" id="score-r">0</p>
-					</div>
-					<div class="c-topbar--logo"><img src="./img/howest-wit.png" alt="Logo Howest" /></div>
-				</div>
-			</div>
-
-			<div class="c-content">
-				<div class="c-topbar" style="background-color: white;">
-					<div class="c-topbar--score">
-						<p class="c-topbar--score-l" id="score-l">0</p>
-						<p class="c-topbar--score-c"> - </p>
-						<p class="c-topbar--score-r" id="score-r">0</p>
-					</div>
-					<div class="c-topbar--logo"><img src="./img/howest-wit.png" alt="Logo Howest" /></div>
-				</div>
-				
-			</div>
-
-
-		</div>
-	</div>
-</body>
-
+        <div class="c-content">
+          <div class="c-topbar" style="background-color: white;">
+            <div class="c-topbar--score">
+              <p class="c-topbar--score-l" id="score-l">0</p>
+              <p class="c-topbar--score-c">-</p>
+              <p class="c-topbar--score-r" id="score-r">0</p>
+            </div>
+            <div class="c-topbar--logo">
+              <img src="./img/howest-wit.png" alt="Logo Howest" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

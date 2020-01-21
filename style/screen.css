@@ -229,6 +229,12 @@ body {
 	justify-content: space-between;
 }
 
+.c-main__buttons{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
 .c-tekst__menu
 {
 	margin: 2px 0;
