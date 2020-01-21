@@ -29,8 +29,8 @@ var PredictionEnd = 30;
 var predictionColor = '#7474746d';
 
 //Select mode
-let chosenGameMode = "multi"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "multi"; //keep track of what the selected gamemode was.
+let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+let GameMode = "single"; //keep track of what the selected gamemode was.
 
 var ScoreDivl = document.getElementById("score-l");
 var ScoreDivr = document.getElementById("score-r");
@@ -353,12 +353,16 @@ function update() {
   // show game over menu and set the score board on the menu
   if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
     if (GameMode == "multi") {
-      //gameOverScreen[0].style.display = "block";
-      gameOverScore[0].innerText = user.score + " - " + user2.score;
+      gameOverScreen[0].style.display = "block";
+      gameOverScore[0].innerText = "Gewonnen!";
       GameMode = "ai";
     } else if (GameMode == "single") {
-      //gameOverScreen[0].style.display = "block";
-      gameOverScore[0].innerText = user.score + " - " + com.score;
+      if(com.score > user.score){
+        gameOverScore[0].innerText = "De computer heeft gewonnen!";
+      } else{
+        gameOverScore[0].innerText = "Gewonnen!";
+      }
+      gameOverScreen[0].style.display = "block";
       GameMode = "ai";
     } else if (GameMode == "wall" && wall.score > 0) {
       gameOverScreen[0].style.display = "block";
