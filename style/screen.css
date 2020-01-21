@@ -263,6 +263,12 @@ body {
 	justify-content: space-between;
 }
 
+.c-modal-countdown-number{
+	display: none;
+	font-size: 80px;
+	transition: font-size 1s;
+}
+
 .c-tekst__menu
 {
 	margin: 2px 0;
