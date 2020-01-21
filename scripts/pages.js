@@ -3,8 +3,6 @@ let index, gameOver, makey, hartMain;
 const setIndex = function() 
 {
     btn = document.querySelector('.js-index-start');
-    bar = document.querySelector('.js-bar-one');
-    bar.style.width = "20%";
     btn.addEventListener("click", function() 
     {
         setPage("makey");
@@ -15,11 +13,13 @@ const setIndex = function()
 const setMakey = function() 
 {
     btn = document.querySelector('.js-button-next');
+    bar = document.querySelector('.js-bar-one');
     btn.addEventListener("click", function () 
     {
         setPage("hart");
         btn.removeEventListener("click", this);
     });
+    bar.style.width = "20%";
 };
 
 const setPage = function(page)
