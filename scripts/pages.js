@@ -14,16 +14,11 @@ const bluetooth = function (y)
         .then(device => {
             connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
         })
-        .then(function () 
-        {
-            if (y === 1) 
+        .then(x => 
             {
-                button1 = document.querySelector('.');
-                button1.style.display = "none";
-            } else {
-                button2.style.display = "none";
-            }
-        })
+                document.querySelector('.js-tekenConnectie').style.display = "none";
+                document.querySelector('.js-loading').style.display = "block";
+            })
         .catch(error => {
             console.log(error);
         });
@@ -39,31 +34,39 @@ const connectDevice = function (device, server, service, y) {
             return b.getCharacteristic(service);
         })
         .then(c => {
-            console.log("service connected ");
-            console.log(c);
             return c.startNotifications();
         })
         .then(d => {
-            console.log("notifications have been started");
-            if (server === 'heart_rate') {
-                d.addEventListener('characteristicvaluechanged', function () {
+            if (server === 'heart_rate') 
+            {
+                d.addEventListener('characteristicvaluechanged', function () 
+                {
+                    //hier hebben we de hartslag
                     console.log(parseHeartRate(d.value).heartRate);
-                    hartslag1.innerHTML = `hartslag: ${parseHeartRate(d.value).heartRate} slagen per minuut`;
 
                 });
                 connectDevice(device, 'battery_service', 'battery_level', y);
-            } else if (server === 'battery_service') {
+            } else if (server === 'battery_service') 
+            {
                 d.readValue()
                     .then(e => {
                         console.log("batterij: " + e.getUint8(0));
+                        if(y===1)
+                        {
+                            document.querySelector('.js-btn-connect-playerOne').innerHTML = "Doorgaan naar speler 2";
+                            document.querySelector('.js-tekenConnectie').style.display = "block";
+                            document.querySelector('.js-loading').style.display = "none";
+                            document.querySelector('.js-tekenConnectie').src = "/img/svg/vink.svg";
+                            document.querySelector('.js-bar-three').style.width = 100 / 6 * 4 + "%";
+                        }
                     });
-                d.addEventListener('characteristicvaluechanged', function () {
-                    console.log("zit in eventlisten")
+                d.addEventListener('characteristicvaluechanged', function () 
+                {
                     d.readValue()
                         .then(e => 
                             {
-                            batterijWaardeEen.innerHTML = `batterij: ${e.getUint8(0)}%`;
-                            batterijLijnEen.style.width = e.getUint8(0) + "%";
+                                //hier hebben we de batterijstatus
+                                console.log("batterij: " + e.getUint8(0));
                         });
                 });
 
@@ -98,7 +101,7 @@ const setMakey = function()
         setPage("hart");
         btn.removeEventListener("click", this);
     });
-    bar.style.width = "20%";
+    bar.style.width = 100 / 6 * 1 + "%";
 };
 
 const setHeartMain = function() 
@@ -116,7 +119,7 @@ const setHeartMain = function()
         setPage("connect");
         btnOne.removeEventListener("click", this); 
     });
-    bar.style.width = "40%";
+    bar.style.width = 100 / 6 * 2 + "%";
 };
 
 const setConnect = function() 
@@ -124,7 +127,7 @@ const setConnect = function()
     btnNo = document.querySelector('.js-btn-connect-back');
     btnPlayerOne = document.querySelector('.js-btn-connect-playerOne');
     bar = document.querySelector('.js-bar-three');
-    bar.style.width = "60%";
+    bar.style.width = 100 / 6 * 3 + "%";
     btnNo.addEventListener("click", function () {
         setPage("hart");
         btn.removeEventListener("click", this);
