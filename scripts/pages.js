@@ -33,13 +33,9 @@ const bluetooth = function (y)
 const connectDevice = function (device, server, service, y) {
     device.gatt.connect()
         .then(a => {
-            console.log("device connected");
-            console.log(a);
             return a.getPrimaryService(server);
         })
         .then(b => {
-            console.log("server connected");
-            console.log(b);
             return b.getCharacteristic(service);
         })
         .then(c => {
