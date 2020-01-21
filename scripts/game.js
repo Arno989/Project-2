@@ -4,6 +4,7 @@ canvas.height = document.documentElement.clientHeight - document.documentElement
 
 const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
+let countdownNumber = null;
 let btnAgain = null;
 
 // input variables
@@ -146,7 +147,15 @@ function resetBall() {
   ball.y = canvas.height / 2;
 }
 
+function countdown(){
+  countdownNumber = document.querySelector(".c-modal-countdown-number");
+  console.log(countdownNumber);
+  countdownNumber.style.display = "block";
+  countdownNumber.style.fontSize = "1px";
+}
+
 function startMovingBall(direction) {
+  countdown();
   // start moving the ball in the chosen direction and sets the speed and velocity to standard.
   ball.speed = increasementSpeed;
   ball.velocityY = beginVelocityY;
