@@ -4,8 +4,7 @@ canvas.height = document.documentElement.clientHeight - document.documentElement
 
 const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
 const gameOverScore = document.getElementsByClassName("c-menu-score");
-const btnAgain = document.getElementById('again');
-//btnAgain.addEventListener("click", clickRestart);
+let btnAgain = null;
 
 // input variables
 document.addEventListener("keydown", keyDownHandler, false);
@@ -214,8 +213,6 @@ function clickRestart() {
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
-  console.log(gameOverScreen);
-  console.log("test");
   GameMode = chosenGameMode;
 }
 
@@ -367,6 +364,10 @@ function update() {
       gameOverScreen[0].style.display = "block";
       gameOverScore[0].innerText = user.score;
       GameMode = "ai";
+    }
+    if(btnAgain == null){ // get button again if it is not defined yet.
+      btnAgain = document.querySelector('.js-btnAgain');
+      btnAgain.addEventListener("click", clickRestart);
     }
   }
 
