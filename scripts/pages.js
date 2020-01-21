@@ -2,7 +2,7 @@
 let index, gameOver, makey, hartMain, connect;
 
 //bluetooth connector
-const bluetooth = function 󰀀 
+const bluetooth = function (y) 
 {
     navigator.bluetooth.requestDevice({
             filters: [{
@@ -13,6 +13,16 @@ const bluetooth = function 󰀀
         })
         .then(device => {
             connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
+        })
+        .then(function () 
+        {
+            if (y === 1) 
+            {
+                button1 = document.querySelector('.');
+                button1.style.display = "none";
+            } else {
+                button2.style.display = "none";
+            }
         })
         .catch(error => {
             console.log(error);
@@ -29,40 +39,31 @@ const connectDevice = function (device, server, service, y) {
             return b.getCharacteristic(service);
         })
         .then(c => {
+            console.log("service connected ");
+            console.log(c);
             return c.startNotifications();
         })
         .then(d => {
+            console.log("notifications have been started");
             if (server === 'heart_rate') {
-                d.addEventListener('characteristicvaluechanged', function () 
-                {
-                    //hier krijgen we de hartslag binnen
+                d.addEventListener('characteristicvaluechanged', function () {
                     console.log(parseHeartRate(d.value).heartRate);
+                    hartslag1.innerHTML = `hartslag: ${parseHeartRate(d.value).heartRate} slagen per minuut`;
+
                 });
                 connectDevice(device, 'battery_service', 'battery_level', y);
             } else if (server === 'battery_service') {
                 d.readValue()
-                    .then(e => 
-                        {
+                    .then(e => {
                         console.log("batterij: " + e.getUint8(0));
-                        if (y === 1) 
-                        {
-                            button1 = document.querySelector('.js-btn-connect-playerOne');
-                            button1.innerHTML = "naar volgende speler";
-                            teken = document.querySelector('.js-tekenConnectie');
-                            teken.src = "img/svg/vink.svg";
-                        } 
-                        else 
-                        {
-                            button2.style.display = "none";
-                        }
                     });
-                d.addEventListener('characteristicvaluechanged', function () 
-                {
+                d.addEventListener('characteristicvaluechanged', function () {
+                    console.log("zit in eventlisten")
                     d.readValue()
                         .then(e => 
                             {
-                                //hier krijgen we de batterijstatus binnen
-                            console.log("batterij: " + e.getUint8(0));
+                            batterijWaardeEen.innerHTML = `batterij: ${e.getUint8(0)}%`;
+                            batterijLijnEen.style.width = e.getUint8(0) + "%";
                         });
                 });
 
