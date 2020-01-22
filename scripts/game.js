@@ -1,8 +1,6 @@
 const canvas = document.getElementById("pong");
 canvas.width = document.documentElement.clientWidth;
-canvas.height =
-  document.documentElement.clientHeight -
-  document.documentElement.clientHeight / 10;
+canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
 
 window.addEventListener("blur", pauseOn); // detect when user is not on page, so tabbed out or focus onother window
 const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
@@ -128,7 +126,7 @@ function getRndInteger(min, max) {
 }
 
 function pauseOn() {
-  if (gameOverScreen[0].style.display == "none") {
+  if (gameOverScreen[0].style.display == "none" && loop != null) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(loop);
