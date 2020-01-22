@@ -1,6 +1,5 @@
 //global variables
 let index, gameOver, makey, hartMain, connect, main, gamemode;
-let gameChosen;
 
 //bluetooth connector
 const bluetooth = function (y) {
@@ -76,10 +75,6 @@ const parseHeartRate = function (value) {
     let result = {};
     result.heartRate = value.getUint8(1);
     return result;
-}
-
-function getGameMode(){
-    return gameChosen;
 }
 
 //setups for pages
