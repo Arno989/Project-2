@@ -1,5 +1,5 @@
 //global variables
-let index, gameOver, makey, hartMain, connect, main, gamemode;
+let index, gameOver, makey, hartMain, connect, main, gamemode, highscores;
 let isConnectedOne = false, inBetween = false, isConnectedTwo = false;
 
 //bluetooth connector
@@ -184,8 +184,10 @@ const setMain = function () {
         setPage("gamemode");
         btn.removeEventListener("click", this);
     });
-    btnHigh.addEventListener("click", function () {
-        //highscores page
+    btnHigh.addEventListener("click", function () 
+    {
+        setPage("highscore");
+        btnHigh.removeEventListener('click', this);
     });
 };
 
@@ -224,6 +226,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             break;
         case "index":
             index.style.display = "block";
@@ -233,6 +236,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             setIndex();
             break;
         case "gameOver":
@@ -243,6 +247,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             break;
         case "makey":
             index.style.display = "none";
@@ -252,6 +257,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             setMakey();
             break;
         case "hart":
@@ -262,6 +268,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             setHeartMain();
             break;
         case "connect":
@@ -272,6 +279,7 @@ const setPage = function (page) {
             connect.style.display = "block";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             setConnect();
             break;
         case "main":
@@ -282,6 +290,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "block";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             setMain();
             break;
         case "gamemode":
@@ -292,7 +301,18 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "block";
+            highscores.style.display = "none";
             setGamemode();
+            break;
+        case "highscore":
+            index.style.display = "none";
+            gameOver.style.display = "none";
+            makey.style.display = "none";
+            hartMain.style.display = "none";
+            connect.style.display = "none";
+            main.style.display = "none";
+            gamemode.style.display = "none";
+            highscores.style.display = "block";
             break;
         default:
             index.style.display = "none";
@@ -302,6 +322,7 @@ const setPage = function (page) {
             connect.style.display = "none";
             main.style.display = "none";
             gamemode.style.display = "none";
+            highscores.style.display = "none";
             break;
     }
 };
@@ -315,6 +336,7 @@ const initialize = function () {
     connect = document.querySelector('.js-connect');
     main = document.querySelector('.js-main-menu');
     gamemode = document.querySelector('.js-gamemode');
+    highscores = document.querySelector('.js-highscore');
     setPage("index");
 };
 
