@@ -1,5 +1,6 @@
 //global variables
 let index, gameOver, makey, hartMain, connect, main, gamemode;
+let isConnectedOne = false, isConnectedTwo = false;
 
 //bluetooth connector
 const bluetooth = function (y) {
@@ -39,15 +40,22 @@ const connectDevice = function (device, server, service, y) {
             if (server === 'heart_rate') {
                 d.addEventListener('characteristicvaluechanged', function () {
                     //hier hebben we de hartslag
-                    console.log(parseHeartRate(d.value).heartRate);
-
+                    if(y === 1)
+                    {
+                        console.log("hartslag 1: " + parseHeartRate(d.value).heartRate);
+                    }
+                    else
+                    {
+                        console.log("hartslag 2: " + parseHeartRate(d.value).heartRate);
+                    }
                 });
                 connectDevice(device, 'battery_service', 'battery_level', y);
             } else if (server === 'battery_service') {
                 d.readValue()
                     .then(e => {
-                        console.log("batterij: " + e.getUint8(0));
-                        if (y === 1) {
+                        if (y === 1) 
+                        {
+                            console.log("batterij 1: " + e.getUint8(0));
                             bnt = document.querySelector('.js-btn-connect-playerOne');
                             bnt.innerHTML = "Doorgaan naar speler 2";
                             bnt.disabled = false;
@@ -55,14 +63,26 @@ const connectDevice = function (device, server, service, y) {
                             document.querySelector('.js-loading').style.display = "none";
                             document.querySelector('.js-tekenConnectie').src = "/img/svg/vink.svg";
                             document.querySelector('.js-bar-three').style.width = 100 / 6 * 4 + "%";
-                            bnt.removeEventListener("click", this);
+                            isConnectedOne = true;
+                        }
+                        else
+                        {
+                            console.log("batterij 2: " + e.getUint8(0));
+                            isConnectedTwo = true;
+                            document.querySelector('.js-tekenConnectie').style.display = "block";
+                            document.querySelector('.js-loading').style.display = "none";
+                            document.querySelector('.js-tekenConnectie').src = "/img/svg/vink.svg";
+                            bnt = document.querySelector('.js-btn-connect-playerOne');
+                            bnt.innerHTML = "Doorgaan";
+                            bnt.disabled = false;
+                            isConnectedTwo = true;
                         }
                     });
                 d.addEventListener('characteristicvaluechanged', function () {
                     d.readValue()
                         .then(e => {
                             //hier hebben we de batterijstatus
-                            console.log("batterij: " + e.getUint8(0));
+                            console.log("batterij: " +  y + " " + e.getUint8(0));
                         });
                 });
 
@@ -121,7 +141,18 @@ const setConnect = function () {
         btn.removeEventListener("click", this);
     });
     btnPlayerOne.addEventListener("click", function () {
-        bluetooth(1);
+        if(!isConnectedOne)
+        {
+            bluetooth(1);
+        }
+        else if(!isConnectedTwo)
+        {
+            bluetooth(2);
+        }
+        else
+        {
+            setPage("main");
+        }
     });
 };
 
