@@ -1,6 +1,6 @@
 //global variables
 let index, gameOver, makey, hartMain, connect, main, gamemode;
-let isConnectedOne = false, isConnectedTwo = false;
+let isConnectedOne = false, inBetween = false, isConnectedTwo = false;
 
 //bluetooth connector
 const bluetooth = function (y) {
@@ -76,6 +76,7 @@ const connectDevice = function (device, server, service, y) {
                             bnt.innerHTML = "Doorgaan";
                             bnt.disabled = false;
                             isConnectedTwo = true;
+                            document.querySelector('.js-bar-three').style.width = 100 / 6 * 6 + "%";
                         }
                     });
                 d.addEventListener('characteristicvaluechanged', function () {
@@ -95,7 +96,16 @@ const parseHeartRate = function (value) {
     let result = {};
     result.heartRate = value.getUint8(1);
     return result;
-}
+};
+
+const setInbetween = function() 
+{
+    document.querySelector('.js-tekenConnectie').src = "/img/svg/kruis.svg";
+    bnt = document.querySelector('.js-btn-connect-playerOne');
+    bnt.innerHTML = "Verbind speler 2";
+    document.querySelector('.js-bar-three').style.width = 100 / 6 * 5 + "%";
+    inBetween = true;
+};
 
 //setups for pages
 const setIndex = function () {
@@ -147,7 +157,14 @@ const setConnect = function () {
         }
         else if(!isConnectedTwo)
         {
-            bluetooth(2);
+            if(!inBetween)
+            {
+                setInbetween();
+            }
+            else
+            {
+                bluetooth(2);
+            }
         }
         else
         {
