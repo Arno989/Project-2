@@ -77,6 +77,7 @@ const connectDevice = function (device, server, service, y) {
                             bnt.disabled = false;
                             isConnectedTwo = true;
                             document.querySelector('.js-bar-three').style.width = 100 / 6 * 6 + "%";
+                            document.querySelector('.js-bar-three').style.borderRadius = "250px 250px 250px 250px";
                         }
                     });
                 d.addEventListener('characteristicvaluechanged', function () {
@@ -105,6 +106,7 @@ const setInbetween = function()
     bnt.innerHTML = "Verbind speler 2";
     document.querySelector('.js-bar-three').style.width = 100 / 6 * 5 + "%";
     inBetween = true;
+    document.querySelector('.js-hartslag-title').innerHTML = "Hartslagmeter 2";
 };
 
 //setups for pages
@@ -150,6 +152,7 @@ const setConnect = function () {
         setPage("hart");
         btn.removeEventListener("click", this);
     });
+    document.querySelector('.js-hartslag-title').innerHTML = "Hartslagmeter 1";
     btnPlayerOne.addEventListener("click", function () {
         if(!isConnectedOne)
         {
