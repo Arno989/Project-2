@@ -19,7 +19,9 @@ const bluetooth = function (y) {
             document.querySelector('.js-loading').style.display = "block";
             document.querySelector('.js-btn-connect-playerOne').disabled = true;
         })
-        .catch(error => {
+        .catch(error => 
+        {
+            document.querySelector('.js-tekenConnectie').src = "/img/svg/kruis.svg";
             console.log(error);
         });
 };
@@ -87,9 +89,14 @@ const connectDevice = function (device, server, service, y) {
                             console.log("batterij: " +  y + " " + e.getUint8(0));
                         });
                 });
-
             }
         })
+        .catch(error => {
+            document.querySelector('.js-tekenConnectie').src = "/img/svg/kruis.svg";
+            document.querySelector('.js-tekenConnectie').style.display = "block";
+            document.querySelector('.js-loading').style.display = "none";
+            document.querySelector('.js-btn-connect-playerOne').disabled = false;
+        });
 };
 
 const parseHeartRate = function (value) {
