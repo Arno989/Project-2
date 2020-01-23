@@ -307,6 +307,14 @@ body {
 	animation: lds-dual-ring 1.2s linear infinite;
 }
 
+.c-scoreboard
+{
+	background-color: var(--topbar-color);
+	height: 80%;
+	width: 50vw;
+	border-radius: 100px;
+}
+
 @keyframes lds-dual-ring {
 	0% {
 		transform: rotate(0deg);

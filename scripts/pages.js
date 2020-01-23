@@ -2,6 +2,19 @@
 let index, gameOver, makey, hartMain, connect, main, gamemode, highscores;
 let isConnectedOne = false, inBetween = false, isConnectedTwo = false;
 
+//callbacks na dataophalen
+const verwerkHighScores = function(data) 
+{
+    console.log(data);
+    let d = "";
+    data.forEach(element => {
+        console.log(element.naam);
+        console.log(element.score);
+        d += ""
+    });
+    document.querySelector('.js-scoreboard').innerHTML = "plopkoooeeek";
+};
+
 //bluetooth connector
 const bluetooth = function (y) {
     navigator.bluetooth.requestDevice({
@@ -248,7 +261,7 @@ const setGamemode = function () {
 
 const setHighScore = function() 
 {
-    const data = handleData('')  
+    handleData('https://project2function.azurewebsites.net/api/highscore', verwerkHighScores);
 };
 
 //page setter
