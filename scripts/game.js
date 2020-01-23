@@ -1,10 +1,15 @@
 const canvas = document.getElementById("pong");
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
+const ctx = canvas.getContext("2d");
 
+// buttons and game screens and event listeners
 window.addEventListener("blur", pauseOn); // detect when user is not on page, so tabbed out or focus onother window
-const gameOverScreen = document.getElementsByClassName("c-modal-gameover");
-const gameOverScore = document.getElementsByClassName("c-menu-score");
+let ScoreDivl = document.querySelector(".js-score-l");
+let ScoreDivr = document.querySelector(".js-score-r");
+let ScoreDivc = document.querySelector(".js-score-c");
+let gameOverScreen = null;
+let gameOverScore = null;
 let gamePausedScreen = null;
 let countdownNumber = null;
 let btnAgain = null;
@@ -21,6 +26,7 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 
+//game variables
 var beginVelocityX = (beginVelocityY = 5);
 var increasementSpeed = 0.1;
 var pointsToWin = 5;
@@ -37,15 +43,9 @@ var predictionColor = "#7474746d";
 //Select mode
 let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
 let GameMode = "single"; //keep track of what the selected gamemode was.
-let gameLoop = false; // set it to false by default so the game doesnt play in the background.
 let loop = null;
+var gameState = false;
 let framePerSecond = 90; // number of frames per second
-
-var ScoreDivl = document.getElementById("score-l");
-var ScoreDivr = document.getElementById("score-r");
-var ScoreDivc = document.getElementById("score-c");
-
-const ctx = canvas.getContext("2d");
 
 const ball = {
   x: canvas.width / 2,
@@ -126,7 +126,9 @@ function getRndInteger(min, max) {
 }
 
 function pauseOn() {
-  if (gameOverScreen[0].style.display == "none" && loop != null) {
+  gameState = false;
+  gameOverScreen = document.querySelector(".js-gameOver");
+  if (gameOverScreen.style.display == "none" && loop != null) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(loop);
@@ -243,9 +245,10 @@ function clickMainPaused() {
 }
 
 function clickRestart() {
+  gameOverScreen = document.querySelector(".js-gameOver");
   resetBall();
   startMovingBall("right");
-  gameOverScreen[0].style.display = "none";
+  gameOverScreen.style.display = "none";
   user.score = 0;
   user2.score = 0;
   com.score = 0;
@@ -266,10 +269,12 @@ function clickMain() {
 }
 
 function logKey(event) {
-  if (event.KeyCode == "KeyP") {
-    framePerSecond = 1;
-  } else if (event.Code == 27) {
-    framePerSecond = 90;
+  var key = event.keyCode;
+  if (key == 112 || key == 32) {
+    if(gameState == true){
+      gameState = false;
+      pauseOn();
+    }
   }
 }
 
@@ -379,6 +384,7 @@ function calcuatePredictionHit(direction) {
 
 // update function, the function that does most of the calculations
 function update() {
+  gameState = true;
   // check if paddle is too high or too low
   if (user2.y < user2.width / 2) {
     leftPressed = false;
@@ -406,27 +412,24 @@ function update() {
 
   // game has ended
   // show game over menu and set the score board on the menu
-  if (
-    user.score == pointsToWin ||
-    user2.score == pointsToWin ||
-    com.score == pointsToWin ||
-    wall.score > 0
-  ) {
+  if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
+    gameOverScore = document.querySelector(".js-menu-score");
+    gameOverScreen = document.querySelector(".js-gameOver");
     if (GameMode == "multi") {
-      gameOverScreen[0].style.display = "block";
-      gameOverScore[0].innerText = "Gewonnen!";
+      gameOverScreen.style.display = "block";
+      gameOverScore.innerText = "Gewonnen!";
       GameMode = "ai";
     } else if (GameMode == "single") {
       if (com.score > user.score) {
-        gameOverScore[0].innerText = "verloren!";
+        gameOverScore.innerText = "verloren!";
       } else {
-        gameOverScore[0].innerText = "Gewonnen!";
+        gameOverScore.innerText = "Gewonnen!";
       }
-      gameOverScreen[0].style.display = "block";
+      gameOverScreen.style.display = "block";
       GameMode = "ai";
     } else if (GameMode == "wall" && wall.score > 0) {
-      gameOverScreen[0].style.display = "block";
-      gameOverScore[0].innerText = user.score;
+      gameOverScreen.style.display = "block";
+      gameOverScore.innerText = user.score;
       GameMode = "ai";
     }
     if (btnAgain == null) {
@@ -518,7 +521,7 @@ function update() {
     }
   }
 
-  // set simple ai ad prediction
+  // set simple ai and prediction
   if (GameMode == "single") {
     comAI(lastPaddleHit);
     prediction = true;
@@ -977,5 +980,3 @@ function startGame(state, mode_p) {
     }
   }
 }
-
-//let loopStart = setInterval(start, 100);
