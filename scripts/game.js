@@ -33,7 +33,7 @@ var downPressed = false;
 //game variables
 var beginVelocityX = (beginVelocityY = 5);
 var increasementSpeed = 0.1;
-var pointsToWin = 5;
+var pointsToWin = 1;
 
 // prediction variables
 var prediction = true;
@@ -414,6 +414,9 @@ function update() {
   if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
     gameOverScore = document.querySelector(".js-menu-score");
     gameOverScreen = document.querySelector(".js-gameOver");
+    if(gameOverScreen.style.display == "none"){
+      ball.velocityX = beginVelocityX; ball.velocityY = beginVelocityY; lastPaddleHit = user;
+    }
     if (GameMode == "multi") {
       gameOverScreen.style.display = "block";
       gameOverScore.innerText = "Gewonnen!";
@@ -427,6 +430,7 @@ function update() {
       gameOverScreen.style.display = "block";
       GameMode = "ai";
     } else if (GameMode == "wall" && wall.score > 0) {
+      bounceY = false; bounceX = false;
       gameOverScreen.style.display = "block";
       gameOverScore.innerText = user.score;
       GameMode = "ai";
@@ -437,10 +441,11 @@ function update() {
       btnAgain.addEventListener("click", clickRestart);
     }
     if (btnMain == null) {
-      // get button again if it is not defined yet.
+      // get button main page if it is not defined yet.
       btnMain = document.querySelector(".js-btn-mainPage");
       btnMain.addEventListener("click", clickMain);
     }
+    wall.score = 0;
   }
 
   // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
@@ -459,7 +464,7 @@ function update() {
     user.score++;
     resetBall();
     startMovingBall("left");
-  }
+  } 
 
   // the ball has a velocity
   ball.x += ball.velocityX;
@@ -467,8 +472,12 @@ function update() {
 
   // when the ball collides with bottom and top walls, inverse the y velocity.
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-    if (bounceY == false) { // make sure it only bounces onces, this bugged a lot
+    if(GameMode == "ai"){
       ball.velocityY = -ball.velocityY;
+      console.log("reverse");
+    } else if (bounceY == false) { // make sure it only bounces once, this bugged a lot
+      ball.velocityY = -ball.velocityY;
+      console.log("reverse");
       bounceY = true;
     }
   }
@@ -491,23 +500,23 @@ function update() {
   // if the ball hits a paddle
   if (collision(ball, player)) {
     lastPaddleHit = player;
-    //when ball hits the rounded top or bottom of the paddle, it bugs out, so i just teleport the ball into the field to fix that and not have to calcuate the bounce.
+    //when ball hits the rounded top or bottom of the paddle
     if (player.x == 15) { // links hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
-        console.log("links up");
         ball.velocityY = -ball.velocityY;
+        console.log("reverse");
       } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
-        console.log("links down");
         ball.velocityY = -ball.velocityY;
+        console.log("reverse");
       }
 
     } else if (player.x == canvas.width - 35) { // rechts hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
-        console.log("rechts up");
         ball.velocityY = -ball.velocityY;
+        console.log("reverse");
       } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
-        console.log("rechts down");
         ball.velocityY = -ball.velocityY;
+        console.log("reverse");
       }
     }
 
@@ -543,7 +552,7 @@ function update() {
       }
     }
   }
-  if (ball.x > user.right + (ball.velocityX * 1.5) && ball.x < user2.x - (ball.velocityX * 1.5)) { // this is for that bug where the ball keeps bouncing on the paddle
+  if (ball.x > user.right + (ball.velocityX * 2) && ball.x < user2.x - (ball.velocityX * 2)) { // this is for that bug where the ball keeps bouncing on the paddle
     bounceX = false;
   }
 
@@ -559,7 +568,7 @@ function update() {
     prediction = false;
   } else if (GameMode == "wall") {
     prediction = true;
-    if ((lastPaddleHit.x = 15)) {
+    if ((lastPaddleHit.x == 15)) {
       prediction = false;
     }
   }
@@ -638,7 +647,7 @@ function drawPlayersAndScore() {
   } else if (GameMode == "ai") {
     drawComLeft();
     drawCom();
-    ScoreDivc.innerHTML = "-";
+    ScoreDivc.innerHTML = "";
   } else if (GameMode == "wall") {
     drawWall();
     drawPlayerLeft();
