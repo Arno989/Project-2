@@ -17,6 +17,10 @@ let btnMain = null;
 let btnResume = null;
 let btnMainPause = null;
 
+//debug variables
+let bounceY = false;
+let bounceX = false;
+
 // input variables
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -221,8 +225,8 @@ function drawText(text, x, y) {
 function collision(b, p) {
   p.top = p.y;
   p.bottom = p.y + p.height;
-  p.left = p.x - (p.width * 0.15);
-  p.right = p.x + (p.width * 1.15);
+  p.left = p.x;
+  p.right = p.x + (p.width);
 
   b.top = b.y - b.radius;
   b.bottom = b.y + b.radius;
@@ -463,9 +467,13 @@ function update() {
 
   // when the ball collides with bottom and top walls, inverse the y velocity.
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-    console.log(ball.y - ball.radius);
-    console.log(canvas.height);
-    ball.velocityY = -ball.velocityY;
+    if (bounceY == false) { // make sure it only bounces onces, this bugged a lot
+      ball.velocityY = -ball.velocityY;
+      bounceY = true;
+    }
+  }
+  if (bounceY == true && ball.y < canvas.height - ball.velocityY && ball.y > ball.velocityY) { // make sure the bounce gets reset after it bounced, this was to fix the bug from above
+    bounceY = false;
   }
 
   // check if the paddle hit the user or the com paddle
@@ -485,19 +493,19 @@ function update() {
     lastPaddleHit = player;
     //when ball hits the rounded top or bottom of the paddle, it bugs out, so i just teleport the ball into the field to fix that and not have to calcuate the bounce.
     if (player.x == 15) { // links hit
-      if(ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3)){
+      if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         console.log("links up");
         ball.velocityY = -ball.velocityY;
-      } else if(ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3)){
+      } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
         console.log("links down");
         ball.velocityY = -ball.velocityY;
       }
-      
-    }else if (player.x == canvas.width - 35) { // rechts hit
-      if(ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3)){
+
+    } else if (player.x == canvas.width - 35) { // rechts hit
+      if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         console.log("rechts up");
         ball.velocityY = -ball.velocityY;
-      } else if(ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3)){
+      } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
         console.log("rechts down");
         ball.velocityY = -ball.velocityY;
       }
@@ -511,14 +519,10 @@ function update() {
     // change the X and Y velocity direction and accelerate the ball when not in ai mode
     let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
     if (GameMode != "ai") {
-      console.log(direction);
-      console.log(player.x + " " + (canvas.width - 35));
-      if(direction == -1 && player.x != canvas.width - 35){
+      if (bounceX == false) {  // this is to fix a bug where the ball keeps bouncing on a paddle
         ball.velocityX = -ball.velocityX - direction * ball.speed;
         ball.velocityY = ball.velocityY + direction * ball.speed;
-      } else if(direction == 1 && player.x != 15){
-        ball.velocityX = -ball.velocityX - direction * ball.speed;
-        ball.velocityY = ball.velocityY + direction * ball.speed;
+        bounceX = true;
       }
     } else if (GameMode == "ai") {
       ball.velocityX = -ball.velocityX;
@@ -538,6 +542,9 @@ function update() {
         ball.velocityY = ball.velocityX;
       }
     }
+  }
+  if (ball.x > user.right + (ball.velocityX * 1.5) && ball.x < user2.x - (ball.velocityX * 1.5)) { // this is for that bug where the ball keeps bouncing on the paddle
+    bounceX = false;
   }
 
   // set simple ai and prediction
@@ -780,7 +787,6 @@ function render() {
   drawPlayersAndScore();
   drawBall();
   drawPrediction();
-  drawLine(user.x, user.top, user.x, user.bottom, 2, "black");
 }
 
 function game() {
