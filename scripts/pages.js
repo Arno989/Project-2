@@ -81,12 +81,36 @@ const connectDevice = function (device, server, service, y) {
                             document.querySelector('.js-bar-three').style.width = 100 / 6 * 6 + "%";
                             document.querySelector('.js-bar-three').style.borderRadius = "250px 250px 250px 250px";
                         }
-                    });
+                    })
+                    .catch(error =>
+                        {
+                        document.querySelector('.js-tekenConnectie').src = "/img/svg/kruis.svg";
+                        document.querySelector('.js-tekenConnectie').style.display = "block";
+                        document.querySelector('.js-loading').style.display = "none";
+                        document.querySelector('.js-btn-connect-playerOne').disabled = false;
+                        });
                 d.addEventListener('characteristicvaluechanged', function () {
                     d.readValue()
                         .then(e => {
                             //hier hebben we de batterijstatus
                             console.log("batterij: " +  y + " " + e.getUint8(0));
+                        })
+                        .catch(error => {
+                            document.querySelector('.js-tekenConnectie').src = "/img/svg/kruis.svg";
+                            document.querySelector('.js-tekenConnectie').style.display = "block";
+                            document.querySelector('.js-loading').style.display = "none";
+                            document.querySelector('.js-btn-connect-playerOne').disabled = false;
+                            if(y === 1)
+                            {
+                                isConnectedOne = false;
+                                inBetween = false;
+                                isConnectedTwo = false;
+                            }
+                            else
+                            {
+                                isConnectedTwo = false;
+                            }
+                            document.querySelector('.js-btn-connect-playerOne').innerHTML = "Verbind opnieuw";
                         });
                 });
             }
@@ -222,6 +246,11 @@ const setGamemode = function () {
     });
 };
 
+const setHighScore = function() 
+{
+    const data = handleData('')  
+};
+
 //page setter
 const setPage = function (page) {
     switch (page) {
@@ -320,6 +349,7 @@ const setPage = function (page) {
             main.style.display = "none";
             gamemode.style.display = "none";
             highscores.style.display = "block";
+            setHighScore();
             break;
         default:
             index.style.display = "none";
