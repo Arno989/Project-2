@@ -318,27 +318,31 @@ body {
 }
 
 /*----- utilities -----*/
-.u-0-procent
+.u-0-to-6-procent
 {
-	width: 0%;
+	width: calc(calc(100/6*0) * 1%);
 }
 
-.u-20-procent {
-	width: 20%;
+.u-1-to-6-procent {
+	width: calc(calc(100/6*1) * 1%);
 }
 
-.u-40-procent {
-	width: 40%;
+.u-2-to-6-procent {
+	width: calc(calc(100/6*2) * 1%);
 }
 
-.u-60-procent {
-	width: 60%;
+.u-3-to-6-procent {
+	width: calc(calc(100/6*3) * 1%);
 }
 
-.u-80-procent {
-	width: 80%;
+.u-4-to-6-procent {
+	width: calc(calc(100/6*4) * 1%);
 }
 
-.u-100-procent {
-	width: 100%;
+.u-5-to-6-procent {
+	width: calc(calc(100/6*5) * 1%);
+}
+
+.u-6-to-6-procent {
+	width: calc(calc(100/6*6) * 1%);
 }
