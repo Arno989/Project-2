@@ -7,12 +7,22 @@ const verwerkHighScores = function(data)
 {
     console.log(data);
     let d = "";
-    data.forEach(element => {
-        console.log(element.naam);
-        console.log(element.score);
-        d += ""
+    data.forEach(function (element, i) 
+    {
+        d += 
+        `<tr>
+            <td class="c-scoreboard-table__number">
+                <p class="c-scoreboard-table-number__text">${i+1}</p>
+            </td>
+            <td class="c-scoreboard-table__name">
+                <p class="c-scoreboard-table-name__text">${element.naam}</p>
+            </td>
+            <td class="c-scoreboard-table__score">
+                <p class="c-scoreboard-table-score__text">${element.score}</p>
+            </td>
+        </tr>`;
     });
-    document.querySelector('.js-scoreboard').innerHTML = "plopkoooeeek";
+    document.querySelector('.js-scoreboard').innerHTML = d;
 };
 
 //bluetooth connector

@@ -313,6 +313,48 @@ body {
 	height: 80%;
 	width: 50vw;
 	border-radius: 100px;
+	margin-top: 1vh;
+}
+
+.c-scoreboard__table
+{
+	margin: 0 auto;
+	border-radius: 10px;
+	width: 90%;
+	font-size: 28px;
+	color: var(--text-color);
+	border: 3px solid var(--text-color);
+	border-spacing: 0;
+}
+
+.c-scoreboard__table td
+{
+	border: 1px solid var(--text-color);
+	/* height: 52px; */
+}
+
+.c-scoreboard-table__number
+{
+	padding: 0;
+	margin: 0;
+}
+
+.c-scoreboard-table-number__text
+{
+	padding: 0;
+	margin: 0;
+}
+
+.c-scoreboard-table__name
+{
+	width: 80%;
+}
+
+.c-scoreboard__title
+{
+	text-align: center;
+	font-size: 32px;
+	color: var(--text-color);
 }
 
 @keyframes lds-dual-ring {
