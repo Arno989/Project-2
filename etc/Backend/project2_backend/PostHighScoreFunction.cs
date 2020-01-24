@@ -70,7 +70,14 @@ namespace project2_backend
                             Score = result.Score
                         });
                     }
-                    return new OkObjectResult(registrations);
+                    //List<HighScore> SortedList = registrations
+                    registrations.Sort((a, b) => b.CompareTo(a));
+                    List<HighScore> x = new List<HighScore>();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        x.Add(registrations[i]);
+                    }
+                    return new OkObjectResult(x);
                 }
                 catch (Exception ex)
                 {
