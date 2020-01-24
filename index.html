@@ -9,14 +9,161 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	</head>
 
-	<body>
-		<div class="c-topbar">
-			<div class="c-topbar--score">
-				<p id="score-l">0</p>
-				<p>-</p>
-				<p id="score-r">0</p>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="description" content="An app where you can play Exerpong." />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>ExerPong</title>
+
+	<link rel="icon" type="image/png" href="./img/favicon.png" />
+	<link href="https://fonts.googleapis.com/css?family=Neucha&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="./style/screen.css" />
+	<link rel="stylesheet" href="./style/normalize.css" />
+
+	<script src="./scripts/UI.js"></script>
+	<script src="./scripts/pages.js"></script>
+</head>
+
+<body onresize="resize()">
+	<div class="c-overflow c-hidden">
+		<div class="c-container">
+
+			<!-- Page 1 -->
+			<div class="c-content">
+				<div class="c-menu">
+					<p class="c-menu-title u-margin-reset">Exerpong</p>
+					<button class="c-button c-color-pink js-content__right">Spel opstarten</button>
+				</div>
 			</div>
-			<div class="c-topbar--img"><img class="img img-align" src="./img/howest-wit.png" alt="Logo Howest" /></div>
+
+			<!-- Page 2 -->
+			<div class="c-content">
+				<div class="c-menu">
+					<div class="c-loadingbar">
+						<div class="c-loadingbar-completed js-bar-one"></div>
+					</div>
+					<p class="c-menu-title u-margin-reset">Makey Makey</p>
+					<p class="c-menu-text">
+						Controleer of het lampje op de Makey Makey aanstaat.</br>
+						Als het lampje brand, klik op "Doorgaan".</br>
+						Als het lampje niet brand, ga naar de Installatiehandleiding.
+					</p>
+					<button class="c-button c-color-yellow js-content__right">Doorgaan</button>
+				</div>
+			</div>
+
+			<!-- Page 3: Hartslag -->
+			<div class="c-content">
+				<div class="c-menu js-harslagmeter-1">
+					<div class="c-loadingbar">
+						<div class="c-loadingbar-completed js-bar-two"></div>
+					</div>
+					<p class="c-menu-title u-margin-reset">Hartslagmeter</p>
+					<div class="c-menu-button-duo">
+						<button class="c-button c-color-blue js-content__right">Geen hartslagmeter</button>
+						<button class="c-button c-color-yellow js-btn-connectHeartRate">Verbind hartslagmeter</button>
+					</div>
+					<img src="/img/svg/hartslagmeter.svg" alt="hartslagmeter.img">
+				</div>
+
+				<div class="c-menu js-harslagmeter-2">
+					<div class="c-loadingbar">
+						<div class="c-loadingbar-completed js-bar-three"></div>
+					</div>
+					<p class="c-menu-title u-margin-reset js-hartslag-title">Hartslagmeter</p>
+					<p class="c-menu-text">
+						Neem de 1ste hartslagmeter.</br>
+						Druk 1 keer op het knopje van de hartslagmeter.</br>
+						Zet bluetooth aan op je laptop.</br>
+						Druk op "Verbind speler 1".</br>
+						Klik op de hartslagmeter en daarna op "Koppelen".
+					</p>
+					<div class="c-menu-button-duo">
+						<button class="c-button c-color-blue js-btn-connect-back">Ga terug</button>
+						<button class="c-button c-color-yellow js-btn-connect-playerOne">Verbind speler1</button>
+					</div>
+					<p>Connectie:</p>
+					<img src="/img/svg/kruis.svg" class="js-tekenConnectie" alt="">
+					<div class="lds-dual-ring js-loading"></div>
+				</div>
+			</div>
+
+			<!-- Page 4: Startscherm -->
+			<div class="c-content">
+				<div class="c-menu">
+					<p class="c-menu-title u-margin-reset">ExerPong</p>
+					<div class="c-menu-button-duo">
+						<button class="c-button c-color-blue js-content__right">Begin</button>
+						<button class="c-button c-color-yellow js-content__right3">Highscores</button>
+					</div>
+					<div class="c-logo-group">
+						<img class="c-logo" src="/img/logo1.png" alt="logo 1 howest">
+						<img class="c-logo" src="/img/logo3.png" alt="logo 3 howest">
+						<img class="c-logo" src="/img/logo4.png" alt="logo 4 howest">
+						<img class="c-logo" src="/img/logo2.png" alt="logo 2 howest">
+					</div>
+				</div>
+			</div>
+
+			<!-- Page 5: Gamemode -->
+			<div class="c-content">
+				<div class="c-menu">
+					<p class="c-menu-title  u-margin-reset">Game mode</p>
+					<div class="c-menu-button-duo">
+						<button class="c-button c-color-blue js-btn-single">single</button>
+						<button class="c-button c-color-yellow js-btn-multi">multi</button>
+						<button class="c-button c-color-pink js-btn-wall">wall</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Page 6: Game canvas -->
+			<div class="c-content">
+				<div class="c-topbar">
+					<div class="c-topbar--score">
+						<p class="c-topbar--score-l js-score-l">0</p>
+						<p class="c-topbar--score-c js-score-c"> - </p>
+						<p class="c-topbar--score-r js-score-r">0</p>
+					</div>
+				</div>
+
+				<canvas id="pong" class="c-game"> </canvas>
+				<script src="./scripts/game.js"></script>
+
+				<div class="c-modal-gameover js-gameOver">
+					<div class="c-modal-content">
+						<p class="c-menu-score js-menu-score">0 - 0</p>
+						<button class="c-menu-button js-btn-again">Opnieuw</button>
+						<button class="c-menu-button js-btn-mainPage">Hoofdmenu</button>
+					</div>
+				</div>
+
+				<div class="c-modal-gameover js-gamePaused">
+					<div class="c-modal-content">
+						<p class="c-menu-score">Paused!</p>
+						<button class="c-menu-button js-btn-resume">Verder spelen!</button>
+						<button class="c-menu-button js-btn-mainPagePaused">Hoofdmenu</button>
+					</div>
+				</div>
+
+				<div class="c-modal-countdown js-countdown">
+					<div class="c-modal-content">
+						<p class="c-modal-countdown-number js-countdow-nNumber"> 3 </p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Page 7: Highscores -->
+			<div class="c-content">
+				<div class="c-menu">
+					<p>Hallo iedereen, hier komen de highscores</p>
+				</div>
+			</div>
+
+
+
 		</div>
 		<canvas id="pong" z-index:1 position:absolute left:0px top:0px;> </canvas>
 		<script src="./scripts/game.js"></script>
