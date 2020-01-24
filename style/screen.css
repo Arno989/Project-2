@@ -29,6 +29,35 @@ body {
 #COMPONENTS
 \*------------------------------------*/
 
+/* Page changing */
+
+.c-overflow {
+	overflow: hidden;
+	min-height: 100vh;
+	width: 100vw;
+}
+
+.c-container {
+	will-change: scroll-position;
+	/*transition-duration: 0.75s;
+	transition-timing-function: ease-out;*/
+	display: flex;
+	flex-wrap: nowrap;
+	height: 100vh;
+	width: 100vw;
+}
+
+.c-content {
+	min-width: 100vw;
+	width: 100vw;
+	background: url(/img/svg/background.svg), linear-gradient(0deg, rgba(176,223,253,1) 0%, rgba(255,255,255,1) 100%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* Top game bar */
+
 .c-topbar {
 	height: 10vh;
 	display: grid;
@@ -82,10 +111,12 @@ body {
 	height: 6vh;
 }
 
+/* Game overlay */
+
 .c-modal-gameover {
 	display: none; /* set this to block for testing <------------------- */
 	position: fixed;
-    font-family: var(--global-font);
+	font-family: var(--global-font);
 	z-index: 1;
 	left: 0;
 	top: 0;
@@ -95,11 +126,23 @@ body {
 	background-color: var(--background-color-menu);
 }
 
-.c-logo-group {
+.c-modal-content {
+	margin: auto;
+	width: 50vw;
+	height: 80vh;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
+
+.c-modal-countdown-number {
+	display: none;
+	font-size: 80px;
+	transition: font-size 1s;
+}
+
+/* Game menus */
 
 .c-logo {
 	margin: 5px;
@@ -107,23 +150,25 @@ body {
 	height: auto;
 }
 
-.c-menu
-{
-	background-image: url(/img/background.svg);
-}
-
-.c-modal-content {
-	margin: auto;
-	width: 50vw;
-    height: 80vh;
+.c-logo-group {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
 
+.c-loadingbar {
+	background-color: var(--loading-pink-light-color);
+	height: 40px;
+	width: 60vw;
+	border-radius: 40px;
+}
 /* Page changing */
 
+.c-loadingbar-completed {
+	background-color: var(--menu-pink-color);
+	height: 40px;
+	border-radius: 40px;
+	transition: width 2s ease;
 .c-overflow {
 	overflow: hidden;
 	min-height: 100vh;
@@ -140,6 +185,8 @@ body {
 	width: 100vw;
 }
 
+.c-menu {
+	height: 100vh;
 .c-content {
 	min-width: 100vw;
 	width: 100vw;
@@ -159,113 +206,57 @@ body {
 	overflow: hidden;
 	min-height: 100vh;
 	width: 100vw;
-}
-
-.c-container-stars {
-	/* modal */
+	overflow: hidden;
 	display: flex;
-	justify-content: center;
-}
-
-.c-container {
-	will-change: scroll-position;
-	/*transition-duration: 0.75s;
-	transition-timing-function: ease-out;*/
-	display: flex;
-	flex-wrap: nowrap;
-	height: 100vh;
-	width: 100vw;
-}
-
-.c-content {
-	min-width: 100vw;
-	width: 100vw;
-}
-
-.c-loadingbar__container
-{
-	height: 40px;
-	width: 1200px;
-	border-radius: 500px;
-	margin-top: 32px;;
-}
-
-.c-loadingbar__bar
-{
-	height: 40px;
-	border-radius: 250px 0px 0px 250px;
-	transition: 2s ease;
-}
-
-.c-loadingcon-pink
-{
-	background-color: var(--loading-pink-light-color);
-}
-
-.c-loadingbar-pink
-{
-	background-color: var(--loading-pink-dark-color);
-}
-
-.c-loadingcon-blue
-{
-	background-color: var(--loading-blue-light-color);
-}
-
-.c-loadingbar-blue
-{
-	background-color: var(--loading-blue-dark-color);
-}
-
-.c-loadingcon-yellow 
-{
-	background-color: var(--loading-yellow-light-color);
-}
-
-.c-loadingbar-yellow 
-{
-	background-color: var(--menu-yellow-color);
-}
-
-.c-title
-{
-	margin-top: 16px;
-	margin-bottom: 32px;
-}
-
-.c-menu__tekst
-{
-	display: flex;
+	flex-direction: column;
 	align-items: center;
-	flex-direction: column;
-	margin-bottom: 52px;
+	justify-content: center;
+
+	
 }
 
-.c-menu__buttons
-{
-	width: 1200px;
+.c-menu-title {
+	color: var(--text-color);
+	font-size: 10vh;
+	padding-bottom: 10vh;
+}
+
+.c-menu-text{
+	font-size: 32px;
+	line-height: 32px;
+	margin-bottom: 10vh;
+}
+
+.c-menu-score {
+	color: var(--text-color);
+	font-size: 16vh;
+}
+
+.c-menu-button-duo{
 	display: flex;
-	flex-direction: row;
 	justify-content: space-between;
+	width: 60vw;
 }
 
-.c-main__buttons{
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+
+
+/* buttons */
+
+.c-button {
+	background-color: var(--topbar-color);
+	color: var(--btn-text-color);
+	font-size: 32px;
+	text-align: center;
+	margin: 16px;
+	width: 300px;
+	height: 70px;
+	border: none;
+	border-radius: 500px;
+	font-family: var(--global-font);
+	box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.3);
 }
 
-.c-modal-countdown-number{
-	display: none;
-	font-size: 80px;
-	transition: font-size 1s;
-}
-
-.c-tekst__menu
-{
-	margin: 2px 0;
-	font-size: 24px;
-}
+/* loading icons */
 
 .lds-dual-ring {
 	display: inline-block;
@@ -276,7 +267,7 @@ body {
 }
 
 .lds-dual-ring:after {
-	content: " ";
+	content: ' ';
 	display: block;
 	width: 80px;
 	height: 80px;
