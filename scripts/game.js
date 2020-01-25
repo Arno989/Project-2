@@ -33,7 +33,7 @@ var downPressed = false;
 //game variables
 var beginVelocityX = (beginVelocityY = 4.5);
 var increasementSpeed = 0.1;
-var pointsToWin = 1;
+var pointsToWin = 3;
 
 // prediction variables
 var prediction = true;
@@ -41,7 +41,7 @@ var angle = null; //this is to predict the bounce
 var PredictionHitX;
 var PredictionHitY;
 var PredictionBegin = 80; // between 0 and 80
-var PredictionEnd = 150;
+var PredictionEnd = 30;
 var predictionColor = "#7474746d";
 
 //Select mode
@@ -173,6 +173,13 @@ function resetBall() {
   ball.y = canvas.height / 2;
 }
 
+function resetPaddles(){
+  user.x = 15;
+  user.y = canvas.height / 2 - 190 / 2;
+  user2.x = canvas.width - 35;
+  user2.y = canvas.height / 2 - 190 / 2
+}
+
 function countdown() {
   countdownNumber = document.querySelector(".c-modal-countdown-number");
   countdownNumber.style.display = "block";
@@ -250,6 +257,7 @@ function clickMainPaused() {
 function clickRestart() {
   gameOverScreen = document.querySelector(".js-gameOver");
   resetBall();
+  resetPaddles();
   startMovingBall("right");
   gameOverScreen.style.display = "none";
   user.score = 0;
@@ -268,6 +276,7 @@ function clickMain() {
   wall.score = 0;
   setPage("main");
   loop = null;
+  resetPaddles();
   clearInterval(loop);
 }
 
@@ -412,30 +421,41 @@ function update() {
 
   // game has ended
   // show game over menu and set the score board on the menu
-  if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
+  if(GameMode != "wall"){
+    if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin) {
+      console.log("game ended");
+      gameOverScore = document.querySelector(".js-menu-score");
+      gameOverScreen = document.querySelector(".js-gameOver");
+      if (GameMode == "multi") {
+        gameOverScreen.style.display = "block";
+        gameOverScore.innerText = "Gewonnen!";
+        GameMode = "ai";
+      } else if (GameMode == "single") {
+        if (com.score > user.score) {
+          gameOverScore.innerText = "verloren!";
+        } else {
+          gameOverScore.innerText = "Gewonnen!";
+        }
+        gameOverScreen.style.display = "block";
+        GameMode = "ai";
+      }
+      if (btnAgain == null) {
+        // get button again if it is not defined yet.
+        btnAgain = document.querySelector(".js-btn-again");
+        btnAgain.addEventListener("click", clickRestart);
+      }
+      if (btnMain == null) {
+        // get button main page if it is not defined yet.
+        btnMain = document.querySelector(".js-btn-mainPage");
+        btnMain.addEventListener("click", clickMain);
+      }
+    }
+  } else if (GameMode == "wall" && wall.score > 0) {
     console.log("game ended");
     gameOverScore = document.querySelector(".js-menu-score");
     gameOverScreen = document.querySelector(".js-gameOver");
     if(gameOverScreen.style.display == "none" && wall.score > 0){
       ball.velocityX = beginVelocityX; ball.velocityY = beginVelocityY; lastPaddleHit = user;
-    }
-    if (GameMode == "multi") {
-      gameOverScreen.style.display = "block";
-      gameOverScore.innerText = "Gewonnen!";
-      GameMode = "ai";
-    } else if (GameMode == "single") {
-      if (com.score > user.score) {
-        gameOverScore.innerText = "verloren!";
-      } else {
-        gameOverScore.innerText = "Gewonnen!";
-      }
-      gameOverScreen.style.display = "block";
-      GameMode = "ai";
-    } else if (GameMode == "wall" && wall.score > 0) {
-      bounceY = false; bounceX = false;
-      gameOverScreen.style.display = "block";
-      gameOverScore.innerText = user.score;
-      GameMode = "ai";
     }
     if (btnAgain == null) {
       // get button again if it is not defined yet.
@@ -447,6 +467,10 @@ function update() {
       btnMain = document.querySelector(".js-btn-mainPage");
       btnMain.addEventListener("click", clickMain);
     }
+    bounceY = false; bounceX = false;
+    gameOverScreen.style.display = "block";
+    gameOverScore.innerText = user.score;
+    GameMode = "ai";
     wall.score = 0;
   }
 
@@ -475,7 +499,7 @@ function update() {
   // when the ball collides with bottom and top walls, inverse the y velocity.
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
     if(GameMode == "ai"){
-      ball.velocityY = -ball.velocityY;
+      ball.velocityY = -ball.velocityY; 
       console.log("reverse top boundries");
     } else if (bounceY == false) { // make sure it only bounces once, this bugged a lot
       ball.velocityY = -ball.velocityY;
@@ -505,7 +529,7 @@ function update() {
   if (collision(ball, player)) {
     console.log("collision");
     //when ball hits the rounded top or bottom of the paddle
-    if (player.x == 15) { // links hit
+    if (player.x == 15) { // left hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         ball.velocityY = -ball.velocityY;
         console.log("reverse top rounded corners");
@@ -514,7 +538,7 @@ function update() {
         console.log("reverse top rounded corners");
       }
 
-    } else if (player.x == canvas.width - 35) { // rechts hit
+    } else if (player.x == canvas.width - 35) { // right hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         ball.velocityY = -ball.velocityY;
         console.log("reverse top rounded corners");
@@ -524,16 +548,15 @@ function update() {
       }
     }
 
-    if (GameMode == "wall" && lastPaddleHit.x == 15) { // add 1 point to user when in wall mode and collide.
-      user.score += 1;
-      prediction = false;
-    }
-
-    // change the X and Y velocity direction and accelerate the ball when not in ai mode
+    // change the X and Y velocity direction and accelerate the ball when not in ai mode and add score in wall mode
     let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
     if (GameMode != "ai") {
       if (bounceX == false) {  // this is to fix a bug where the ball keeps bouncing on a paddle
         console.log("speed up ball");
+        if (GameMode == "wall" && player.x == 15) { // add 1 point to user when in wall mode and collide with user paddle.
+          user.score += 1;
+          prediction = false;
+        }
         ball.velocityX = -ball.velocityX - direction * ball.speed;
         ball.velocityY = ball.velocityY + direction * ball.speed;
         bounceX = true;
@@ -543,7 +566,7 @@ function update() {
       ball.velocityY = ball.velocityY;
     }
     // this is just to make sure the angle stays always the same
-    if(bounceX == false){
+    if(bounceX == true){
       if (ball.velocityY < 0) {
         if (ball.velocityX < 0) {
           ball.velocityY = ball.velocityX;
@@ -565,7 +588,8 @@ function update() {
     }
     lastPaddleHit = player;
   }
-  if (ball.x > user.right + (ball.velocityX * 2) && ball.x < user2.x - (ball.velocityX * 2)) { // this is for that bug where the ball keeps bouncing on the paddle
+  if (ball.x > user.right + (ball.velocityX * 5) && ball.x < user2.x - (ball.velocityX * 5) && bounceX == true) { // this is for that bug where the ball keeps bouncing on the paddle
+    console.log("reset bounce X" + " " + user.right)
     bounceX = false;
   }
 
@@ -687,8 +711,8 @@ function drawPrediction() {
   if (prediction) {
     if (angle == "upRight" && ball.velocityX > 0 && PredictionHitX > canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX + PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = canvas.height - ball.radius - Math.abs(PredictionEnd);
+      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = canvas.height - ball.radius - Math.abs(ball.velocityY * PredictionEnd);
       x = PredictionEndX;
       for (x; x > canvas.width - 35; x -= ball.velocityX) {
         PredictionEndY += Math.abs(ball.velocityY);
@@ -715,8 +739,8 @@ function drawPrediction() {
       }
     } else if (angle == "upLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX - PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = canvas.height - ball.radius - Math.abs(PredictionEnd);
+      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = canvas.height - ball.radius - Math.abs(ball.velocityY * PredictionEnd);
       x = PredictionEndX; // this is to predict where the x position will be when the ball bounces off to the other direction
       for (x; x < 35; x -= ball.velocityX) {
         // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off.
@@ -744,8 +768,8 @@ function drawPrediction() {
       }
     } else if (angle == "downRight" && ball.velocityX > 0 && PredictionHitX > canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX + PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = ball.radius + Math.abs(PredictionEnd);
+      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = ball.radius + Math.abs(ball.velocityY * PredictionEnd);
       x = PredictionEndX;
       for (x; x > canvas.width - 35; x -= ball.velocityX) {
         PredictionEndY -= Math.abs(ball.velocityY);
@@ -772,8 +796,8 @@ function drawPrediction() {
       }
     } else if (angle == "downLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX - PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = ball.radius + Math.abs(PredictionEnd);
+      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = ball.radius + Math.abs(ball.velocityY * PredictionEnd);
       x = PredictionEndX;
       for (x; x < 35; x -= ball.velocityX) {
         PredictionEndY -= Math.abs(ball.velocityY);
