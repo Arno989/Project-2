@@ -16,6 +16,7 @@
 
 	<script src="./scripts/UI.js"></script>
 	<script src="./scripts/pages.js"></script>
+	<!-- <script src="./scripts/bluetooth.js"></script> -->
 </head>
 
 <body onresize="resize()">
@@ -45,7 +46,7 @@
 						Als het lampje brand, klik op "Doorgaan".</br>
 						Als het lampje niet brand, ga naar de Installatiehandleiding.
 					</p>
-					<button class="c-button c-color-yellow js-content__right">Doorgaan</button>
+					<button class="c-button c-color-yellow js-content__right js-addProgress">Doorgaan</button>
 				</div>
 			</div>
 
@@ -53,7 +54,7 @@
 			<div class="c-content">
 				<div class="c-container-top">
 					<div class="c-loadingbar">
-						<div class="c-loadingbar-completed"></div>
+						<div class="c-loadingbar-completed js-loadingbar-completed"></div>
 					</div>
 				</div>
 				<div class="c-menu js-harslagmeter-info">
@@ -98,7 +99,26 @@
 				<div class="c-menu">
 					<p class="c-menu-title u-margin-reset">ExerPong</p>
 					<button class="c-button c-color-blue js-content__right">Begin</button>
-					<button class="c-button c-color-yellow js-content__right3">Highscores</button>
+					<button class="c-button c-color-yellow js-btn-highscores">Highscores</button>
+				</div>
+
+				<div class="c-modal js-highscores">
+					<div class="c-modal-content">
+						<p class="c-menu-title">Highscores</p>
+						<table class="c-scoreboard js-scoreboard">
+							<tr>
+								<th>
+									<p>Plaats</p>
+								</td>
+								<th>
+									<p>Naam</p>
+								</th>
+								<th>
+									<p>Score</p>
+								</td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
 
@@ -107,9 +127,9 @@
 				<div class="c-menu">
 					<p class="c-menu-title  u-margin-reset">Game mode</p>
 					<div class="c-menu-button-duo">
-						<button class="c-button c-color-blue js-btn-single">single</button>
-						<button class="c-button c-color-yellow js-btn-multi">multi</button>
-						<button class="c-button c-color-pink js-btn-wall">wall</button>
+						<button class="c-button c-color-blue js-btn-single js-content__right">single</button>
+						<button class="c-button c-color-yellow js-btn-multi js-content__right">multi</button>
+						<button class="c-button c-color-pink js-btn-wall js-content__right">wall</button>
 					</div>
 				</div>
 			</div>
@@ -127,37 +147,28 @@
 				<canvas id="pong" class="c-game"> </canvas>
 				<script src="./scripts/game.js"></script>
 
-				<div class="c-modal-gameover js-gameOver">
+				<div class="c-modal c-modal-game js-gameOver">
 					<div class="c-modal-content">
-						<p class="c-menu-score js-menu-score">0 - 0</p>
-						<button class="c-menu-button js-btn-again">Opnieuw</button>
-						<button class="c-menu-button js-btn-mainPage">Hoofdmenu</button>
+						<p class="c-menu-title js-menu-score">0 - 0</p>
+						<button class="c-button c-color-blue js-btn-again">Opnieuw</button>
+						<button class="c-button c-color-yellow js-btn-mainPage">Hoofdmenu</button>
 					</div>
 				</div>
 
-				<div class="c-modal-gameover js-gamePaused">
+				<div class="c-modal c-modal-game js-gamePaused">
 					<div class="c-modal-content">
-						<p class="c-menu-score">Paused!</p>
+						<p class="c-menu-title">Paused!</p>
 						<button class="c-menu-button js-btn-resume">Verder spelen!</button>
 						<button class="c-menu-button js-btn-mainPagePaused">Hoofdmenu</button>
 					</div>
 				</div>
 
-				<div class="c-modal-countdown js-countdown">
+				<div class="c-modal c-modal-game js-countdown">
 					<div class="c-modal-content">
-						<p class="c-modal-countdown-number js-countdow-nNumber"> 3 </p>
+						<p class="c-modal-countdown js-countdown-number"> 3 </p>
 					</div>
 				</div>
 			</div>
-
-			<!-- Page 7: Highscores -->
-			<div class="c-content">
-				<div class="c-menu">
-					<p>Hallo iedereen, hier komen de highscores</p>
-				</div>
-			</div>
-
-
 
 		</div>
 	</div>

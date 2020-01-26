@@ -82,8 +82,8 @@ p {
 	height: 40px;
 	width: 100%;
 	border-radius: 40px;
-	transform: translateX(-100%) ;
-	transition: 2s linear;
+	transform: translateX(-100%);
+	transition: 1s ease;
 }
 
 .c-topbar {
@@ -141,12 +141,11 @@ p {
 
 /* Game overlay */
 
-.c-modal-gameover {
+.c-modal {
 	display: none; /* set this to block for testing <------------------- */
 	position: fixed;
 	font-family: var(--global-font);
-	z-index: 1;
-	left: 0;
+	z-index: 10;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
@@ -164,11 +163,12 @@ p {
 	justify-content: center;
 }
 
-.c-modal-countdown-number {
-	display: none;
+.c-modal-countdown {
 	font-size: 80px;
 	transition: font-size 1s;
 }
+
+
 
 /* Game menus */
 
@@ -186,7 +186,7 @@ p {
 	justify-content: center;
 }
 
-.c-container-bottom{
+.c-container-bottom {
 	height: 100vh;
 	width: 100vw;
 	position: absolute;
@@ -194,7 +194,7 @@ p {
 	flex-direction: row;
 	align-items: flex-end;
 	justify-content: flex-start;
-
+	pointer-events: none;
 }
 
 .c-menu {
@@ -228,6 +228,20 @@ p {
 	display: flex;
 	justify-content: space-between;
 	width: 60vw;
+}
+
+/* table */
+
+.c-scoreboard {
+}
+
+.c-scoreboard > tr {
+}
+
+.c-scoreboard > tr > th > p {
+}
+
+.c-scoreboard > tr > td > p {
 }
 
 /* buttons */

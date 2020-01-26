@@ -132,6 +132,7 @@ function getRndInteger(min, max) {
 function pauseOn() {
   gameState = false;
   gameOverScreen = document.querySelector(".js-gameOver");
+  console.log(gameOverScreen)
   if (gameOverScreen.style.display == "none" && loop != null) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
@@ -174,9 +175,17 @@ function resetBall() {
 }
 
 function countdown() {
-  countdownNumber = document.querySelector(".c-modal-countdown-number");
+  countdownNumber = document.querySelector(".js-countdown");
   countdownNumber.style.display = "block";
-  countdownNumber.style.fontSize = "1px";
+  countdownNumber.innerHTML = "3"
+  /* delay */
+  countdownNumber.innerHTML = "2"
+  /* delay */
+  countdownNumber.innerHTML = "1"
+  /* delay */
+  countdownNumber.innerHTML = "Start!"
+  /* delay */
+  countdownNumber.style.display = "none";
 }
 
 function startMovingBall(direction) {
@@ -248,10 +257,12 @@ function clickMainPaused() {
 }
 
 function clickRestart() {
+  console.log("restart")
   gameOverScreen = document.querySelector(".js-gameOver");
   resetBall();
   startMovingBall("right");
   gameOverScreen.style.display = "none";
+  /* reset ball speed */
   user.score = 0;
   user2.score = 0;
   com.score = 0;
@@ -266,7 +277,7 @@ function clickMain() {
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
-  setPage("main");
+  gotoPos('left', 200);
   loop = null;
   clearInterval(loop);
 }
@@ -413,7 +424,7 @@ function update() {
   // game has ended
   // show game over menu and set the score board on the menu
   if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
-    console.log("game ended");
+    /* console.log("game ended"); */
     gameOverScore = document.querySelector(".js-menu-score");
     gameOverScreen = document.querySelector(".js-gameOver");
     if(gameOverScreen.style.display == "none" && wall.score > 0){
@@ -499,8 +510,8 @@ function update() {
     player = ball.x + ball.radius < canvas.width / 2 ? user : wall;
   }
 
-  console.log(ball.velocityY);
-
+  /* console.log(ball.velocityY);
+ */
   // if the ball hits a paddle
   if (collision(ball, player)) {
     console.log("collision");

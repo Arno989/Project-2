@@ -10,7 +10,7 @@ let index,
 	playerOneConnected = false,
 	betweenConnections = false,
 	playerTwoConnected = false,
-	progressbar;
+	progressbar = -100;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -173,9 +173,10 @@ const setbetweenConnections = function() {
 //setup for bluetooth connection pages
 
 const updateCompleted = function() {
-    progressbar += 16.66
-    document.querySelectorAll('.c-loadingbar-completed').style.width = progressbar + '%';
-}
+	/* 
+	progressbar += 16.66;
+	document.querySelectorAll('.c-loadingbar-completed').style.width = progressbar + '%'; */
+};
 
 const setConnect = function() {
 	btnPlayer = document.querySelector('.js-btn-connect-player');
@@ -200,19 +201,22 @@ const setConnect = function() {
 };
 
 const setPage = function(page) {
+	info = document.querySelector('.js-harslagmeter-info');
+	connect = document.querySelector('.js-harslagmeter-connect');
+
 	switch (page) {
 		case 'heart':
-			heartMain.style.display = 'flex';
+			info.style.display = 'flex';
 			connect.style.display = 'none';
 			setHeartMain();
 			break;
 		case 'connect':
-			heartMain.style.display = 'none';
+			info.style.display = 'none';
 			connect.style.display = 'flex';
 			setConnect();
 			break;
 		default:
-			heartMain.style.display = 'none';
+			info.style.display = 'none';
 			connect.style.display = 'none';
 			break;
 	}
@@ -224,8 +228,21 @@ const setHighScore = function() {
 	handleData('https://project2function.azurewebsites.net/api/highscore', verwerkHighScores);
 };
 
+// progress bar
+
+const addProgress = function(position) {
+	bar = document.querySelector('.js-loadingbar-completed');
+	bar.style.transform = 'translateX(' + progressbar + '%)';
+	console.log('translateX(' + progressbar + '%)');
+	setTimeout(function() {
+		bar.style.transform = 'translateX(' + (-100 + (100 / 6) * position) + '%)';
+		console.log('translateX(' + (-100 + (100 / 6) * position) + '%)');
+	}, 500);
+	progressbar = -100 + (100 / 6) * position;
+};
+
 // Initialize
-const init = function() {
+const initPages = function() {
 	btnBack = document.querySelector('.js-btn-back');
 	btnConnect = document.querySelector('.js-btn-connect');
 
@@ -233,30 +250,42 @@ const init = function() {
 	btnMulti = document.querySelector('.js-btn-multi');
 	btnWall = document.querySelector('.js-btn-wall');
 
+	btnHighscores = document.querySelector('.js-btn-highscores');
+	highscores = document.querySelector('.js-highscores');
+
+	progress = document.querySelector('.js-addProgress');
+
 	btnBack.addEventListener('click', function() {
+		addProgress(1)
 		setPage('heart');
 	});
 	btnConnect.addEventListener('click', function() {
+		addProgress(2)
 		setPage('connect');
 	});
 
 	btnSingle.addEventListener('click', function() {
 		setPage();
-		console.log('single');
 		startGame(true, 'single');
 	});
 	btnMulti.addEventListener('click', function() {
 		setPage();
-		console.log('multi');
 		startGame(true, 'multi');
 	});
 	btnWall.addEventListener('click', function() {
 		setPage();
-		console.log('wall');
 		startGame(true, 'wall');
+	});
+
+	btnHighscores.addEventListener('click', function() {
+		highscores.style.display = 'block';
+	});
+
+	progress.addEventListener('click', function() {
+		addProgress(1);
 	});
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-	init();
+	initPages();
 });
