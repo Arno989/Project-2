@@ -2,7 +2,6 @@ var position = 0;
 
 const gotoPos = () => { /* https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage */
 	position = sessionStorage.getItem('position');
-	console.log(position)
 	if (position == 0 || position == null ) {
 		
 	} else {
