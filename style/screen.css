@@ -1,4 +1,3 @@
-	--loading-blue-light-color: #ECF3F9;
 :root {
 	--global-font: 'Neucha', cursive, Arial, Helvetica, sans-serif;
 	--background-color: #1b4186;
@@ -25,6 +24,11 @@ body {
 	overflow: hidden;
 }
 
+p {
+	font-size: 32px;
+	line-height: 32px;
+}
+
 /*------------------------------------*\
 #COMPONENTS
 \*------------------------------------*/
@@ -39,8 +43,6 @@ body {
 
 .c-container {
 	will-change: scroll-position;
-	/*transition-duration: 0.75s;
-	transition-timing-function: ease-out;*/
 	display: flex;
 	flex-wrap: nowrap;
 	height: 100vh;
@@ -50,13 +52,39 @@ body {
 .c-content {
 	min-width: 100vw;
 	width: 100vw;
-	background: url(/img/svg/background.svg), linear-gradient(0deg, rgba(176,223,253,1) 0%, rgba(255,255,255,1) 100%);
+	background: url(/img/svg/background.svg), linear-gradient(0deg, rgba(176, 223, 253, 1) 0%, rgba(255, 255, 255, 1) 100%);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
 /* Top game bar */
+
+.c-container-top {
+	margin-top: 5vh;
+	width: 100vw;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.c-loadingbar {
+	background-color: var(--loading-pink-light-color);
+	height: 40px;
+	width: 60vw;
+	border-radius: 40px;
+	overflow: hidden;
+}
+
+.c-loadingbar-completed {
+	background-color: var(--menu-pink-color);
+	height: 40px;
+	width: 100%;
+	border-radius: 40px;
+	transform: translateX(-100%) ;
+	transition: 2s linear;
+}
 
 .c-topbar {
 	height: 10vh;
@@ -145,55 +173,50 @@ body {
 /* Game menus */
 
 .c-logo {
-	margin: 5px;
+	margin-right: 1vw;
 	width: 13vh;
 	height: auto;
 }
 
 .c-logo-group {
+	padding: 0 0 2vh 2vw;
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-
-	
 }
 
-.c-loadingbar {
-	background-color: var(--loading-pink-light-color);
-	height: 40px;
-	width: 60vw;
-	border-radius: 40px;
-}
+.c-container-bottom{
+	height: 100vh;
+	width: 100vw;
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: flex-start;
 
-.c-loadingbar-completed {
-	background-color: var(--menu-pink-color);
-	height: 40px;
-	border-radius: 40px;
-	transition: width 2s ease;
 }
 
 .c-menu {
-	height: 100vh;
+	margin-top: 10vh;
+	height: 80vh;
 	width: 100vw;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-
-	
+	justify-content: space-evenly;
 }
 
 .c-menu-title {
 	color: var(--text-color);
 	font-size: 10vh;
-	padding-bottom: 10vh;
+	line-height: 10vh;
+	margin-bottom: 5vh;
 }
 
-.c-menu-text{
-	font-size: 32px;
-	line-height: 32px;
-	margin-bottom: 10vh;
+.c-menu-text {
+	margin-bottom: 5vh;
 }
 
 .c-menu-score {
@@ -201,13 +224,11 @@ body {
 	font-size: 16vh;
 }
 
-.c-menu-button-duo{
+.c-menu-button-duo {
 	display: flex;
 	justify-content: space-between;
 	width: 60vw;
 }
-
-
 
 /* buttons */
 
@@ -220,7 +241,7 @@ body {
 	width: 300px;
 	height: 70px;
 	border: none;
-	border-radius: 500px;
+	border-radius: 70px;
 	font-family: var(--global-font);
 	box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.3);
 }
@@ -263,7 +284,8 @@ body {
 	background-color: var(--loading-pink-dark-color);
 }
 
-.c-color-pink-light, .c-color-pink:disabled {
+.c-color-pink-light,
+.c-color-pink:disabled {
 	background-color: var(--loading-pink-light-color);
 }
 
@@ -271,7 +293,8 @@ body {
 	background-color: var(--menu-yellow-color);
 }
 
-.c-color-yellow-light, .c-color-yellow:disabled {
+.c-color-yellow-light,
+.c-color-yellow:disabled {
 	background-color: var(--loading-yellow-light-color);
 }
 
@@ -279,7 +302,8 @@ body {
 	background-color: var(--loading-blue-dark-color);
 }
 
-.c-color-blue-light, .c-color-blue:disabled{
+.c-color-blue-light,
+.c-color-blue:disabled {
 	background-color: var(--loading-blue-light-color);
 }
 
