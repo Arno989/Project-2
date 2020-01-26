@@ -31,7 +31,7 @@ var upPressed = false;
 var downPressed = false;
 
 //game variables
-var beginVelocityX = (beginVelocityY = 5);
+var beginVelocityX = (beginVelocityY = 4.5);
 var increasementSpeed = 0.1;
 var pointsToWin = 1;
 
@@ -41,7 +41,7 @@ var angle = null; //this is to predict the bounce
 var PredictionHitX;
 var PredictionHitY;
 var PredictionBegin = 80; // between 0 and 80
-var PredictionEnd = 30;
+var PredictionEnd = 150;
 var predictionColor = "#7474746d";
 
 //Select mode
@@ -180,6 +180,7 @@ function countdown() {
 }
 
 function startMovingBall(direction) {
+  console.log("start moving ball");
   countdown();
   // start moving the ball in the chosen direction and sets the speed and velocity to standard.
   ball.speed = increasementSpeed;
@@ -412,9 +413,10 @@ function update() {
   // game has ended
   // show game over menu and set the score board on the menu
   if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin || wall.score > 0) {
+    console.log("game ended");
     gameOverScore = document.querySelector(".js-menu-score");
     gameOverScreen = document.querySelector(".js-gameOver");
-    if(gameOverScreen.style.display == "none"){
+    if(gameOverScreen.style.display == "none" && wall.score > 0){
       ball.velocityX = beginVelocityX; ball.velocityY = beginVelocityY; lastPaddleHit = user;
     }
     if (GameMode == "multi") {
@@ -460,11 +462,11 @@ function update() {
   } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
     wall.score++;
     resetBall();
-  } else if (ball.x + ball.radius > canvas.width) {
+  } else if (ball.x + ball.radius > canvas.width && GameMode != "wall") {
     user.score++;
     resetBall();
     startMovingBall("left");
-  } 
+  }
 
   // the ball has a velocity
   ball.x += ball.velocityX;
@@ -474,10 +476,10 @@ function update() {
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
     if(GameMode == "ai"){
       ball.velocityY = -ball.velocityY;
-      console.log("reverse");
+      console.log("reverse top boundries");
     } else if (bounceY == false) { // make sure it only bounces once, this bugged a lot
       ball.velocityY = -ball.velocityY;
-      console.log("reverse");
+      console.log("reverse top boundries");
       bounceY = true;
     }
   }
@@ -497,30 +499,32 @@ function update() {
     player = ball.x + ball.radius < canvas.width / 2 ? user : wall;
   }
 
+  console.log(ball.velocityY);
+
   // if the ball hits a paddle
   if (collision(ball, player)) {
-    lastPaddleHit = player;
+    console.log("collision");
     //when ball hits the rounded top or bottom of the paddle
     if (player.x == 15) { // links hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse");
+        console.log("reverse top rounded corners");
       } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse");
+        console.log("reverse top rounded corners");
       }
 
     } else if (player.x == canvas.width - 35) { // rechts hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse");
+        console.log("reverse top rounded corners");
       } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse");
+        console.log("reverse top rounded corners");
       }
     }
 
-    if (GameMode == "wall" && lastPaddleHit.x == 15) {
+    if (GameMode == "wall" && lastPaddleHit.x == 15) { // add 1 point to user when in wall mode and collide.
       user.score += 1;
       prediction = false;
     }
@@ -529,6 +533,7 @@ function update() {
     let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
     if (GameMode != "ai") {
       if (bounceX == false) {  // this is to fix a bug where the ball keeps bouncing on a paddle
+        console.log("speed up ball");
         ball.velocityX = -ball.velocityX - direction * ball.speed;
         ball.velocityY = ball.velocityY + direction * ball.speed;
         bounceX = true;
@@ -538,19 +543,27 @@ function update() {
       ball.velocityY = ball.velocityY;
     }
     // this is just to make sure the angle stays always the same
-    if (ball.velocityY < 0) {
-      if (ball.velocityX < 0) {
-        ball.velocityY = ball.velocityX;
-      } else if (ball.velocityX > 0) {
-        ball.velocityY = -ball.velocityX;
-      }
-    } else if (ball.velocityY > 0) {
-      if (ball.velocityX < 0) {
-        ball.velocityY = -ball.velocityX;
-      } else if (ball.velocityX > 0) {
-        ball.velocityY = ball.velocityX;
+    if(bounceX == false){
+      if (ball.velocityY < 0) {
+        if (ball.velocityX < 0) {
+          ball.velocityY = ball.velocityX;
+          console.log("reverse wrong");
+        } else if (ball.velocityX > 0) {
+          console.log(ball.velocityX);
+          ball.velocityY = -ball.velocityX;
+          console.log(ball.velocityY);
+        }
+      } else if (ball.velocityY > 0) {
+        if (ball.velocityX < 0) {
+          ball.velocityY = -ball.velocityX;
+          console.log("reverse wrong");
+        } else if (ball.velocityX > 0) {
+          ball.velocityY = ball.velocityX;
+          console.log("reverse wrong");
+        }
       }
     }
+    lastPaddleHit = player;
   }
   if (ball.x > user.right + (ball.velocityX * 2) && ball.x < user2.x - (ball.velocityX * 2)) { // this is for that bug where the ball keeps bouncing on the paddle
     bounceX = false;
@@ -674,8 +687,8 @@ function drawPrediction() {
   if (prediction) {
     if (angle == "upRight" && ball.velocityX > 0 && PredictionHitX > canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = canvas.height - ball.radius - Math.abs(ball.velocityY * PredictionEnd);
+      PredictionEndX = PredictionHitX + PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = canvas.height - ball.radius - Math.abs(PredictionEnd);
       x = PredictionEndX;
       for (x; x > canvas.width - 35; x -= ball.velocityX) {
         PredictionEndY += Math.abs(ball.velocityY);
@@ -702,8 +715,8 @@ function drawPrediction() {
       }
     } else if (angle == "upLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = canvas.height - ball.radius - Math.abs(ball.velocityY * PredictionEnd);
+      PredictionEndX = PredictionHitX - PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = canvas.height - ball.radius - Math.abs(PredictionEnd);
       x = PredictionEndX; // this is to predict where the x position will be when the ball bounces off to the other direction
       for (x; x < 35; x -= ball.velocityX) {
         // this is to "look into the future" and predict where the y position of the ball will be when x(in the future) is bouncing off.
@@ -731,8 +744,8 @@ function drawPrediction() {
       }
     } else if (angle == "downRight" && ball.velocityX > 0 && PredictionHitX > canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = ball.radius + Math.abs(ball.velocityY * PredictionEnd);
+      PredictionEndX = PredictionHitX + PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = ball.radius + Math.abs(PredictionEnd);
       x = PredictionEndX;
       for (x; x > canvas.width - 35; x -= ball.velocityX) {
         PredictionEndY -= Math.abs(ball.velocityY);
@@ -759,8 +772,8 @@ function drawPrediction() {
       }
     } else if (angle == "downLeft" && ball.velocityX < 0 && PredictionHitX < canvas.width - canvas.width / 5) {
       // only predict when ball is far enough away from the side that it makes sense to predict the angle
-      PredictionEndX = PredictionHitX + ball.velocityX * PredictionEnd; //first calcuate the predictions 2d
-      PredictionEndY = ball.radius + Math.abs(ball.velocityY * PredictionEnd);
+      PredictionEndX = PredictionHitX - PredictionEnd; //first calcuate the predictions 2d
+      PredictionEndY = ball.radius + Math.abs(PredictionEnd);
       x = PredictionEndX;
       for (x; x < 35; x -= ball.velocityX) {
         PredictionEndY -= Math.abs(ball.velocityY);
