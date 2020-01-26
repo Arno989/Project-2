@@ -11,7 +11,6 @@ let ScoreDivc = document.querySelector(".js-score-c");
 let gameOverScreen = null;
 let gameOverScore = null;
 let gamePausedScreen = null;
-let countdownNumber = null;
 let btnAgain = null;
 let btnMain = null;
 let btnResume = null;
@@ -29,27 +28,33 @@ var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
+var speedDownPressed = false;
+var speedUpPressed = false;
 
-//game variables
+// user variables, you can change these
 var beginVelocityX = (beginVelocityY = 4.5);
 var increasementSpeed = 0.1;
+var increasementSpeedByUser = 0.03;
 var pointsToWin = 3;
+var countDownFrom = 3;
+
+// game variablesn, you should not change these
+let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+let GameMode = "single"; //keep track of what the selected gamemode was.
+let gameLoop = null;
+var timerInterval = null;
+var timerLoop = true;
+var gameState = false;
+let framePerSecond = 90; // number of frames per second
 
 // prediction variables
 var prediction = true;
 var angle = null; //this is to predict the bounce
 var PredictionHitX;
 var PredictionHitY;
-var PredictionBegin = 80; // between 0 and 80
-var PredictionEnd = 30;
+var PredictionBeginStatic = 360; // pixels * begin velocity(4.5)
+var PredictionEndStatic = 135;
 var predictionColor = "#7474746d";
-
-//Select mode
-let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "single"; //keep track of what the selected gamemode was.
-let loop = null;
-var gameState = false;
-let framePerSecond = 90; // number of frames per second
 
 const ball = {
   x: canvas.width / 2,
@@ -132,10 +137,10 @@ function getRndInteger(min, max) {
 function pauseOn() {
   gameState = false;
   gameOverScreen = document.querySelector(".js-gameOver");
-  if (gameOverScreen.style.display == "none" && loop != null) {
+  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
-    clearInterval(loop);
+    clearInterval(gameLoop);
     btnResume = document.querySelector(".js-btn-resume");
     btnMainPause = document.querySelector(".js-btn-mainPagePaused");
     btnResume.addEventListener("click", clickResume);
@@ -171,6 +176,8 @@ function drawLine(x, y, xTo, yTo, w, color) {
 function resetBall() {
   ball.x = canvas.width / 2;
   ball.y = canvas.height / 2;
+  ball.velocityX = beginVelocityX;
+  ball.velocityY = beginVelocityY;
 }
 
 function resetPaddles(){
@@ -180,15 +187,7 @@ function resetPaddles(){
   user2.y = canvas.height / 2 - 190 / 2
 }
 
-function countdown() {
-  countdownNumber = document.querySelector(".c-modal-countdown-number");
-  countdownNumber.style.display = "block";
-  countdownNumber.style.fontSize = "1px";
-}
-
 function startMovingBall(direction) {
-  console.log("start moving ball");
-  countdown();
   // start moving the ball in the chosen direction and sets the speed and velocity to standard.
   ball.speed = increasementSpeed;
   ball.velocityY = beginVelocityY;
@@ -245,7 +244,7 @@ function collision(b, p) {
 }
 
 function clickResume() {
-  loop = setInterval(game, 1000 / framePerSecond);
+  gameLoop = setInterval(game, 1000 / framePerSecond);
   gamePausedScreen.style.display = "none";
 }
 
@@ -266,6 +265,7 @@ function clickRestart() {
   comLeft.score = 0;
   wall.score = 0;
   GameMode = chosenGameMode;
+  setTimer();
 }
 
 function clickMain() {
@@ -275,9 +275,9 @@ function clickMain() {
   comLeft.score = 0;
   wall.score = 0;
   setPage("main");
-  loop = null;
+  gameLoop = null;
   resetPaddles();
-  clearInterval(loop);
+  clearInterval(gameLoop);
 }
 
 function logKey(event) {
@@ -293,24 +293,32 @@ function logKey(event) {
 function keyDownHandler(event) {
   if (event.keyCode == 39) {
     rightPressed = true;
-  } else if (event.keyCode == 37) {
+  }if (event.keyCode == 37) {
     leftPressed = true;
-  } else if (event.keyCode == 40) {
+  }if (event.keyCode == 40) {
     downPressed = true;
-  } else if (event.keyCode == 38) {
+  }if (event.keyCode == 38) {
     upPressed = true;
+  }if (event.keyCode == 71) {
+    speedDownPressed = true;
+  }if (event.keyCode == 72) {
+    speedUpPressed = true;
   }
 }
 
 function keyUpHandler(event) {
   if (event.keyCode == 39) {
     rightPressed = false;
-  } else if (event.keyCode == 37) {
+  }if (event.keyCode == 37) {
     leftPressed = false;
-  } else if (event.keyCode == 40) {
+  }if (event.keyCode == 40) {
     downPressed = false;
-  } else if (event.keyCode == 38) {
+  }if (event.keyCode == 38) {
     upPressed = false;
+  }if (event.keyCode == 71) {
+    speedDownPressed = false;
+  }if (event.keyCode == 72) {
+    speedUpPressed = false;
   }
 }
 
@@ -394,15 +402,70 @@ function calcuatePredictionHit(direction) {
 // update function, the function that does most of the calculations
 function update() {
   gameState = true;
+
+  // the ball has a velocity
+  ball.x += ball.velocityX;
+  ball.y += ball.velocityY;
+  console.log(ball.velocityY);
+
+  PredictionBegin = PredictionBeginStatic / Math.abs(ball.velocityX); // this is to keep the prediction end and begining always the same
+  PredictionEnd = PredictionEndStatic / Math.abs(ball.velocityX); // if you want it to depend on the velocity, then delete these 2 lines and rename the vars to the same name without "static".
+
+  if (speedDownPressed == true && GameMode != "ai") { //controlls to speed up and down the ball when pressed h or g
+    if (ball.velocityX >= 1 && ball.velocityY >= 1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    } else if (ball.velocityX >= 1 && ball.velocityY <= -1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY >= 1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    }
+  } else if (speedUpPressed == true && GameMode != "ai") {
+    if (ball.velocityX >= 1 && ball.velocityY >= 1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    } else if (ball.velocityX >= 1 && ball.velocityY <= -1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY >= 1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    }
+  }
+  ball.velocityX.toFixed(1);  //keep the velocity to 1 number after the comma
+  ball.velocityY.toFixed(1);
+  if(ball.velocityX < 1 && ball.velocityX > 0){ //make sure the user cant stop the ball by making the velocity lower than 1
+    ball.velocityX = 1;
+  }else if(ball.velocityX > -1 && ball.velocityX < 0){
+    ball.velocityX = -1;
+  }
+  if(ball.velocityY < 1 && ball.velocityY > 0){
+    ball.velocityY = 1;
+  }else if(ball.velocityY > -1 && ball.velocityY < 0){
+    ball.velocityY = -1;
+  }
+
   // check if paddle is too high or too low
-  if (user2.y < user2.width / 2) {
+  if (user2.y - user2.width / 2 <= 0) {
     leftPressed = false;
-  } else if (user2.y > canvas.height - (user2.height + user2.width / 2)) {
+    user2.y = user.width / 2
+  } if (user2.y + user2.height + user2.width / 2 >= canvas.height) {
     rightPressed = false;
-  } else if (user.y < user.width / 2) {
+    user2.y = canvas.height - (user2.height + user2.width / 2);
+  } if (user.y - user.width / 2 <= 0) {
     upPressed = false;
-  } else if (user.y > canvas.height - (user.height + user.width / 2)) {
+    user.y = user.width / 2
+  } if (user.y + user.height + user.width / 2 >= canvas.height) {
     downPressed = false;
+    user.y = canvas.height - (user.height + user.width / 2);
   }
 
   // Check if key is pressed between the modes
@@ -423,7 +486,6 @@ function update() {
   // show game over menu and set the score board on the menu
   if(GameMode != "wall"){
     if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin) {
-      console.log("game ended");
       gameOverScore = document.querySelector(".js-menu-score");
       gameOverScreen = document.querySelector(".js-gameOver");
       if (GameMode == "multi") {
@@ -440,30 +502,25 @@ function update() {
         GameMode = "ai";
       }
       if (btnAgain == null) {
-        // get button again if it is not defined yet.
         btnAgain = document.querySelector(".js-btn-again");
         btnAgain.addEventListener("click", clickRestart);
       }
       if (btnMain == null) {
-        // get button main page if it is not defined yet.
         btnMain = document.querySelector(".js-btn-mainPage");
         btnMain.addEventListener("click", clickMain);
       }
     }
   } else if (GameMode == "wall" && wall.score > 0) {
-    console.log("game ended");
     gameOverScore = document.querySelector(".js-menu-score");
     gameOverScreen = document.querySelector(".js-gameOver");
     if(gameOverScreen.style.display == "none" && wall.score > 0){
       ball.velocityX = beginVelocityX; ball.velocityY = beginVelocityY; lastPaddleHit = user;
     }
     if (btnAgain == null) {
-      // get button again if it is not defined yet.
       btnAgain = document.querySelector(".js-btn-again");
       btnAgain.addEventListener("click", clickRestart);
     }
     if (btnMain == null) {
-      // get button main page if it is not defined yet.
       btnMain = document.querySelector(".js-btn-mainPage");
       btnMain.addEventListener("click", clickMain);
     }
@@ -478,23 +535,31 @@ function update() {
   if (ball.x - ball.radius < 0 && GameMode == "single") {
     com.score++;
     resetBall();
+    resetPaddles();
     startMovingBall("right");
+    if(com.score < pointsToWin){
+      setTimer();
+    }
   } else if (ball.x - ball.radius < 0 && GameMode == "multi") {
     user2.score++;
     resetBall();
+    resetPaddles();
     startMovingBall("right");
+    if(user2.score < pointsToWin){
+      setTimer();
+    }
   } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
     wall.score++;
     resetBall();
   } else if (ball.x + ball.radius > canvas.width && GameMode != "wall") {
     user.score++;
     resetBall();
+    resetPaddles();
     startMovingBall("left");
+    if(user.score < pointsToWin){
+      setTimer();
+    }
   }
-
-  // the ball has a velocity
-  ball.x += ball.velocityX;
-  ball.y += ball.velocityY;
 
   // when the ball collides with bottom and top walls, inverse the y velocity.
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
@@ -507,7 +572,7 @@ function update() {
       bounceY = true;
     }
   }
-  if (bounceY == true && ball.y < canvas.height - ball.velocityY && ball.y > ball.velocityY) { // make sure the bounce gets reset after it bounced, this was to fix the bug from above
+  if (bounceY == true && ball.y < canvas.height - 10 && ball.y > 10) { // make sure the bounce gets reset after it bounced, this was to fix the bug from above
     bounceY = false;
   }
 
@@ -523,10 +588,8 @@ function update() {
     player = ball.x + ball.radius < canvas.width / 2 ? user : wall;
   }
 
-  console.log(ball.velocityY);
-
   // if the ball hits a paddle
-  if (collision(ball, player)) {
+  if (collision(ball, player)) { // if the ball hits a paddle
     console.log("collision");
     //when ball hits the rounded top or bottom of the paddle
     if (player.x == 15) { // left hit
@@ -589,7 +652,6 @@ function update() {
     lastPaddleHit = player;
   }
   if (ball.x > user.right + (ball.velocityX * 5) && ball.x < user2.x - (ball.velocityX * 5) && bounceX == true) { // this is for that bug where the ball keeps bouncing on the paddle
-    console.log("reset bounce X" + " " + user.right)
     bounceX = false;
   }
 
@@ -597,7 +659,7 @@ function update() {
   if (GameMode == "single") {
     comAI(lastPaddleHit);
     prediction = true;
-  } else if (GameMode == "multi" || GameMode == "wall") {
+  } else if (GameMode == "multi") {
     prediction = true;
   } else if (GameMode == "ai") {
     comAI(lastPaddleHit);
@@ -826,6 +888,26 @@ function drawPrediction() {
   }
 }
 
+function setTimer(){
+  timerLoop = true;
+  clearInterval(gameLoop);
+  countDownFrom = 3;
+  timerInterval = setInterval(function(){timer(ctx,countDownFrom--);},1000);
+}
+
+function timer(ctx, countDownFrom){
+  render();
+  ctx.font = "150px 'Neucha', cursive";
+  ctx.fillStyle = "blue";
+  ctx.textAlign = "center";
+  ctx.fillText("" + countDownFrom, canvas.width / 2, canvas.height / 2);
+  if (countDownFrom < 1) {
+    clearInterval(timerInterval);
+    timerLoop = false;
+    gameLoop = setInterval(game, 1000 / framePerSecond);
+  }
+}
+
 // render function, the function that does al the drawing
 function render() {
   clearCanvas();
@@ -841,31 +923,36 @@ function game() {
 }
 
 const resize = () => {
+  pauseOn();
+  prediction = false;
+
   canvas.width = document.documentElement.clientWidth;
   canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
 
-  ball.x = canvas.width / 2;
-  ball.y = canvas.height / 2;
-
-  user.y = (canvas.height - 100) / 2;
+  user.x = 15;
+  user.y = (canvas.height - user.height) / 2;
 
   user2.x = canvas.width - 35;
-  user2.y = (canvas.height - 150) / 2;
+  user2.y = (canvas.height - user2.height) / 2;
+
+  comLeft.x = 15;
 
   com.x = canvas.width - 35;
-  com.y = (canvas.height - 150) / 2;
 
-  net.x = (canvas.width - 2) / 2;
+  net.x = (canvas.width - net.width) / 2;
+  
+  render();
 };
 
 function startGame(state, mode_p) {
-  if (loop == null || mode_p == "ai") {
+  if (gameLoop == null || mode_p == "ai") {
     chosenGameMode = mode_p;
     GameMode = mode_p;
     if (state) {
-      loop = setInterval(game, 1000 / framePerSecond);
+      timerInterval = setInterval(function(){timer(ctx,countDownFrom--);},1000);
+      render();
     } else {
-      clearInterval(loop);
+      clearInterval(gameLoop);
       resetBall();
     }
   }
