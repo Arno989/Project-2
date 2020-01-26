@@ -254,11 +254,13 @@ function clickMainPaused() {
 }
 
 function clickRestart() {
+  console.log("restart")
   gameOverScreen = document.querySelector(".js-gameOver");
   resetBall();
   resetPaddles();
   startMovingBall("right");
   gameOverScreen.style.display = "none";
+  /* reset ball speed */
   user.score = 0;
   user2.score = 0;
   com.score = 0;
