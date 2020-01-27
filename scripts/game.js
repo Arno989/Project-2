@@ -137,7 +137,14 @@ function getRndInteger(min, max) {
 function pauseOn() {
   gameState = false;
   gameOverScreen = document.querySelector(".js-gameOver");
+  console.log(gameOverScreen);
+  if(gameOverScreen.style.display == "none"){
+    console.log("test");
+  }
+  console.log(gameLoop);
+  console.log(timerLoop);
   if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
+    console.log("paused 2");
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(gameLoop);
@@ -218,9 +225,6 @@ function startMovingBall(direction) {
 
 function drawNet() {
   drawRect(net.x, net.y, net.width, net.height, net.color);
-  //for (let i = 0; i <= canvas.height; i += 15) {
-  //drawRect(net.x, net.y + i, net.width, net.height, net.color);
-  //}
 }
 
 function drawText(text, x, y) {
@@ -276,7 +280,7 @@ function clickMain() {
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
-  setPage("main");
+  gotoPos("left", 200);
   gameLoop = null;
   resetPaddles();
   clearInterval(gameLoop);
