@@ -82,7 +82,7 @@ p {
 	height: 40px;
 	width: 100%;
 	border-radius: 40px;
-	transform: translateX(-100%);
+	transform: translateX(-84%);
 	transition: 1s ease;
 }
 
@@ -97,46 +97,87 @@ p {
 }
 
 .c-topbar--score {
-	height: 100%;
-	grid-column: 2;
-	color: var(--text-color);
+	height: 10vh;
+	width: 100vw;
+	grid-column-start: 1;
+	grid-column-end: 3;
 	display: grid;
-	grid-template-columns: 45% 10% 45%;
+	grid-template-columns: 10% 24% 10% 4% 4% 4% 10% 24% 10%;
 }
 
 .c-topbar--score > p {
 	padding: 2.5vh 0;
 	margin: 0;
 	font-size: 5vh;
+	color: var(--text-color);
 	line-height: 5vh;
 	height: 5vh;
 }
 
-.c-topbar--score-l {
-	justify-self: flex-end;
+.c-topbar--heart-l {
+	height: 8vh;
 	grid-column: 1;
-}
-
-.c-topbar--score-c {
+	grid-row: 1;
 	justify-self: center;
+	align-self: center;
+	z-index: 20;
+}
+.c-topbar--heartrate-l {
+	font-size: 3vh !important; /* sorry 😬 */
+	grid-column: 1;
+	grid-row: 1;
+	justify-self: center;
+	align-self: center;
+	z-index: 25;
+}
+.c-topbar--avatar-l {
 	grid-column: 2;
-	padding: 10px;
+	justify-self: center;
 }
-
+.c-topbar--flame-l {
+	height: 8vh;
+	grid-column: 3;
+	justify-self: flex-end;
+}
+.c-topbar--score-l {
+	grid-column: 4;
+	justify-self: flex-end;
+}
+.c-topbar--score-c {
+	grid-column: 5;
+	justify-self: center;
+}
 .c-topbar--score-r {
+	grid-column: 6;
 	justify-self: flex-start;
-	grid-column: 3;
 }
-
-.c-topbar--logo {
-	grid-column: 3;
-	display: flex;
-	justify-content: flex-end;
+.c-topbar--flame-r {
+	grid-column: 7;
+	justify-self: flex-start;
+	align-items: center;
 }
-
-.c-topbar--logo > img {
-	padding: 1vw;
-	height: 6vh;
+.c-topbar--flame-r > img {
+	height: 8vh;
+}
+.c-topbar--avatar-r {
+	grid-column: 8;
+	justify-self: center;
+}
+.c-topbar--heartrate-r {
+	font-size: 3vh !important; /* sorry 😬 */
+	grid-column: 9;
+	grid-row: 1;
+	justify-self: center;
+	align-self: center;
+	z-index: 25;
+}
+.c-topbar--heart-r {
+	height: 8vh;
+	grid-column: 9;
+	grid-row: 1;
+	justify-self: center;
+	align-self: center;
+	z-index: 20;
 }
 
 /* Game overlay */
@@ -145,7 +186,7 @@ p {
 	display: none; /* set this to block for testing <------------------- */
 	position: fixed;
 	font-family: var(--global-font);
-	z-index: 10;
+	z-index: 50;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
@@ -167,8 +208,6 @@ p {
 	font-size: 80px;
 	transition: font-size 1s;
 }
-
-
 
 /* Game menus */
 
@@ -201,7 +240,6 @@ p {
 	margin-top: 10vh;
 	height: 80vh;
 	width: 100vw;
-	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -321,15 +359,13 @@ p {
 	background-color: var(--loading-blue-light-color);
 }
 
-.c-avatars
-{
+.c-avatars {
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
 	min-height: 100%;
 }
 
-.c-avatars-grid-item
-{
+.c-avatars-grid-item {
 	grid-column: span 5;
 	grid-column: 1/-1;
 }
@@ -367,29 +403,22 @@ p {
 	width: calc(calc(100 / 6 * 6) * 1%);
 }
 
-.u-grid-col-span-1
-{
+.u-grid-col-span-1 {
 	grid-column: span 1;
 }
 
-.u-grid-col-span-2 
-{
+.u-grid-col-span-2 {
 	grid-column: span 2;
 }
 
-.u-grid-col-span-3 
-{
+.u-grid-col-span-3 {
 	grid-column: span 3;
 }
 
-.u-grid-col-span-4 
-{
+.u-grid-col-span-4 {
 	grid-column: span 4;
 }
 
-.u-grid-col-span-5 
-{
+.u-grid-col-span-5 {
 	grid-column: span 5;
 }
-
-
