@@ -42,9 +42,9 @@ var countDownFrom = 3;
 let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
 let GameMode = "single"; //keep track of what the selected gamemode was.
 let gameLoop = null;
+var gameState = false;
 var timerInterval = null;
 var timerLoop = true;
-var gameState = false;
 let framePerSecond = 90; // number of frames per second
 
 // prediction variables
@@ -251,7 +251,6 @@ function clickMainPaused() {
 }
 
 function clickRestart() {
-  console.log("restart")
   gameOverScreen = document.querySelector(".js-gameOver");
   resetBall();
   resetPaddles();
@@ -405,7 +404,6 @@ function update() {
   // the ball has a velocity
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
-  console.log(ball.velocityY);
 
   PredictionBegin = PredictionBeginStatic / Math.abs(ball.velocityX); // this is to keep the prediction end and begining always the same
   PredictionEnd = PredictionEndStatic / Math.abs(ball.velocityX); // if you want it to depend on the velocity, then delete these 2 lines and rename the vars to the same name without "static".
@@ -564,10 +562,8 @@ function update() {
   if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
     if(GameMode == "ai"){
       ball.velocityY = -ball.velocityY; 
-      console.log("reverse top boundries");
     } else if (bounceY == false) { // make sure it only bounces once, this bugged a lot
       ball.velocityY = -ball.velocityY;
-      console.log("reverse top boundries");
       bounceY = true;
     }
   }
@@ -589,24 +585,19 @@ function update() {
 
   // if the ball hits a paddle
   if (collision(ball, player)) { // if the ball hits a paddle
-    console.log("collision");
     //when ball hits the rounded top or bottom of the paddle
     if (player.x == 15) { // left hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse top rounded corners");
       } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse top rounded corners");
       }
 
     } else if (player.x == canvas.width - 35) { // right hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse top rounded corners");
       } else if (ball.top < player.bottom + user.width / 4 && ball.top > (player.bottom - player.width / 3) && ball.velocityY < 0) {
         ball.velocityY = -ball.velocityY;
-        console.log("reverse top rounded corners");
       }
     }
 
@@ -614,7 +605,6 @@ function update() {
     let direction = ball.x + ball.radius < canvas.width / 2 ? -1 : 1;
     if (GameMode != "ai") {
       if (bounceX == false) {  // this is to fix a bug where the ball keeps bouncing on a paddle
-        console.log("speed up ball");
         if (GameMode == "wall" && player.x == 15) { // add 1 point to user when in wall mode and collide with user paddle.
           user.score += 1;
           prediction = false;
@@ -632,19 +622,14 @@ function update() {
       if (ball.velocityY < 0) {
         if (ball.velocityX < 0) {
           ball.velocityY = ball.velocityX;
-          console.log("reverse wrong");
         } else if (ball.velocityX > 0) {
-          console.log(ball.velocityX);
           ball.velocityY = -ball.velocityX;
-          console.log(ball.velocityY);
         }
       } else if (ball.velocityY > 0) {
         if (ball.velocityX < 0) {
           ball.velocityY = -ball.velocityX;
-          console.log("reverse wrong");
         } else if (ball.velocityX > 0) {
           ball.velocityY = ball.velocityX;
-          console.log("reverse wrong");
         }
       }
     }
@@ -922,7 +907,7 @@ function game() {
 }
 
 const resize = () => {
-  resetBall();
+  console.log("resize");
   pauseOn();
   prediction = false;
 
@@ -942,7 +927,7 @@ const resize = () => {
   com.x = canvas.width - 35;
 
   net.x = (canvas.width - net.width) / 2;
-  
+  resetBall();
   render();
 };
 
