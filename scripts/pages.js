@@ -10,8 +10,8 @@ let index,
 	playerOneConnected = false,
 	betweenConnections = false,
 	playerTwoConnected = false,
-let	countHeartRate1 = 0,
-	countHeartRate2 = 0;
+	countHeartRate1 = 0,
+	countHeartRate2 = 0,
 	progressbar = -84,
 	countHeartRate = 10,
 	pl = false,
@@ -93,26 +93,21 @@ const connectDevice = function(device, server, service, y) {
 			if (server === 'heart_rate') {
 				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) 
-					{
-						countHeartRate1 +=1;
+					if (y === 1) {
+						countHeartRate1 += 1;
 						//console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-l').innerHTML = parseHeartRate(d.value).heartRate;
-						if (countHeartRate1 === 5)
-						{
+						if (countHeartRate1 === 5) {
 							speed = getDuration(parseHeartRate(d.value).heartRate);
 							document.querySelector('.js-heart-l-img').style.animationDuration = speed;
 							document.querySelector('.js-heart-l').style.animationDuration = speed;
 							countHeartRate1 = 0;
 						}
-					} 
-					else 
-					{
+					} else {
 						countHeartRate2 += 1;
 						//console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-r').innerHTML = parseHeartRate(d.value).heartRate;
-						if (countHeartRate2 === 5) 
-						{
+						if (countHeartRate2 === 5) {
 							speed = getDuration(parseHeartRate(d.value).heartRate);
 							document.querySelector('.js-heart-r-img').style.animationDuration = speed;
 							document.querySelector('.js-heart-r').style.animationDuration = speed;
@@ -154,9 +149,8 @@ const connectDevice = function(device, server, service, y) {
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 6 + '%'; 
 							document.querySelector('.js-bar-three').style.borderRadius = '250px 250px 250px 250px';*/
 						}
-						if (e.getUint8(0) == 10) 
-						{
-							console.log("warning, low battery on device " + y);
+						if (e.getUint8(0) == 10) {
+							console.log('warning, low battery on device ' + y);
 						}
 					})
 					.catch(error => {
@@ -207,14 +201,12 @@ const parseHeartRate = function(value) {
 	return result;
 };
 
-const getDuration = function(heartRate)
-{
-	if(heartRate == 0)
-	{
-		return 0 + "s";
+const getDuration = function(heartRate) {
+	if (heartRate == 0) {
+		return 0 + 's';
 	}
-	return 1 / (heartRate / 60) + "s";
-}
+	return 1 / (heartRate / 60) + 's';
+};
 
 const setbetweenConnections = function() {
 	betweenConnections = true;
