@@ -15,19 +15,31 @@ let index,
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
 	console.log(data);
-	let d = '';
+	let d = `
+	<tr>
+		<th>
+			<p>Plaats</p>
+		</th>
+		<th>
+			<p>Naam</p>
+		</th>
+		<th>
+			<p>Score</p>
+		</th>
+	</tr>`;
 	data.forEach(function(element, i) {
-		d += `<tr>
-            <td class="c-scoreboard-table__number">
-                <p class="c-scoreboard-table-number__text">${i + 1}</p>
-            </td>
-            <td class="c-scoreboard-table__name">
-                <p class="c-scoreboard-table-name__text">${element.naam}</p>
-            </td>
-            <td class="c-scoreboard-table__score">
-                <p class="c-scoreboard-table-score__text">${element.score}</p>
-            </td>
-        </tr>`;
+		d += `
+		<tr>
+			<td>
+				<p class="u-margin-reset">${i + 1}</p>
+			</td>
+			<td>
+				<p class="u-margin-reset">${element.naam}</p>
+			</td>
+			<td>
+				<p class="u-margin-reset">${element.score}</p>
+			</td>
+		</tr>`;
 	});
 	document.querySelector('.js-scoreboard').innerHTML = d;
 };
@@ -249,6 +261,7 @@ const initPages = function() {
 	highscores = document.querySelector('.js-highscores');
 
 	progress = document.querySelector('.js-setProgress');
+	close = document.querySelectorAll('.js-modal-close');
 
 	btnBack.addEventListener('click', function() {
 		setProgress(2);
@@ -261,27 +274,32 @@ const initPages = function() {
 
 	btnSingle.addEventListener('click', function() {
 		setPage();
-		gamemode = "single";
+		gamemode = 'single';
 	});
 	btnMulti.addEventListener('click', function() {
 		setPage();
-		gamemode = "multi";
+		gamemode = 'multi';
 	});
 	btnWall.addEventListener('click', function() {
 		setPage();
-		gamemode = "wall";
+		gamemode = 'wall';
 	});
-	btnStart.addEventListener('click', function(){
+	btnStart.addEventListener('click', function() {
 		setPage();
 		startGame(true, gamemode);
-	})
+	});
 
 	btnHighscores.addEventListener('click', function() {
+		setHighScore();
 		highscores.style.display = 'block';
 	});
 
 	progress.addEventListener('click', function() {
 		setProgress(2);
+	});
+
+	close.forEach(element => {
+		element.addEventListener('click', function() {this.style.display = 'none'})
 	});
 };
 

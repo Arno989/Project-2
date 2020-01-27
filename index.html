@@ -16,6 +16,7 @@
 
 	<script src="./scripts/UI.js"></script>
 	<script src="./scripts/pages.js"></script>
+	<script src="./scripts/dataHandler.js"></script>
 	<!-- <script src="./scripts/bluetooth.js"></script> -->
 </head>
 
@@ -102,21 +103,34 @@
 					<button class="c-button c-color-yellow js-btn-highscores">Highscores</button>
 				</div>
 
-				<div class="c-modal js-highscores">
+				<div class="c-modal js-modal-close js-highscores">
 					<div class="c-modal-content">
 						<p class="c-menu-title">Highscores</p>
-						<table class="c-scoreboard js-scoreboard">
-							<tr>
-								<th>
-									<p>Plaats</p>
-								</th>
-								<th>
-									<p>Naam</p>
-								</th>
-								<th>
-									<p>Score</p>
-								</th>
-							</tr>
+						<table class="c-scoreboard">
+							<tbody class="js-scoreboard">
+								<tr>
+									<th>
+										<p>Plaats</p>
+									</th>
+									<th>
+										<p>Naam</p>
+									</th>
+									<th>
+										<p>Score</p>
+									</th>
+								</tr>
+								<tr>
+									<td>
+										<p class="u-margin-reset"></p>
+									</td>
+									<td>
+										<p class="u-margin-reset"></p>
+									</td>
+									<td>
+										<p class="u-margin-reset"></p>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -139,7 +153,7 @@
 				<div class="c-menu">
 					<div class="c-avatars">
 						<div class="c-avatars-grid-item u-grid-col-span-5 u-center">
-							<p class="c-avatars-title">Speler 1, kies je favoriete avatar.</p>
+							<p class="c-menu-title u-margin-reset">Speler 1, kies je favoriete avatar.</p>
 						</div>
 						<div class="c-avatars-grid-item u-grid-col-span-1">
 							<img src="./img/Avatars/Ape.png" alt="" class="c-avatar-item">

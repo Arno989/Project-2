@@ -194,6 +194,7 @@ p {
 }
 
 .c-modal-content {
+	pointer-events: auto;
 	margin: auto;
 	width: 50vw;
 	height: 80vh;
@@ -267,24 +268,78 @@ p {
 	width: 60vw;
 }
 
-.c-avatars-title
-{
-	font-size: 64px;
-	color: var(--text-color);
+.c-avatars {
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	min-height: 100%;
+	width: 64%;
+}
+
+.c-avatars-grid-item {
+	grid-column: span 5;
+	grid-column: 1/-1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.c-avatar-item {
+	height: 64px;
+}
+
+
+
+.c-heart {
+	height: 100;
+	animation: pulse 0.5s infinite;
+	transform: scale(1);
+}
+
+.c-heart__text {
+	/* animation: pulse 0.5s infinite; */
 }
 
 /* table */
-
+/*
+.c-scoreboard > tr:first-child > td:first-child {
+	border-top-right-radius: 20px;
+}
+.c-scoreboard > tr:first-child > td:last-child {
+	border-top-right-radius: 20px;
+}
+.c-scoreboard > tr:last-child > td:first-child {
+	border-top-right-radius: 20px;
+}
+.c-scoreboard > tr:last-child > td:last-child {
+	border-top-right-radius: 20px;
+}
+*/
 .c-scoreboard {
+	min-width: 40vw;
+	background-color: white;
+	border: none /* 1px solid var(--btn-backgrond-color) */;
+	color: var(--text-color);
+	border-radius: 20px;
+	border-spacing: 0;
 }
 
-.c-scoreboard > tr {
+.c-scoreboard > tbody > tr > th {
+	border-bottom: 1px solid var(--text-color);
 }
 
-.c-scoreboard > tr > th > p {
+.c-scoreboard > tbody > tr > td {
+	text-align: center;
+	border-left: 1px solid var(--text-color);
 }
 
-.c-scoreboard > tr > td > p {
+.c-scoreboard > tbody > tr > td:first-child {
+	border-left: none;
+	text-align: center;
+}
+
+.c-scoreboard > tbody > tr > td > p {
+	padding: 16px;
 }
 
 /* buttons */
@@ -364,37 +419,6 @@ p {
 	background-color: var(--loading-blue-light-color);
 }
 
-.c-avatars
-{
-	margin: auto;
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	min-height: 100%;
-	width: 64%;
-}
-
-.c-avatars-grid-item {
-	grid-column: span 5;
-	grid-column: 1/-1;
-}
-
-.c-avatar-item
-{
-	height: 64px;
-	margin: auto;
-}
-
-.c-heart {
-	height: 100;
-	animation: pulse 0.5s infinite;
-	transform: scale(1);
-}
-
-.c-heart__text
-{
-	/* animation: pulse 0.5s infinite; */
-}
-
 @keyframes pulse {
 	0% {
 		transform: scale(0.9);
@@ -413,7 +437,6 @@ p {
 		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
 		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); */
 	}
-
 }
 
 /*----- utilities -----*/
@@ -469,8 +492,6 @@ p {
 	grid-column: span 5;
 }
 
-
-.u-center
-{
+.u-center {
 	align-items: center;
 }
