@@ -10,7 +10,7 @@ let index,
 	playerOneConnected = false,
 	betweenConnections = false,
 	playerTwoConnected = false,
-	progressbar = -100;
+	progressbar = -84;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -76,8 +76,7 @@ const connectDevice = function(device, server, service, y) {
 			if (server === 'heart_rate') {
 				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) 
-					{
+					if (y === 1) {
 						console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 					} else {
 						console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
@@ -173,27 +172,21 @@ const setbetweenConnections = function() {
 
 //setup for bluetooth connection pages
 
-const updateCompleted = function() {
-	/* 
-	progressbar += 16.66;
-	document.querySelectorAll('.c-loadingbar-completed').style.width = progressbar + '%'; */
-};
-
 const setConnect = function() {
 	btnPlayer = document.querySelector('.js-btn-connect-player');
 	document.querySelector('.js-hartslag-title').innerHTML = 'Hartslagmeter 1';
 
-	/* bar = document.querySelector('.js-bar-three'); 
-    bar.style.width = (100 / 6) * 3 + '%';*/
-
 	btnPlayer.addEventListener('click', function() {
 		if (!playerOneConnected) {
 			bluetooth(1);
+			setProgress(4);
 		} else if (!playerTwoConnected) {
 			if (!betweenConnections) {
 				setbetweenConnections();
+				setProgress(5);
 			} else {
 				bluetooth(2);
+				setProgress(6);
 			}
 		} else {
 			gotoPos('right', 100);
@@ -231,7 +224,7 @@ const setHighScore = function() {
 
 // progress bar
 
-const addProgress = function(position) {
+const setProgress = function(position) {
 	bar = document.querySelector('.js-loadingbar-completed');
 	bar.style.transform = 'translateX(' + progressbar + '%)';
 	console.log('translateX(' + progressbar + '%)');
@@ -254,14 +247,14 @@ const initPages = function() {
 	btnHighscores = document.querySelector('.js-btn-highscores');
 	highscores = document.querySelector('.js-highscores');
 
-	progress = document.querySelector('.js-addProgress');
+	progress = document.querySelector('.js-setProgress');
 
 	btnBack.addEventListener('click', function() {
-		addProgress(1)
+		setProgress(2);
 		setPage('heart');
 	});
 	btnConnect.addEventListener('click', function() {
-		addProgress(2)
+		setProgress(3);
 		setPage('connect');
 	});
 
@@ -283,7 +276,7 @@ const initPages = function() {
 	});
 
 	progress.addEventListener('click', function() {
-		addProgress(1);
+		setProgress(2);
 	});
 };
 

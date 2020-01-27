@@ -137,7 +137,7 @@ function getRndInteger(min, max) {
 function pauseOn() {
   gameState = false;
   gameOverScreen = document.querySelector(".js-gameOver");
-  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
+  if (gameOverScreen.style.display == "" && gameLoop != null && timerLoop == false) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(gameLoop);
@@ -218,9 +218,6 @@ function startMovingBall(direction) {
 
 function drawNet() {
   drawRect(net.x, net.y, net.width, net.height, net.color);
-  //for (let i = 0; i <= canvas.height; i += 15) {
-  //drawRect(net.x, net.y + i, net.width, net.height, net.color);
-  //}
 }
 
 function drawText(text, x, y) {
@@ -276,7 +273,7 @@ function clickMain() {
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
-  setPage("main");
+  gotoPos("left", 200);
   gameLoop = null;
   resetPaddles();
   clearInterval(gameLoop);
@@ -900,7 +897,7 @@ function setTimer(){
 function timer(ctx, countDownFrom){
   render();
   ctx.font = "150px 'Neucha', cursive";
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "#96c2e5";
   ctx.textAlign = "center";
   ctx.fillText("" + countDownFrom, canvas.width / 2, canvas.height / 2);
   if (countDownFrom < 1) {
@@ -925,8 +922,11 @@ function game() {
 }
 
 const resize = () => {
+  resetBall();
   pauseOn();
   prediction = false;
+
+  gameOverScreen = document.querySelector(".js-gameOver");
 
   canvas.width = document.documentElement.clientWidth;
   canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
