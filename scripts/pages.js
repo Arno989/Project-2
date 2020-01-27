@@ -11,7 +11,8 @@ let index,
 	betweenConnections = false,
 	playerTwoConnected = false,
 	progressbar = -84;
-countHeartRate = 10;
+let	countHeartRate1 = 0,
+	countHeartRate2 = 0;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -89,26 +90,32 @@ const connectDevice = function(device, server, service, y) {
 			if (server === 'heart_rate') {
 				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) {
+					if (y === 1) 
+					{
+						countHeartRate1 +=1;
 						//console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-l').innerHTML = parseHeartRate(d.value).heartRate;
-						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + 's';
-						// if(countHeartRate == 10)
-						// {
-						// 	document.querySelector('.js-heart-l-img').animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
-						// 	countHeartRate = 0;
-						// }
-					} else {
+						if (countHeartRate1 === 5)
+						{
+							speed = getDuration(parseHeartRate(d.value).heartRate);
+							document.querySelector('.js-heart-l-img').style.animationDuration = speed;
+							document.querySelector('.js-heart-l').style.animationDuration = speed;
+							countHeartRate1 = 0;
+						}
+					} 
+					else 
+					{
+						countHeartRate2 += 1;
 						//console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-r').innerHTML = parseHeartRate(d.value).heartRate;
-						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + 's';
-						// if (countHeartRate == 10)
-						// {
-						// 	document.querySelector('.js-heart-l-img').animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
-						// 	countHeartRate = 0;
-						// }
+						if (countHeartRate2 === 5) 
+						{
+							speed = getDuration(parseHeartRate(d.value).heartRate);
+							document.querySelector('.js-heart-r-img').style.animationDuration = speed;
+							document.querySelector('.js-heart-r').style.animationDuration = speed;
+							countHeartRate2 = 0;
+						}
 					}
-					// countHeartRate++;
 				});
 				connectDevice(device, 'battery_service', 'battery_level', y);
 			} else if (server === 'battery_service') {
@@ -144,8 +151,9 @@ const connectDevice = function(device, server, service, y) {
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 6 + '%'; 
 							document.querySelector('.js-bar-three').style.borderRadius = '250px 250px 250px 250px';*/
 						}
-						if (e.getUint8(0) == 10) {
-							console.log('warning, low battery');
+						if (e.getUint8(0) == 10) 
+						{
+							console.log("warning, low battery on device " + y);
 						}
 					})
 					.catch(error => {
@@ -195,6 +203,15 @@ const parseHeartRate = function(value) {
 	result.heartRate = value.getUint8(1);
 	return result;
 };
+
+const getDuration = function(heartRate)
+{
+	if(heartRate == 0)
+	{
+		return 0 + "s";
+	}
+	return 1 / (heartRate / 60) + "s";
+}
 
 const setbetweenConnections = function() {
 	betweenConnections = true;
