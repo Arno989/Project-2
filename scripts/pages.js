@@ -305,7 +305,7 @@ const getAvatar = function(name) {
 		case 'Penguin':
 			return './img/Avatars/Penguin.png';
 		case 'Goat':
-			return './img/Avatars/Goat.png';
+			return './img/Avatars/Goat2.0.png';
 		case 'Ping':
 			return './img/Avatars/Ping.png';
 		case 'Shark':
@@ -471,11 +471,13 @@ const initPages = function() {
 			if (pl != true) {
 				element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
 				avatarl.src = getAvatar(element.id);
+				console.log(avatarl.src);
 				pl = true;
 				avatartitle.innerHTML = 'Speler 2, kies je avatar.';
 			} else if (pr != true) {
 				element.style.filter = 'drop-shadow(0 0px 16px rgba(255, 0, 0, 0.459))';
-				avatarl.src = getAvatar(element.id);
+				avatarr.src = getAvatar(element.id);
+				console.log(avatarl.src);
 				pr = true;
 				avatartitle.innerHTML = 'Klik op verder om te spelen.';
 			}
