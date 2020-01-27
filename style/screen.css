@@ -230,6 +230,12 @@ p {
 	width: 60vw;
 }
 
+.c-avatars-title
+{
+	font-size: 64px;
+	color: var(--text-color);
+}
+
 /* table */
 
 .c-scoreboard {
@@ -323,15 +329,23 @@ p {
 
 .c-avatars
 {
+	margin: auto;
 	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	grid-template-columns: repeat(5, 1fr);
 	min-height: 100%;
+	width: 64%;
 }
 
 .c-avatars-grid-item
 {
 	grid-column: span 5;
 	grid-column: 1/-1;
+}
+
+.c-avatar-item
+{
+	height: 64px;
+	margin: auto;
 }
 
 /*----- utilities -----*/
@@ -393,3 +407,7 @@ p {
 }
 
 
+.u-center
+{
+	align-items: center;
+}
