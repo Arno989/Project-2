@@ -10,8 +10,10 @@ let index,
 	playerOneConnected = false,
 	betweenConnections = false,
 	playerTwoConnected = false,
-	progressbar = -84;
-countHeartRate = 10;
+	progressbar = -84,
+	countHeartRate = 10,
+	pl = false,
+	pr = false;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -272,44 +274,125 @@ const setProgress = function(position) {
 
 // avatars
 
-const getAvatar = function (name) {
+const getAvatar = function(name) {
 	switch (name) {
 		case 'Ape':
-			return './img/Avatars/Ape.png'
+			return './img/Avatars/Ape.png';
 		case 'Cat':
-			return './img/Avatars/Cat.png'
+			return './img/Avatars/Cat.png';
 		case 'Cow':
-			return './img/Avatars/Cow.png'
+			return './img/Avatars/Cow.png';
 		case 'Dog':
-			return './img/Avatars/Dog.png'
+			return './img/Avatars/Dog.png';
 		case 'Dolphin':
-			return './img/Avatars/Dolphin.png'
+			return './img/Avatars/Dolphin.png';
 		case 'Fish':
-			return './img/Avatars/Fish.png'
+			return './img/Avatars/Fish.png';
 		case 'Flamingo':
-			return './img/Avatars/Flamingo.png'
+			return './img/Avatars/Flamingo.png';
 		case 'Lion':
-			return './img/Avatars/Lion.png'
+			return './img/Avatars/Lion.png';
 		case 'Penguin':
-			return './img/Avatars/Penguin.png'
+			return './img/Avatars/Penguin.png';
 		case 'Goat':
-			return './img/Avatars/Goat.png'
+			return './img/Avatars/Goat.png';
 		case 'Ping':
-			return './img/Avatars/Ping.png'
+			return './img/Avatars/Ping.png';
 		case 'Shark':
-			return './img/Avatars/Shark.png'
+			return './img/Avatars/Shark.png';
 		case 'Snake':
-			return './img/Avatars/Snake.png'
+			return './img/Avatars/Snake.png';
 		case 'Koala':
-			return './img/Avatars/Koala.png'
+			return './img/Avatars/Koala.png';
 		case 'Turtle':
-			return './img/Avatars/Turtle.png'
-	
+			return './img/Avatars/Turtle.png';
+
 		default:
-			return './img/Avatars/Ape.png'
+			return './img/Avatars/Ape.png';
 	}
-	
-}
+};
+
+//countdown animation
+/*
+ml.timelines = {};
+
+ml.playComposition = function(comp) {
+	var compID = comp.querySelector('h1').className;
+	ml.timelines[compID].play();
+};
+
+ml.restartComposition = function(comp) {
+	var compID = comp.querySelector('h1').className;
+	ml.timelines[compID].restart();
+};
+
+ml.pauseComposition = function(comp) {
+	var compID = comp.querySelector('h1').className;
+	ml.timelines[compID].pause();
+};
+
+var ml4 = {};
+ml4.opacityIn = [0, 1];
+ml4.scaleIn = [0.2, 1];
+ml4.scaleOut = 3;
+ml4.durationIn = 800;
+ml4.durationOut = 600;
+ml4.delay = 500;
+
+ml.timelines['ml4'] = anime
+	.timeline({ loop: true })
+	.add({
+		targets: '.ml4 .letters-1',
+		opacity: ml4.opacityIn,
+		scale: ml4.scaleIn,
+		duration: ml4.durationIn
+	})
+	.add({
+		targets: '.ml4 .letters-1',
+		opacity: 0,
+		scale: ml4.scaleOut,
+		duration: ml4.durationOut,
+		easing: 'easeInExpo',
+		delay: ml4.delay
+	})
+	.add({
+		targets: '.ml4 .letters-2',
+		opacity: ml4.opacityIn,
+		scale: ml4.scaleIn,
+		duration: ml4.durationIn
+	})
+	.add({
+		targets: '.ml4 .letters-2',
+		opacity: 0,
+		scale: ml4.scaleOut,
+		duration: ml4.durationOut,
+		easing: 'easeInExpo',
+		delay: ml4.delay
+	})
+	.add({
+		targets: '.ml4 .letters-3',
+		opacity: ml4.opacityIn,
+		scale: ml4.scaleIn,
+		duration: ml4.durationIn
+	})
+	.add({
+		targets: '.ml4 .letters-3',
+		opacity: 0,
+		scale: ml4.scaleOut,
+		duration: ml4.durationOut,
+		easing: 'easeInExpo',
+		delay: ml4.delay
+	})
+	.add({
+		targets: '.ml4',
+		opacity: 0,
+		duration: 500,
+		delay: 500
+	});
+
+ml.playComposition('ml4');
+
+*/
 
 // Initialize
 const initPages = function() {
@@ -327,8 +410,10 @@ const initPages = function() {
 	progress = document.querySelector('.js-setProgress');
 	close = document.querySelectorAll('.js-modal-close');
 
+	avatartitle = document.querySelector('.js-avatar-title');
 	avatars = document.querySelectorAll('.js-avatar-item');
-	avatarl = document.querySelector('.js-avatar-l')
+	avatarl = document.querySelector('.js-avatar-l');
+	avatarr = document.querySelector('.js-avatar-r');
 
 	btnBack.addEventListener('click', function() {
 		setProgress(2);
@@ -370,10 +455,20 @@ const initPages = function() {
 			this.style.display = 'none';
 		});
 	});
+
 	avatars.forEach(element => {
 		element.addEventListener('click', function() {
-			console.log(element.id);
-			avatarl.src = getAvatar(element.id)
+			if (pl != true) {
+				element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+				avatarl.src = getAvatar(element.id);
+				pl = true;
+				avatartitle.innerHTML = 'Speler 2, kies je avatar.';
+			} else if (pr != true) {
+				element.style.filter = 'drop-shadow(0 0px 16px rgba(255, 0, 0, 0.459))';
+				avatarl.src = getAvatar(element.id);
+				pr = true;
+				avatartitle.innerHTML = 'Klik op verder om te spelen.';
+			}
 		});
 	});
 };

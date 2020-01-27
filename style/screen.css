@@ -1,5 +1,24 @@
 :root {
 	--global-font: 'Neucha', cursive, Arial, Helvetica, sans-serif;
+
+	--font-size-title: 5vh;
+	--font-size-text: 3.5vh;
+	--font-size-button: var(--font-size-text);
+
+	--color-mono-menu: rgba(0, 0, 0, 0.3);
+	--color-mono-white: #ffffff;
+
+	--color-blue-dark: #1b4186;
+	--color-blue: #3385ff;
+	--color-blue-light: #96c2e5;
+	--color-blue-light-X: #ecf3f9;
+
+	--color-pink: #e5c9ef;
+	--color-pink-light: #f9eff8;
+
+	--color-yellow: #fbdb86;
+	--color-yellow-light: #fef1d1;
+
 	--background-color: #1b4186;
 	--background-color-menu: rgba(0, 0, 0, 0.3);
 	--topbar-color: #ffffff;
@@ -25,8 +44,8 @@ body {
 }
 
 p {
-	font-size: 32px;
-	line-height: 32px;
+	font-size: var(--font-size-text);
+	line-height: var(--font-size-text);
 }
 
 /*------------------------------------*\
@@ -60,39 +79,13 @@ p {
 
 /* Top game bar */
 
-.c-container-top {
-	margin-top: 5vh;
-	width: 100vw;
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.c-loadingbar {
-	background-color: var(--loading-pink-light-color);
-	height: 40px;
-	width: 60vw;
-	border-radius: 40px;
-	overflow: hidden;
-}
-
-.c-loadingbar-completed {
-	background-color: var(--menu-pink-color);
-	height: 40px;
-	width: 100%;
-	border-radius: 40px;
-	transform: translateX(-84%);
-	transition: 1s ease;
-}
-
 .c-topbar {
 	height: 10vh;
 	display: grid;
 	width: 100vw;
 	grid-template-columns: 25% 50% 25%;
 	overflow: hidden;
-	background-color: var(--topbar-color);
+	background-color: var(--color-mono-white);
 	box-shadow: 10px 10px;
 }
 
@@ -108,10 +101,9 @@ p {
 .c-topbar--score > p {
 	padding: 2.5vh 0;
 	margin: 0;
-	font-size: 5vh;
-	color: var(--text-color);
-	line-height: 5vh;
-	height: 5vh;
+	font-size: var(--font-size-title);
+	color: var(--color-blue-light);
+	line-height: var(--font-size-title);
 }
 
 .c-topbar--heart-l {
@@ -185,10 +177,15 @@ p {
 	z-index: 20;
 }
 
+.c-heart {
+	animation: pulse 0.5s infinite;
+	transform: scale(1);
+}
+
 /* Game overlay */
 
 .c-modal {
-	display: none; /* set this to block for testing <------------------- */
+	display: none;
 	position: fixed;
 	font-family: var(--global-font);
 	z-index: 50;
@@ -196,7 +193,7 @@ p {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	background-color: var(--background-color-menu);
+	background-color: var(--color-mono-menu);
 }
 
 .c-modal-content {
@@ -215,7 +212,7 @@ p {
 	transition: font-size 1s;
 }
 
-/* Game menus */
+/* Logos */
 
 .c-logo {
 	margin-right: 1vw;
@@ -242,30 +239,27 @@ p {
 	pointer-events: none;
 }
 
+/* Menu styling */
+
 .c-menu {
-	padding: 10vh 0;
-	height: 80vh;
+	height: 100vh;
+	max-height: 100vh;
 	width: 100vw;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: flex-start;
 }
 
 .c-menu-title {
-	color: var(--text-color);
+	color: var(--color-blue-light);
 	font-size: 10vh;
 	line-height: 10vh;
-	margin-bottom: 5vh;
+	padding: 20vh 0 0;
 }
 
 .c-menu-text {
 	margin-bottom: 5vh;
-}
-
-.c-menu-score {
-	color: var(--text-color);
-	font-size: 16vh;
 }
 
 .c-menu-button-duo {
@@ -274,67 +268,76 @@ p {
 	width: 60vw;
 }
 
+/* Progress bar */
+
+.c-container-top {
+	margin-top: 5vh;
+	width: 100vw;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.c-loadingbar {
+	background-color: var(--color-pink-light);
+	height: 40px;
+	width: 60vw;
+	border-radius: 40px;
+	overflow: hidden;
+}
+
+.c-loadingbar-completed {
+	background-color: var(--color-pink);
+	height: 40px;
+	width: 100%;
+	border-radius: 40px;
+	transform: translateX(-84%);
+	transition: 1s ease;
+}
+
+/* Avatar menu */
+
 .c-avatars {
 	margin: auto;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	min-height: 100%;
-	width: 64%;
+	height: 100vh;
+	width: 60vw;
 }
 
-.c-avatars-grid-item {
+.c-avatars * {
 	grid-column: span 5;
 	grid-column: 1/-1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	align-self: center;
+	justify-self: center;
+	width: 64px;
+	grid-column: span 1;
 }
 
-.c-avatar-item {
-	height: 64px;
+.c-avatars > p {
+	width: auto;
+	grid-column: span 5;
 }
 
-.c-heart {
-	height: 100;
-	animation: pulse 0.5s infinite;
-	transform: scale(1);
-}
+/* Scoreboeard */
 
-.c-heart__text {
-	/* animation: pulse 0.5s infinite; */
-}
-
-/* table */
-/*
-.c-scoreboard > tr:first-child > td:first-child {
-	border-top-right-radius: 20px;
-}
-.c-scoreboard > tr:first-child > td:last-child {
-	border-top-right-radius: 20px;
-}
-.c-scoreboard > tr:last-child > td:first-child {
-	border-top-right-radius: 20px;
-}
-.c-scoreboard > tr:last-child > td:last-child {
-	border-top-right-radius: 20px;
-}
-*/
 .c-scoreboard {
 	min-width: 40vw;
-	background-color: white;
-	border: none /* 1px solid var(--btn-backgrond-color) */;
-	color: var(--text-color);
+	background-color: var(--color-mono-white);
+	border: none;
+	color: var(--color-blue-light);
 	border-radius: 20px;
 	border-spacing: 0;
 }
 
 .c-scoreboard > tbody > tr > th {
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--color-blue-light);
 }
 
 .c-scoreboard > tbody > tr > td {
 	text-align: center;
-	border-left: 1px solid var(--text-color);
+	border-left: 1px solid var(--color-blue-light);
 }
 
 .c-scoreboard > tbody > tr > td:first-child {
@@ -351,7 +354,7 @@ p {
 .c-button {
 	background-color: var(--topbar-color);
 	color: var(--btn-text-color);
-	font-size: 32px;
+	font-size: var(--font-size-button);
 	text-align: center;
 	margin: 16px;
 	width: 300px;
@@ -379,8 +382,8 @@ p {
 	height: 80px;
 	margin: 8px;
 	border-radius: 50%;
-	border: 6px solid #fff;
-	border-color: #fff transparent #fff transparent;
+	border: 6px solid var(--color-mono-white);
+	border-color: var(--color-mono-white) transparent var(--color-mono-white) transparent;
 	animation: lds-dual-ring 1.2s linear infinite;
 }
 
@@ -397,30 +400,30 @@ p {
 /* colors */
 
 .c-color-pink {
-	background-color: var(--loading-pink-dark-color);
+	background-color: var(--color-pink);
 }
 
 .c-color-pink-light,
 .c-color-pink:disabled {
-	background-color: var(--loading-pink-light-color);
+	background-color: var(--color-pink-light);
 }
 
 .c-color-yellow {
-	background-color: var(--menu-yellow-color);
+	background-color: var(--color-yellow);
 }
 
 .c-color-yellow-light,
 .c-color-yellow:disabled {
-	background-color: var(--loading-yellow-light-color);
+	background-color: var(--color-yellow-light);
 }
 
 .c-color-blue {
-	background-color: var(--loading-blue-dark-color);
+	background-color: var(--color-blue-light);
 }
 
 .c-color-blue-light,
 .c-color-blue:disabled {
-	background-color: var(--loading-blue-light-color);
+	background-color: var(--color-blue-light-X);
 }
 
 @keyframes pulse {
@@ -443,53 +446,27 @@ p {
 	}
 }
 
-/*----- utilities -----*/
+/*------------------------------------*\
+#UTILITIES
+\*------------------------------------*/
+
+/* Countdown */
+
 .ml4 {
-	position: relative;
-	font-weight: 900;
-	font-size: 4.5em;
+  position: relative;
+  font-weight: 900;
+  font-size: 4.5em;
 }
-
 .ml4 .letters {
-	position: absolute;
-	margin: auto;
-	left: 0;
-	top: 0.3em;
-	right: 0;
-	opacity: 0; 
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0.3em;
+  right: 0;
+  opacity: 0; 
 }
 
-.u-margin-reset {
-	margin: 0;
-}
-
-.u-0-to-6-procent {
-	width: calc(calc(100 / 6 * 0) * 1%);
-}
-
-.u-1-to-6-procent {
-	width: calc(calc(100 / 6 * 1) * 1%);
-}
-
-.u-2-to-6-procent {
-	width: calc(calc(100 / 6 * 2) * 1%);
-}
-
-.u-3-to-6-procent {
-	width: calc(calc(100 / 6 * 3) * 1%);
-}
-
-.u-4-to-6-procent {
-	width: calc(calc(100 / 6 * 4) * 1%);
-}
-
-.u-5-to-6-procent {
-	width: calc(calc(100 / 6 * 5) * 1%);
-}
-
-.u-6-to-6-procent {
-	width: calc(calc(100 / 6 * 6) * 1%);
-}
+/* Column Span */
 
 .u-grid-col-span-1 {
 	grid-column: span 1;
@@ -511,6 +488,39 @@ p {
 	grid-column: span 5;
 }
 
-.u-center {
-	align-items: center;
+/* Paddings */
+
+.u-padding-reset {
+	padding: 0;
+}
+
+.u-pt-0 {
+	padding-top: 0;
+}
+
+.u-pt-10 {
+	padding-top: 10vh;
+}
+
+.u-pt-15 {
+	padding-top: 15vh;
+}
+
+/* Margins */
+
+.u-margin-reset {
+	margin: 0;
+}
+
+.u-mb-7 {
+	margin-bottom: 7vh;
+}
+.u-mb-15 {
+	margin-bottom: 15vh;
+}
+.u-mb-20 {
+	margin-bottom: 20vh;
+}
+.u-mb-30 {
+	margin-bottom: 30vh;
 }
