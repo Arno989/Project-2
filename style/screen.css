@@ -426,6 +426,37 @@ p {
 	background-color: var(--color-blue-light-X);
 }
 
+.c-avatars
+{
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	min-height: 100%;
+	width: 64%;
+}
+
+.c-avatars-grid-item {
+	grid-column: span 5;
+	grid-column: 1/-1;
+}
+
+.c-avatar-item
+{
+	height: 64px;
+	margin: auto;
+}
+
+.c-heart {
+	height: 100;
+	animation: pulse 1s infinite;
+	transform: scale(1);
+}
+
+.c-heart__text
+{
+	animation: pulse 1s infinite;
+}
+
 @keyframes pulse {
 	0% {
 		transform: scale(0.9);
