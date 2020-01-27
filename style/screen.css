@@ -131,10 +131,13 @@ p {
 	z-index: 25;
 }
 .c-topbar--avatar-l {
+	padding: 1vh 0;
+	height: 8vh;
 	grid-column: 2;
 	justify-self: center;
 }
 .c-topbar--flame-l {
+	display: none;
 	padding: 1vh 0;
 	height: 8vh;
 	grid-column: 3;
@@ -153,12 +156,15 @@ p {
 	justify-self: flex-start;
 }
 .c-topbar--flame-r {
+	display: none;
 	padding: 1vh 0;
 	height: 8vh;
 	grid-column: 7;
 	justify-self: flex-start;
 }
 .c-topbar--avatar-r {
+	padding: 1vh 0;
+	height: 8vh;
 	grid-column: 8;
 	justify-self: center;
 }
@@ -287,8 +293,6 @@ p {
 .c-avatar-item {
 	height: 64px;
 }
-
-
 
 .c-heart {
 	height: 100;

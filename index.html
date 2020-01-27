@@ -99,8 +99,10 @@
 
 				<div class="c-menu">
 					<p class="c-menu-title u-margin-reset">ExerPong</p>
+					<div style="display: flex; flex-direction: column;">
 					<button class="c-button c-color-blue js-content__right">Begin</button>
 					<button class="c-button c-color-yellow js-btn-highscores">Highscores</button>
+				</div>
 				</div>
 
 				<div class="c-modal js-modal-close js-highscores">
@@ -108,28 +110,6 @@
 						<p class="c-menu-title">Highscores</p>
 						<table class="c-scoreboard">
 							<tbody class="js-scoreboard">
-								<tr>
-									<th>
-										<p>Plaats</p>
-									</th>
-									<th>
-										<p>Naam</p>
-									</th>
-									<th>
-										<p>Score</p>
-									</th>
-								</tr>
-								<tr>
-									<td>
-										<p class="u-margin-reset"></p>
-									</td>
-									<td>
-										<p class="u-margin-reset"></p>
-									</td>
-									<td>
-										<p class="u-margin-reset"></p>
-									</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -155,49 +135,49 @@
 						<div class="c-avatars-grid-item u-grid-col-span-5 u-center">
 							<p class="c-menu-title u-margin-reset">Speler 1, kies je favoriete avatar.</p>
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Ape" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Ape.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Cat" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Cat.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Cow" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Cow.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Dog" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Dog.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Dolphin" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Dolphin.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Fish" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Fish.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Flamingo" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Flamingo.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Lion" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Lion.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Penguin" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Penguin.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Goat" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Goat2.0.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Pig" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Pig.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Shark" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Shark.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Snake" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Snake.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Koala" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Koala.png" alt="" class="c-avatar-item">
 						</div>
-						<div class="c-avatars-grid-item u-grid-col-span-1">
+						<div id="Turtle" class="c-avatars-grid-item js-avatar-item u-grid-col-span-1">
 							<img src="./img/Avatars/Turtle.png" alt="" class="c-avatar-item">
 						</div>
 					</div>
@@ -212,13 +192,13 @@
 					<div class="c-topbar--score">
 						<img class="c-topbar--heart-l js-heart-l-img c-heart" src="./img/Heart.png" alt="hart">
 						<p class="c-topbar--heartrate-l js-heart-l c-heart__text">127</p>
-						<p class="c-topbar--avatar-l js-avatar-l">aap</p>
-						<p class="c-topbar--flame-l js-flame-l">vlam</p>
+						<img class="c-topbar--avatar-l js-avatar-l" src="./img/Avatars/Ape.png" alt="avatar">
+						<img class="c-topbar--flame-l js-flame-l" src="./img/Fire.png" alt="vlam">
 						<p class="c-topbar--score-l js-score-l">0</p>
 						<p class="c-topbar--score-c js-score-c"> - </p>
 						<p class="c-topbar--score-r js-score-r">0</p>
-						<img class="c-topbar--flame-r js-flame-r" src="./img/Fire.png" alt=""></p>
-						<p class="c-topbar--avatar-r js-avatar-r">koe</p>
+						<img class="c-topbar--flame-r js-flame-r" src="./img/Fire.png" alt="vlam">
+						<img class="c-topbar--avatar-r js-avatar-r" src="./img/Avatars/Cow.png" alt="avatar">
 						<p class="c-topbar--heartrate-r js-heart-r c-heart__text">125</p>
 						<img class="c-topbar--heart-r js-heart-r-img c-heart" src="./img/Heart.png" alt="hart">
 					</div>

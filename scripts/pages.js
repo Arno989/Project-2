@@ -10,8 +10,8 @@ let index,
 	playerOneConnected = false,
 	betweenConnections = false,
 	playerTwoConnected = false,
-	progressbar = -84
-	countHeartRate = 10;
+	progressbar = -84;
+countHeartRate = 10;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -87,27 +87,22 @@ const connectDevice = function(device, server, service, y) {
 		})
 		.then(d => {
 			if (server === 'heart_rate') {
-				d.addEventListener('characteristicvaluechanged', function() 
-				{
+				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) 
-					{
+					if (y === 1) {
 						//console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-l').innerHTML = parseHeartRate(d.value).heartRate;
-						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
+						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + 's';
 						// if(countHeartRate == 10)
 						// {
 						// 	document.querySelector('.js-heart-l-img').animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
 						// 	countHeartRate = 0;
 						// }
-
-					} 
-					else 
-					{
+					} else {
 						//console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-r').innerHTML = parseHeartRate(d.value).heartRate;
-						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
-						// if (countHeartRate == 10) 
+						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + 's';
+						// if (countHeartRate == 10)
 						// {
 						// 	document.querySelector('.js-heart-l-img').animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
 						// 	countHeartRate = 0;
@@ -119,8 +114,7 @@ const connectDevice = function(device, server, service, y) {
 			} else if (server === 'battery_service') {
 				d.readValue()
 					.then(e => {
-						if (y === 1) 
-						{
+						if (y === 1) {
 							document.querySelector('.js-tekenConnectie').style.display = 'block';
 							document.querySelector('.js-loading').style.display = 'none';
 							document.querySelector('.js-tekenConnectie').src = '/img/svg/vink.svg';
@@ -131,15 +125,12 @@ const connectDevice = function(device, server, service, y) {
 
 							playerOneConnected = true;
 
-							if(e.getUint8(0) == 10)
-							{
-								console.log("warning, low battery");
+							if (e.getUint8(0) == 10) {
+								console.log('warning, low battery');
 							}
 
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 4 + '%'; */
-						} 
-						else 
-						{
+						} else {
 							document.querySelector('.js-tekenConnectie').style.display = 'block';
 							document.querySelector('.js-loading').style.display = 'none';
 							document.querySelector('.js-tekenConnectie').src = '/img/svg/vink.svg';
@@ -153,9 +144,8 @@ const connectDevice = function(device, server, service, y) {
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 6 + '%'; 
 							document.querySelector('.js-bar-three').style.borderRadius = '250px 250px 250px 250px';*/
 						}
-						if (e.getUint8(0) == 10) 
-						{
-							console.log("warning, low battery");
+						if (e.getUint8(0) == 10) {
+							console.log('warning, low battery');
 						}
 					})
 					.catch(error => {
@@ -166,16 +156,11 @@ const connectDevice = function(device, server, service, y) {
 					});
 				d.addEventListener('characteristicvaluechanged', function() {
 					d.readValue()
-						.then(e => 
-							{
+						.then(e => {
 							//hier hebben we de batterijstatus
 							//console.log('batterij: ' + y + ' ' + e.getUint8(0));
 							//e.getUint8(0) ---> geeft de batterijstatus
 							//y geeft welke batterij het is
-
-
-
-
 							//einde batterij eventlistener
 							//dit wordt 7 keer per seconde afgevuurd
 						})
@@ -285,6 +270,47 @@ const setProgress = function(position) {
 	progressbar = -100 + (100 / 6) * position;
 };
 
+// avatars
+
+const getAvatar = function (name) {
+	switch (name) {
+		case 'Ape':
+			return './img/Avatars/Ape.png'
+		case 'Cat':
+			return './img/Avatars/Cat.png'
+		case 'Cow':
+			return './img/Avatars/Cow.png'
+		case 'Dog':
+			return './img/Avatars/Dog.png'
+		case 'Dolphin':
+			return './img/Avatars/Dolphin.png'
+		case 'Fish':
+			return './img/Avatars/Fish.png'
+		case 'Flamingo':
+			return './img/Avatars/Flamingo.png'
+		case 'Lion':
+			return './img/Avatars/Lion.png'
+		case 'Penguin':
+			return './img/Avatars/Penguin.png'
+		case 'Goat':
+			return './img/Avatars/Goat.png'
+		case 'Ping':
+			return './img/Avatars/Ping.png'
+		case 'Shark':
+			return './img/Avatars/Shark.png'
+		case 'Snake':
+			return './img/Avatars/Snake.png'
+		case 'Koala':
+			return './img/Avatars/Koala.png'
+		case 'Turtle':
+			return './img/Avatars/Turtle.png'
+	
+		default:
+			return './img/Avatars/Ape.png'
+	}
+	
+}
+
 // Initialize
 const initPages = function() {
 	btnBack = document.querySelector('.js-btn-back');
@@ -300,6 +326,9 @@ const initPages = function() {
 
 	progress = document.querySelector('.js-setProgress');
 	close = document.querySelectorAll('.js-modal-close');
+
+	avatars = document.querySelectorAll('.js-avatar-item');
+	avatarl = document.querySelector('.js-avatar-l')
 
 	btnBack.addEventListener('click', function() {
 		setProgress(2);
@@ -337,7 +366,15 @@ const initPages = function() {
 	});
 
 	close.forEach(element => {
-		element.addEventListener('click', function() {this.style.display = 'none'})
+		element.addEventListener('click', function() {
+			this.style.display = 'none';
+		});
+	});
+	avatars.forEach(element => {
+		element.addEventListener('click', function() {
+			console.log(element.id);
+			avatarl.src = getAvatar(element.id)
+		});
 	});
 };
 
