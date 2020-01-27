@@ -243,6 +243,7 @@ const initPages = function() {
 	btnSingle = document.querySelector('.js-btn-single');
 	btnMulti = document.querySelector('.js-btn-multi');
 	btnWall = document.querySelector('.js-btn-wall');
+	btnStart = document.querySelector('.js-btn-start');
 
 	btnHighscores = document.querySelector('.js-btn-highscores');
 	highscores = document.querySelector('.js-highscores');
@@ -260,16 +261,20 @@ const initPages = function() {
 
 	btnSingle.addEventListener('click', function() {
 		setPage();
-		startGame(true, 'single');
+		gamemode = "single";
 	});
 	btnMulti.addEventListener('click', function() {
 		setPage();
-		startGame(true, 'multi');
+		gamemode = "multi";
 	});
 	btnWall.addEventListener('click', function() {
 		setPage();
-		startGame(true, 'wall');
+		gamemode = "wall";
 	});
+	btnStart.addEventListener('click', function(){
+		setPage();
+		startGame(true, gamemode);
+	})
 
 	btnHighscores.addEventListener('click', function() {
 		highscores.style.display = 'block';

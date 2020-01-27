@@ -135,6 +135,7 @@ p {
 	justify-self: center;
 }
 .c-topbar--flame-l {
+	padding: 1vh 0;
 	height: 8vh;
 	grid-column: 3;
 	justify-self: flex-end;
@@ -152,12 +153,10 @@ p {
 	justify-self: flex-start;
 }
 .c-topbar--flame-r {
+	padding: 1vh 0;
+	height: 8vh;
 	grid-column: 7;
 	justify-self: flex-start;
-	align-items: center;
-}
-.c-topbar--flame-r > img {
-	height: 8vh;
 }
 .c-topbar--avatar-r {
 	grid-column: 8;

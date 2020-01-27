@@ -947,6 +947,7 @@ const resize = () => {
 };
 
 function startGame(state, mode_p) {
+  console.log("start game");
   if (gameLoop == null || mode_p == "ai") {
     chosenGameMode = mode_p;
     GameMode = mode_p;
