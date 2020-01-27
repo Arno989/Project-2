@@ -236,7 +236,7 @@ p {
 }
 
 .c-menu {
-	margin-top: 10vh;
+	padding: 10vh 0;
 	height: 80vh;
 	width: 100vw;
 	display: flex;
