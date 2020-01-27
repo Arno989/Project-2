@@ -76,7 +76,8 @@ const connectDevice = function(device, server, service, y) {
 			if (server === 'heart_rate') {
 				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) {
+					if (y === 1) 
+					{
 						console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 					} else {
 						console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
