@@ -137,14 +137,7 @@ function getRndInteger(min, max) {
 function pauseOn() {
   gameState = false;
   gameOverScreen = document.querySelector(".js-gameOver");
-  console.log(gameOverScreen);
-  if(gameOverScreen.style.display == "none"){
-    console.log("test");
-  }
-  console.log(gameLoop);
-  console.log(timerLoop);
-  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
-    console.log("paused 2");
+  if (gameOverScreen.style.display == "" && gameLoop != null && timerLoop == false) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(gameLoop);
@@ -904,7 +897,7 @@ function setTimer(){
 function timer(ctx, countDownFrom){
   render();
   ctx.font = "150px 'Neucha', cursive";
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "#96c2e5";
   ctx.textAlign = "center";
   ctx.fillText("" + countDownFrom, canvas.width / 2, canvas.height / 2);
   if (countDownFrom < 1) {
@@ -929,8 +922,11 @@ function game() {
 }
 
 const resize = () => {
+  resetBall();
   pauseOn();
   prediction = false;
+
+  gameOverScreen = document.querySelector(".js-gameOver");
 
   canvas.width = document.documentElement.clientWidth;
   canvas.height = document.documentElement.clientHeight - document.documentElement.clientHeight / 10;
