@@ -267,6 +267,12 @@ p {
 	width: 60vw;
 }
 
+.c-avatars-title
+{
+	font-size: 64px;
+	color: var(--text-color);
+}
+
 /* table */
 
 .c-scoreboard {
@@ -358,15 +364,56 @@ p {
 	background-color: var(--loading-blue-light-color);
 }
 
-.c-avatars {
+.c-avatars
+{
+	margin: auto;
 	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	grid-template-columns: repeat(5, 1fr);
 	min-height: 100%;
+	width: 64%;
 }
 
 .c-avatars-grid-item {
 	grid-column: span 5;
 	grid-column: 1/-1;
+}
+
+.c-avatar-item
+{
+	height: 64px;
+	margin: auto;
+}
+
+.c-heart {
+	height: 100;
+	animation: pulse 0.5s infinite;
+	transform: scale(1);
+}
+
+.c-heart__text
+{
+	/* animation: pulse 0.5s infinite; */
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.9);
+		filter: drop-shadow(0 0px 16px rgba(255, 0, 0, 0.7));
+		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); */
+	}
+
+	70% {
+		transform: scale(1);
+		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
+		/* box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); */
+	}
+
+	100% {
+		transform: scale(0.9);
+		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
+		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); */
+	}
+
 }
 
 /*----- utilities -----*/
@@ -420,4 +467,10 @@ p {
 
 .u-grid-col-span-5 {
 	grid-column: span 5;
+}
+
+
+.u-center
+{
+	align-items: center;
 }

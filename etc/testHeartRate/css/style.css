@@ -40,7 +40,6 @@
 
 .c-heart
 {
-    border-radius: 100%;
     height: 100;
     animation: pulse 0.5s infinite;
     transform: scale(1);
