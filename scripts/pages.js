@@ -10,7 +10,8 @@ let index,
 	playerOneConnected = false,
 	betweenConnections = false,
 	playerTwoConnected = false,
-	progressbar = -84;
+	progressbar = -84
+	countHeartRate = 10;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -74,21 +75,40 @@ const connectDevice = function(device, server, service, y) {
 		})
 		.then(d => {
 			if (server === 'heart_rate') {
-				d.addEventListener('characteristicvaluechanged', function() {
+				d.addEventListener('characteristicvaluechanged', function() 
+				{
 					//hier hebben we de hartslag
-					if (y === 1) {
-						console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
-					} else {
-						console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
+					if (y === 1) 
+					{
+						//console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
+						document.querySelector('.js-heart-l').innerHTML = parseHeartRate(d.value).heartRate;
+						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
+						// if(countHeartRate == 10)
+						// {
+						// 	document.querySelector('.js-heart-l-img').animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
+						// 	countHeartRate = 0;
+						// }
+
+					} 
+					else 
+					{
+						//console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
+						document.querySelector('.js-heart-r').innerHTML = parseHeartRate(d.value).heartRate;
+						document.querySelector('.js-heart-l-img').style.animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
+						// if (countHeartRate == 10) 
+						// {
+						// 	document.querySelector('.js-heart-l-img').animationDuration = 1 / parseHeartRate(d.value).heartRate / 60 + "s";
+						// 	countHeartRate = 0;
+						// }
 					}
+					// countHeartRate++;
 				});
 				connectDevice(device, 'battery_service', 'battery_level', y);
 			} else if (server === 'battery_service') {
 				d.readValue()
 					.then(e => {
-						if (y === 1) {
-							console.log('batterij 1: ' + e.getUint8(0));
-
+						if (y === 1) 
+						{
 							document.querySelector('.js-tekenConnectie').style.display = 'block';
 							document.querySelector('.js-loading').style.display = 'none';
 							document.querySelector('.js-tekenConnectie').src = '/img/svg/vink.svg';
@@ -99,10 +119,15 @@ const connectDevice = function(device, server, service, y) {
 
 							playerOneConnected = true;
 
-							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 4 + '%'; */
-						} else {
-							console.log('batterij 2: ' + e.getUint8(0));
+							if(e.getUint8(0) == 10)
+							{
+								console.log("warning, low battery");
+							}
 
+							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 4 + '%'; */
+						} 
+						else 
+						{
 							document.querySelector('.js-tekenConnectie').style.display = 'block';
 							document.querySelector('.js-loading').style.display = 'none';
 							document.querySelector('.js-tekenConnectie').src = '/img/svg/vink.svg';
@@ -116,6 +141,10 @@ const connectDevice = function(device, server, service, y) {
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 6 + '%'; 
 							document.querySelector('.js-bar-three').style.borderRadius = '250px 250px 250px 250px';*/
 						}
+						if (e.getUint8(0) == 10) 
+						{
+							console.log("warning, low battery");
+						}
 					})
 					.catch(error => {
 						document.querySelector('.js-tekenConnectie').src = '/img/svg/kruis.svg';
@@ -125,9 +154,18 @@ const connectDevice = function(device, server, service, y) {
 					});
 				d.addEventListener('characteristicvaluechanged', function() {
 					d.readValue()
-						.then(e => {
+						.then(e => 
+							{
 							//hier hebben we de batterijstatus
-							console.log('batterij: ' + y + ' ' + e.getUint8(0));
+							//console.log('batterij: ' + y + ' ' + e.getUint8(0));
+							//e.getUint8(0) ---> geeft de batterijstatus
+							//y geeft welke batterij het is
+
+
+
+
+							//einde batterij eventlistener
+							//dit wordt 7 keer per seconde afgevuurd
 						})
 						.catch(error => {
 							document.querySelector('.js-tekenConnectie').src = '/img/svg/kruis.svg';
