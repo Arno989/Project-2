@@ -321,6 +321,19 @@ p {
 	background-color: var(--loading-blue-light-color);
 }
 
+.c-avatars
+{
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	min-height: 100%;
+}
+
+.c-avatars-grid-item
+{
+	grid-column: span 5;
+	grid-column: 1/-1;
+}
+
 /*----- utilities -----*/
 .u-margin-reset {
 	margin: 0;
@@ -353,3 +366,30 @@ p {
 .u-6-to-6-procent {
 	width: calc(calc(100 / 6 * 6) * 1%);
 }
+
+.u-grid-col-span-1
+{
+	grid-column: span 1;
+}
+
+.u-grid-col-span-2 
+{
+	grid-column: span 2;
+}
+
+.u-grid-col-span-3 
+{
+	grid-column: span 3;
+}
+
+.u-grid-col-span-4 
+{
+	grid-column: span 4;
+}
+
+.u-grid-col-span-5 
+{
+	grid-column: span 5;
+}
+
+
