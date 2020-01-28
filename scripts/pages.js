@@ -64,6 +64,9 @@ const bluetooth = function(y) {
 		})
 		.then(device => {
 			connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
+			console.log(device);
+			y = JSON.parse(device);
+			console.log(y);
 		})
 		.then(x => {
 			document.querySelector('.js-tekenConnectie').style.display = 'none';
@@ -72,12 +75,18 @@ const bluetooth = function(y) {
 		})
 		.catch(error => {
 			document.querySelector('.js-tekenConnectie').src = '/img/svg/kruis.svg';
-			console.log(error);
 		});
 };
 
 //connect heartRateMonitor followed by battery service
-const connectDevice = function(device, server, service, y) {
+const connectDevice = function(device, server, service, y) 
+{
+	if (y === 1) 
+	{
+		//sessionStorage.setItem('device1', device);
+	} else {
+		//sessionStorage.setItem('device2', device);
+	}
 	device.gatt
 		.connect()
 		.then(a => {
@@ -115,6 +124,7 @@ const connectDevice = function(device, server, service, y) {
 						}
 					}
 				});
+				sessionStorage.setItem("device1", device);
 				connectDevice(device, 'battery_service', 'battery_level', y);
 			} else if (server === 'battery_service') {
 				d.readValue()
