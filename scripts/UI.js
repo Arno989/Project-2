@@ -4,8 +4,18 @@ const gotoSavedPos = () => {
 	/* https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage */
 	if (sessionStorage.getItem('position') != null) 
 	{
-		console.log("herladen");
 		position = parseInt(sessionStorage.getItem('position'));
+		Swal.fire({
+			title: '<strong>De bluetoothconnectie met de hartslagmeters is verbroken, opnieuw verbinden?</strong>',
+			imageUrl: './img/svg/kruis.svg',
+			showCloseButton: true,
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonText: 'Opnieuw verbinden',
+			confirmButtonAriaLabel: 'Opnieuw verbinden',
+			cancelButtonText: 'Zonder hartslagmeter verdergaan',
+			cancelButtonAriaLabel: 'Zonder hartslagmeter verdergaan'
+		})
 	}
 
 	if (position != 0 && position != null) {
