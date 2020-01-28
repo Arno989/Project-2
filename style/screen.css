@@ -484,9 +484,10 @@ p {
 	position: absolute;
 	color: #4699DB;
 	margin: auto;
+	bottom: 150px;
 	left: 0;
 	top: 0.3em;
-	right: 0;
+	right: 20px;
 	opacity: 0; 
   }
 

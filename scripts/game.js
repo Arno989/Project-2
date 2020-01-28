@@ -12,7 +12,6 @@ let gameOverScreen = null;
 let gameOverScore = null;
 let gamePausedScreen = null;
 let countDownScreen = null;
-let number3 = null;
 let btnAgain = null;
 let btnMain = null;
 let btnResume = null;
@@ -150,7 +149,9 @@ function getRndInteger(min, max) {
 
 function pauseOn() {
   gameOverScreen = document.querySelector(".js-gameOver");
-  if (gameOverScreen.style.display == "" && gameLoop != null && timerLoop == false) {
+  console.log(gameOverScreen);
+  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
+    console.log("paused");
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(gameLoop);
@@ -891,8 +892,6 @@ function drawPrediction() {
 function setTimer(){
   doAnime();
   console.log("anime");
-  clearInterval(gameLoop);
-  gameState = false;
 }
 
 function doAnime(){
@@ -943,6 +942,7 @@ function doAnime(){
 
 // render function, the function that does al the drawing
 function render() {
+  console.log(gameState);
   clearCanvas();
   drawNet();
   drawPlayersAndScore();
@@ -952,11 +952,7 @@ function render() {
 
 function game() {
   if(animation.completed){
-    if(gameState == false){
-      gameLoop = setInterval(game, 1000 / framePerSecond);
-      gameState = true;
-      update();
-    }
+    update();
     render();
   }
 }
@@ -981,6 +977,9 @@ const resize = () => {
 
   com.x = canvas.width - 35;
 
+  wall.x = canvas.width - 35;
+  wall.height = canvas.height;
+
   net.x = (canvas.width - net.width) / 2;
   resetBall();
   render();
@@ -994,14 +993,12 @@ function startGame(state, mode_p) {
     if (state) {
       //timerInterval = setInterval(function(){timer(ctx,countDownFrom--);},1000);
       countDownScreen = document.querySelector(".js-countdown");
-      number3 = document.querySelector(".letters-3");
       countDownScreen.style.display = "block";
       doAnime();
       gameLoop = setInterval(game, 1000 / framePerSecond);
       gameState = true;
       render();
     } else {
-      clearInterval(gameLoop);
       gameState = false;
       resetBall();
     }
