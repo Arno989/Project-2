@@ -300,6 +300,21 @@ p {
 	margin: 8px 0;
 }
 
+.js-mode-single:hover
+{
+	background-image: url(/img/gif/single.gif);
+}
+
+.js-mode-multi:hover
+{
+	background-image: url(/img/gif/multi.gif);
+}
+
+.js-mode-wall:hover
+{
+	background-image: url(/img/gif/wall.gif);
+}
+
 /* Progress bar */
 
 .c-container-top {
@@ -408,7 +423,6 @@ p {
 	width: 100px;
 	height: 100px;
 	display: none;
-	margin-right: 24px;
 }
 
 .lds-dual-ring:after {

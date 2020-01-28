@@ -64,9 +64,6 @@ const bluetooth = function(y) {
 		})
 		.then(device => {
 			connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
-			console.log(device);
-			y = JSON.parse(device);
-			console.log(y);
 		})
 		.then(x => {
 			document.querySelector('.js-tekenConnectie').style.display = 'none';
@@ -100,7 +97,8 @@ const connectDevice = function(device, server, service, y) {
 			if (server === 'heart_rate') {
 				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) {
+					if (y === 1) 
+					{
 						countHeartRate1 += 1;
 						//console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-l').innerHTML = parseHeartRate(d.value).heartRate;
@@ -110,7 +108,9 @@ const connectDevice = function(device, server, service, y) {
 							document.querySelector('.js-heart-l').style.animationDuration = speed;
 							countHeartRate1 = 0;
 						}
-					} else {
+					} 
+					else 
+					{
 						countHeartRate2 += 1;
 						//console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-r').innerHTML = parseHeartRate(d.value).heartRate;
@@ -122,7 +122,6 @@ const connectDevice = function(device, server, service, y) {
 						}
 					}
 				});
-				sessionStorage.setItem('device1', device);
 				connectDevice(device, 'battery_service', 'battery_level', y);
 			} else if (server === 'battery_service') {
 				d.readValue()
@@ -137,11 +136,6 @@ const connectDevice = function(device, server, service, y) {
 							btn.disabled = false;
 
 							playerOneConnected = true;
-
-							if (e.getUint8(0) == 10) {
-								console.log('warning, low battery');
-							}
-
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 4 + '%'; */
 						} else {
 							document.querySelector('.js-tekenConnectie').style.display = 'block';
@@ -153,7 +147,6 @@ const connectDevice = function(device, server, service, y) {
 							btn.disabled = false;
 
 							playerTwoConnected = true;
-
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 6 + '%'; 
 							document.querySelector('.js-bar-three').style.borderRadius = '250px 250px 250px 250px';*/
 						}
