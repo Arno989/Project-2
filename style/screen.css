@@ -524,6 +524,10 @@ p {
 #UTILITIES
 \*------------------------------------*/
 
+.u-hide {
+	display: none;
+}
+
 /* Column Span */
 
 .u-grid-col-span-1 {
