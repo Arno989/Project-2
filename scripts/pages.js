@@ -79,10 +79,8 @@ const bluetooth = function(y) {
 };
 
 //connect heartRateMonitor followed by battery service
-const connectDevice = function(device, server, service, y) 
-{
-	if (y === 1) 
-	{
+const connectDevice = function(device, server, service, y) {
+	if (y === 1) {
 		//sessionStorage.setItem('device1', device);
 	} else {
 		//sessionStorage.setItem('device2', device);
@@ -124,7 +122,7 @@ const connectDevice = function(device, server, service, y)
 						}
 					}
 				});
-				sessionStorage.setItem("device1", device);
+				sessionStorage.setItem('device1', device);
 				connectDevice(device, 'battery_service', 'battery_level', y);
 			} else if (server === 'battery_service') {
 				d.readValue()
@@ -222,6 +220,7 @@ const setbetweenConnections = function() {
 	betweenConnections = true;
 	document.querySelector('.js-tekenConnectie').src = '/img/svg/kruis.svg';
 	document.querySelector('.js-btn-connect-player').innerHTML = 'Verbind speler 2';
+	document.querySelector('.js-polar-instructions').src = './img/Hartslagmeter2.svg';
 	document.querySelector('.js-hartslag-title').innerHTML = 'Hartslagmeter 2';
 
 	/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 5 + '%'; */
@@ -332,88 +331,6 @@ const getAvatar = function(name) {
 	}
 };
 
-//countdown animation
-/*
-ml.timelines = {};
-
-ml.playComposition = function(comp) {
-	var compID = comp.querySelector('h1').className;
-	ml.timelines[compID].play();
-};
-
-ml.restartComposition = function(comp) {
-	var compID = comp.querySelector('h1').className;
-	ml.timelines[compID].restart();
-};
-
-ml.pauseComposition = function(comp) {
-	var compID = comp.querySelector('h1').className;
-	ml.timelines[compID].pause();
-};
-
-var ml4 = {};
-ml4.opacityIn = [0, 1];
-ml4.scaleIn = [0.2, 1];
-ml4.scaleOut = 3;
-ml4.durationIn = 800;
-ml4.durationOut = 600;
-ml4.delay = 500;
-
-ml.timelines['ml4'] = anime
-	.timeline({ loop: true })
-	.add({
-		targets: '.ml4 .letters-1',
-		opacity: ml4.opacityIn,
-		scale: ml4.scaleIn,
-		duration: ml4.durationIn
-	})
-	.add({
-		targets: '.ml4 .letters-1',
-		opacity: 0,
-		scale: ml4.scaleOut,
-		duration: ml4.durationOut,
-		easing: 'easeInExpo',
-		delay: ml4.delay
-	})
-	.add({
-		targets: '.ml4 .letters-2',
-		opacity: ml4.opacityIn,
-		scale: ml4.scaleIn,
-		duration: ml4.durationIn
-	})
-	.add({
-		targets: '.ml4 .letters-2',
-		opacity: 0,
-		scale: ml4.scaleOut,
-		duration: ml4.durationOut,
-		easing: 'easeInExpo',
-		delay: ml4.delay
-	})
-	.add({
-		targets: '.ml4 .letters-3',
-		opacity: ml4.opacityIn,
-		scale: ml4.scaleIn,
-		duration: ml4.durationIn
-	})
-	.add({
-		targets: '.ml4 .letters-3',
-		opacity: 0,
-		scale: ml4.scaleOut,
-		duration: ml4.durationOut,
-		easing: 'easeInExpo',
-		delay: ml4.delay
-	})
-	.add({
-		targets: '.ml4',
-		opacity: 0,
-		duration: 500,
-		delay: 500
-	});
-
-ml.playComposition('ml4');
-
-*/
-
 // Initialize
 const initPages = function() {
 	btnBack = document.querySelector('.js-btn-back');
@@ -495,6 +412,17 @@ const initPages = function() {
 						btnStart.style.display = 'block';
 					}
 					break;
+				case 'wall':
+					if (pl != true) {
+						element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+						avatarl.src = getAvatar(element.id);
+						avatarr.src = './img/Avatars/Robot.png';
+						console.log(avatarl.src);
+						pl = true;
+						avatartitle.innerHTML = 'Klik op verder om te spelen.';
+						btnStart.style.display = 'block';
+					}
+					break;
 
 				default:
 					break;
@@ -509,6 +437,11 @@ const initPages = function() {
 		gamemode = 'single';
 		modeStartButton.style.display = 'block';
 		modeStartButton.setAttribute('id', 'single');
+
+		document.querySelector('.js-heart-r').style.display = 'none';
+		document.querySelector('.js-heart-l').style.display = 'none';
+		document.querySelector('.js-heart-r-img').style.display = 'none';
+		document.querySelector('.js-heart-l-img').style.display = 'none';
 	});
 
 	modeChoiceMulti.addEventListener('click', function() {
@@ -532,20 +465,23 @@ const initPages = function() {
 	modeStartButton.addEventListener('click', function() {
 		switch (this.id) {
 			case 'single':
+				avatartitle.innerHTML = 'Kies je avatar.';
 				gotoPos('right', 100);
 				break;
 			case 'multi':
 				gotoPos('right', 100);
 				break;
 			case 'wall':
-				avatarl.style.display = 'none';
+				avatartitle.innerHTML = 'Kies je avatar.';
+				gotoPos('right', 100);
+				/* avatarl.style.display = 'none';
 				avatarr.style.display = 'none';
 				document.querySelector('.js-heart-r').style.display = 'none';
 				document.querySelector('.js-heart-l').style.display = 'none';
 				document.querySelector('.js-heart-r-img').style.display = 'none';
 				document.querySelector('.js-heart-l-img').style.display = 'none';
 				gotoPos('right', 200);
-				startGame(true, gamemode);
+				startGame(true, gamemode); */
 				break;
 		}
 	});
@@ -559,6 +495,7 @@ const initPages = function() {
 		modeStartButton.style.display = 'none';
 		modeStartButton.setAttribute('id', '');
 	});
+
 	backbuttonavatar.addEventListener('click', function() {
 		avatars.forEach(element => {
 			element.style.filter = 'none';
