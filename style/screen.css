@@ -271,9 +271,9 @@ p {
 .c-menu-button-duo 
 {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	width: 60vw;
-	flex-wrap: wrap;
+	flex-flow: row wrap; 
 	align-items: center;
 }
 
@@ -292,7 +292,12 @@ p {
 	height: 150px;
 	background-color: var(--color-pink-light);
 	border: 10px solid var(--color-mono-white);
-	background-image: 
+}
+
+.c-mode-text
+{
+	color: var(--text-color);
+	margin: 8px 0;
 }
 
 /* Progress bar */

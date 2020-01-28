@@ -15,7 +15,10 @@ let index,
 	progressbar = -84,
 	countHeartRate = 10,
 	pl = false,
-	pr = false;
+	pr = false,
+	modeChoiceSingle,
+	modeChoiceMulti,
+	modeChoiceWall;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -425,6 +428,10 @@ const initPages = function() {
 	avatarl = document.querySelector('.js-avatar-l');
 	avatarr = document.querySelector('.js-avatar-r');
 
+	modeChoiceSingle = document.querySelector('.js-mode-single');
+	modeChoiceMulti = document.querySelector('.js-mode-multi');
+	modeChoiceWall = document.querySelector('.js-mode-wall');
+
 	btnBack.addEventListener('click', function() {
 		setProgress(2);
 		setPage('heart');
@@ -434,18 +441,18 @@ const initPages = function() {
 		setPage('connect');
 	});
 
-	btnSingle.addEventListener('click', function() {
-		setPage();
-		gamemode = 'single';
-	});
-	btnMulti.addEventListener('click', function() {
-		setPage();
-		gamemode = 'multi';
-	});
-	btnWall.addEventListener('click', function() {
-		setPage();
-		gamemode = 'wall';
-	});
+	// btnSingle.addEventListener('click', function() {
+	// 	setPage();
+	// 	gamemode = 'single';
+	// });
+	// btnMulti.addEventListener('click', function() {
+	// 	setPage();
+	// 	gamemode = 'multi';
+	// });
+	// btnWall.addEventListener('click', function() {
+	// 	setPage();
+	// 	gamemode = 'wall';
+	// });
 	btnStart.addEventListener('click', function() {
 		setPage();
 		startGame(true, gamemode);
@@ -482,6 +489,30 @@ const initPages = function() {
 				avatartitle.innerHTML = 'Klik op verder om te spelen.';
 			}
 		});
+	});
+
+	modeChoiceSingle.addEventListener('click', function() 
+	{
+		modeChoiceSingle.style.border = "10px solid #e5c9ef";
+		modeChoiceMulti.style.border = "10px solid #FFFFFF";
+		modeChoiceWall.style.border = "10px solid #FFFFFF";
+		gamemode = "single";
+	});
+
+	modeChoiceMulti.addEventListener('click', function() 
+	{
+		modeChoiceSingle.style.border = "10px solid #FFFFFF";
+		modeChoiceMulti.style.border = "10px solid #e5c9ef";
+		modeChoiceWall.style.border = "10px solid #FFFFFF";
+		gamemode = "multi";
+	});
+
+	modeChoiceWall.addEventListener('click', function() 
+	{
+		modeChoiceSingle.style.border = "10px solid #FFFFFF";
+		modeChoiceMulti.style.border = "10px solid #FFFFFF";
+		modeChoiceWall.style.border = "10px solid #e5c9ef";
+		gamemode = "wall";
 	});
 };
 
