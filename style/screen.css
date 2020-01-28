@@ -268,10 +268,31 @@ p {
 	margin-bottom: 5vh;
 }
 
-.c-menu-button-duo {
+.c-menu-button-duo 
+{
 	display: flex;
 	justify-content: space-between;
 	width: 60vw;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.c-mode
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}
+
+.c-mode-preview
+{
+	width: 240px;
+	height: 150px;
+	background-color: var(--color-pink-light);
+	border: 10px solid var(--color-mono-white);
+	background-image: 
 }
 
 /* Progress bar */
