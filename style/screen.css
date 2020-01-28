@@ -300,16 +300,29 @@ p {
 	margin: 8px 0;
 }
 
-.js-mode-single:hover
+.js-mode-single
+{
+	background-image: url(/img/modes/single.jpg);
+}
+.js-mode-single:hover,
+.js-mode-single:checked
 {
 	background-image: url(/img/gif/single.gif);
 }
 
+.js-mode-multi 
+{
+	background-image: url(/img/modes/multi.jpg);
+}
 .js-mode-multi:hover
 {
 	background-image: url(/img/gif/multi.gif);
 }
 
+.js-mode-wall 
+{
+	background-image: url(/img/modes/wall.jpg);
+}
 .js-mode-wall:hover
 {
 	background-image: url(/img/gif/wall.gif);
@@ -489,21 +502,18 @@ p {
 /* Countdown */
 
 .ml4 {
-	position: relative;
-	margin-right: 30px;
+	align-self: center;
 	font-weight: 900;
 	font-size: 4.5em;
-  }
-  .ml4 .letters {
-	position: absolute;
-	color: #4699DB;
-	margin: auto;
-	bottom: 150px;
+}
+.ml4 .letters {
+	align-self: center;
+	margin: 0;
 	left: 0;
 	top: 0.3em;
-	right: 20px;
+	right: 0;
 	opacity: 0; 
-  }
+}
 
 @keyframes pulse {
 	0% {

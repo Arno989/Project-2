@@ -136,6 +136,7 @@ const connectDevice = function(device, server, service, y) {
 							btn.disabled = false;
 
 							playerOneConnected = true;
+							setProgress(4);
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 4 + '%'; */
 						} else {
 							document.querySelector('.js-tekenConnectie').style.display = 'block';
@@ -147,6 +148,7 @@ const connectDevice = function(device, server, service, y) {
 							btn.disabled = false;
 
 							playerTwoConnected = true;
+							setProgress(6);
 							/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 6 + '%'; 
 							document.querySelector('.js-bar-three').style.borderRadius = '250px 250px 250px 250px';*/
 						}
@@ -228,14 +230,12 @@ const setConnect = function() {
 	btnPlayer.addEventListener('click', function() {
 		if (!playerOneConnected) {
 			bluetooth(1);
-			setProgress(4);
 		} else if (!playerTwoConnected) {
 			if (!betweenConnections) {
 				setbetweenConnections();
 				setProgress(5);
 			} else {
 				bluetooth(2);
-				setProgress(6);
 			}
 		} else {
 			gotoPos('right', 100);
