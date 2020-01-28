@@ -200,7 +200,7 @@ p {
 	pointer-events: auto;
 	margin: auto;
 	width: 50vw;
-	height: 80vh;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -298,18 +298,6 @@ p {
 {
 	color: var(--text-color);
 	margin: 8px 0;
-}
-
-.c-button-abs-left
-{
-	position: absolute;
-	bottom: 8px;
-	left: 8px;
-}
-
-.c-button-abs-left 
-{
-
 }
 
 /* Progress bar */
@@ -575,6 +563,9 @@ p {
 	margin: 0;
 }
 
+.u-mb-3 {
+	margin-bottom: 3vh;
+}
 .u-mb-5 {
 	margin-bottom: 5vh;
 }

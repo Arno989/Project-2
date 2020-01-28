@@ -439,7 +439,6 @@ const initPages = function() {
 		setPage('connect');
 	});
 	btnStart.addEventListener('click', function() {
-		setPage();
 		startGame(true, gamemode);
 	});
 	btnHighscores.addEventListener('click', function() {
@@ -458,19 +457,37 @@ const initPages = function() {
 
 	avatars.forEach(element => {
 		element.addEventListener('click', function() {
-			if (pl != true) {
-				element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
-				avatarl.src = getAvatar(element.id);
-				console.log(avatarl.src);
-				pl = true;
-				avatartitle.innerHTML = 'Speler 2, kies je avatar.';
-			} else if (pr != true) {
-				element.style.filter = 'drop-shadow(0 0px 16px rgba(255, 0, 0, 0.459))';
-				avatarr.src = getAvatar(element.id);
-				console.log(avatarr.src);
-				pr = true;
-				avatartitle.innerHTML = 'Klik op verder om te spelen.';
-				btnStart.style.display = 'block';
+			switch (gamemode) {
+				case 'single':
+					if (pl != true) {
+						element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+						avatarl.src = getAvatar(element.id);
+						avatarr.src = './img/Avatars/Robot.png';
+						console.log(avatarl.src);
+						pl = true;
+						avatartitle.innerHTML = 'Klik op verder om te spelen.';
+						btnStart.style.display = 'block';
+					}
+					break;
+				case 'multi':
+					if (pl != true) {
+						element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+						avatarl.src = getAvatar(element.id);
+						console.log(avatarl.src);
+						pl = true;
+						avatartitle.innerHTML = 'Speler 2, kies je avatar.';
+					} else if (pr != true) {
+						element.style.filter = 'drop-shadow(0 0px 16px rgba(255, 0, 0, 0.459))';
+						avatarr.src = getAvatar(element.id);
+						console.log(avatarr.src);
+						pr = true;
+						avatartitle.innerHTML = 'Klik op verder om te spelen.';
+						btnStart.style.display = 'block';
+					}
+					break;
+
+				default:
+					break;
 			}
 		});
 	});
@@ -481,6 +498,7 @@ const initPages = function() {
 		modeChoiceWall.style.border = '10px solid #FFFFFF';
 		gamemode = 'single';
 		modeStartButton.style.display = 'block';
+		modeStartButton.setAttribute('id', 'single');
 	});
 
 	modeChoiceMulti.addEventListener('click', function() {
@@ -489,6 +507,7 @@ const initPages = function() {
 		modeChoiceWall.style.border = '10px solid #FFFFFF';
 		gamemode = 'multi';
 		modeStartButton.style.display = 'block';
+		modeStartButton.setAttribute('id', 'multi');
 	});
 
 	modeChoiceWall.addEventListener('click', function() {
@@ -497,10 +516,28 @@ const initPages = function() {
 		modeChoiceWall.style.border = '10px solid #e5c9ef';
 		gamemode = 'wall';
 		modeStartButton.style.display = 'block';
+		modeStartButton.setAttribute('id', 'wall');
 	});
 
 	modeStartButton.addEventListener('click', function() {
-		gotoPos('right', 100);
+		switch (this.id) {
+			case 'single':
+				gotoPos('right', 100);
+				break;
+			case 'multi':
+				gotoPos('right', 100);
+				break;
+			case 'wall':
+				avatarl.style.display = 'none';
+				avatarr.style.display = 'none';
+				document.querySelector('.js-heart-r').style.display = 'none';
+				document.querySelector('.js-heart-l').style.display = 'none';
+				document.querySelector('.js-heart-r-img').style.display = 'none';
+				document.querySelector('.js-heart-l-img').style.display = 'none';
+				gotoPos('right', 200);
+				startGame(true, gamemode);
+				break;
+		}
 	});
 
 	backbuttonmode.addEventListener('click', function() {
@@ -510,6 +547,7 @@ const initPages = function() {
 		gamemode = 'null';
 
 		modeStartButton.style.display = 'none';
+		modeStartButton.setAttribute('id', '');
 	});
 	backbuttonavatar.addEventListener('click', function() {
 		avatars.forEach(element => {
