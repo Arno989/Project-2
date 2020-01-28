@@ -452,6 +452,7 @@ const initPages = function() {
 	});
 
 	btnHighscores.addEventListener('click', function() {
+		console.log('yeet');
 		setHighScore();
 		highscores.style.display = 'block';
 	});
