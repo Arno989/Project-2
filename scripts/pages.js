@@ -323,6 +323,19 @@ const getAvatar = function(name) {
 	}
 };
 
+function resetGameMode(){
+	gamemode = "null";
+
+	modeChoiceSingle.style.border = '10px solid #FFFFFF';
+	modeChoiceMulti.style.border = '10px solid #FFFFFF';
+	modeChoiceWall.style.border = '10px solid #FFFFFF';
+	
+	avatarl.src = '';
+	avatarr.src = '';
+	pl = false;
+	pr = false;
+}
+
 // Initialize
 const initPages = function() {
 	btnBack = document.querySelector('.js-btn-back');
@@ -466,8 +479,6 @@ const initPages = function() {
 	});
 
 	modeStartButton.addEventListener('click', function() {
-		avatarl.src = '';
-		avatarr.src = '';
 		switch (this.id) {
 			case 'single':
 				avatartitle.innerHTML = 'Kies je avatar.';

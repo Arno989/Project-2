@@ -12,15 +12,24 @@ let gameOverScreen = null;
 let gameOverScore = null;
 let gamePausedScreen = null;
 let countDownScreen = null;
+let infoScreen = null;
 let btnAgain = null;
 let btnMain = null;
 let btnResume = null;
 let btnMainPause = null;
 
+//sound
+var scoreSound = new sound("sounds/daddy.mp3");
+var scoreAgainstSound = new sound("sounds/oof.mp3");
+var gameStartSound = new sound("sounds/tadah.mp3");
+var gameWonSound = new sound("sounds/kids.mp3");
+var bounceSound = new sound("sounds/bounce.mp3");
+
 //debug variables
 let bounceY = false;
 let bounceX = false;
 let animation;
+let animationInfo;
 
 // input variables
 document.addEventListener("keydown", keyDownHandler, false);
@@ -40,14 +49,16 @@ var increasementSpeedByUser = 0.03;
 var pointsToWin = 3;
 var countDownFrom = 3;
 
-// game variablesn, you should not change these
-let chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
-let GameMode = "single"; //keep track of what the selected gamemode was.
-let gameLoop = null;
+// game variables, you should not change these
+var chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
+var GameMode = "single"; //keep track of what the selected gamemode was.
+var gameLoop = null;
 var gameState = false;
+var animeLoop = null;
+var animeState = false;
 var timerInterval = null;
 var timerLoop = true;
-let framePerSecond = 90; // number of frames per second
+var framePerSecond = 90; // number of frames per second
 var lastPaddleHit;
 
 // prediction variables
@@ -56,15 +67,15 @@ var angle = null; //this is to predict the bounce
 var PredictionHitX;
 var PredictionHitY;
 var PredictionBeginStatic = 360; // pixels * begin velocity(4.5)
-var PredictionEndStatic = 135;
+var PredictionEndStatic = 300;
 var predictionColor = "#7474746d";
 var pixelsFromBall = 0;
 
 // anime vars
 var ml4 = {};
 ml4.opacityIn = [0, 1];
-ml4.scaleIn = [0.2, 1];
-ml4.scaleOut = 10;
+ml4.scaleIn = [0.5, 1];
+ml4.scaleOut = 7;
 ml4.durationIn = 500;
 ml4.durationOut = 500;
 ml4.delay = 0;
@@ -164,7 +175,7 @@ function drawArc(x, y, r, color) {
 function drawLine(x, y, xTo, yTo, w, color) {
   ctx.strokeStyle = color;
   ctx.beginPath();
-  ctx.setLineDash([5, 2]);
+  ctx.setLineDash([0, 0]);
   ctx.moveTo(x, y);
   ctx.lineTo(xTo, yTo);
   ctx.lineWidth = w;
@@ -240,10 +251,11 @@ function clickMain() {
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
-  gotoPos("left", 200);
+  gotoPos("left", 300);
   gameLoop = null;
   resetBall();
   resetPaddles();
+  resetGameMode();
   clearInterval(gameLoop);
   gameState = false;
 }
@@ -298,6 +310,10 @@ function resetPaddles(){
   user.y = canvas.height / 2 - 190 / 2;
   user2.x = canvas.width - 35;
   user2.y = canvas.height / 2 - 190 / 2
+  comLeft.x = 15;
+  comLeft.y = canvas.height / 2 - 190 / 2;
+  com.x = canvas.width - 35;
+  com.y = canvas.height / 2 - 190 / 2
 }
 
 function pauseOn() {
@@ -506,12 +522,14 @@ function update() {
       if (GameMode == "multi") {
         gameOverScreen.style.display = "block";
         gameOverScore.innerText = "Gewonnen!";
+        gameWonSound.play();
         GameMode = "ai";
       } else if (GameMode == "single") {
         if (com.score > user.score) {
           gameOverScore.innerText = "verloren!";
         } else {
           gameOverScore.innerText = "Gewonnen!";
+          gameWonSound.play();
         }
         gameOverScreen.style.display = "block";
         GameMode = "ai";
@@ -552,6 +570,7 @@ function update() {
     resetBall();
     resetPaddles();
     startMovingBall("right");
+    scoreAgainstSound.play();
     if(com.score < pointsToWin){
       setTimer();
     }
@@ -560,17 +579,20 @@ function update() {
     resetBall();
     resetPaddles();
     startMovingBall("right");
+    scoreSound.play();
     if(user2.score < pointsToWin){
       setTimer();
     }
   } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
     wall.score++;
     resetBall();
+    scoreAgainstSound.play();
   } else if (ball.x + ball.radius > canvas.width && GameMode != "wall") {
     user.score++;
     resetBall();
     resetPaddles();
     startMovingBall("left");
+    scoreSound.play();
     if(user.score < pointsToWin){
       setTimer();
     }
@@ -603,6 +625,7 @@ function update() {
 
   // if the ball hits a paddle
   if (collision(ball, player)) { // if the ball hits a paddle
+    bounceSound.play();
     //when ball hits the rounded top or bottom of the paddle
     if (player.x == 15) { // left hit
       if (ball.bottom > player.top - user.width / 4 && ball.bottom < (player.top + player.width / 3) && ball.velocityY > 0) {
@@ -624,6 +647,7 @@ function update() {
     if (GameMode != "ai") {
       if (bounceX == false) {  // this is to fix a bug where the ball keeps bouncing on a paddle
         if (GameMode == "wall" && player.x == 15) { // add 1 point to user when in wall mode and collide with user paddle.
+          scoreSound.play();
           user.score += 1;
           prediction = false;
         }
@@ -890,9 +914,72 @@ function drawPrediction() {
   }
 }
 
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+
 function setTimer(){
   doAnime();
   console.log("anime");
+}
+
+function doInfo() {
+  var textWrapper = document.querySelector('.ml7 .letters');
+  textWrapper.innerHTML = "De eerste met 11 punten wint!";
+  if(GameMode == "wall"){
+    textWrapper.innerHTML = "Haal zo veel mogelijk punten!";
+  }
+  textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+  if(animationInfo == null){
+    animationInfo = anime.timeline()
+    .add({
+      targets: '.ml7 .letter',
+      translateY: ["1.1em", 0],
+      translateX: ["0.55em", 0],
+      translateZ: 0,
+      rotateZ: [180, 0],
+      duration: 500,
+      easing: "easeOutExpo",
+      delay: (el, i) => 40 * i
+    }).add({
+      targets: '.ml7',
+      opacity: 0,
+      duration: 1000,
+      easing: "easeOutExpo",
+      delay: 1000
+    });
+  } else{
+    animationInfo.restart();
+    animationInfo = anime.timeline()
+    .add({
+      targets: '.ml7 .letter',
+      translateY: ["1.1em", 0],
+      translateX: ["0.55em", 0],
+      translateZ: 0,
+      rotateZ: [180, 0],
+      duration: 500,
+      easing: "easeOutExpo",
+      delay: (el, i) => 40 * i
+    }).add({
+      targets: '.ml7',
+      opacity: 0,
+      duration: 1000,
+      easing: "easeOutExpo",
+      delay: 1000
+    });
+  }
 }
 
 function doAnime(){
@@ -953,9 +1040,22 @@ function render() {
 
 function game() {
   if(animation.completed){
+    animeState = false;
+    clearInterval(animeLoop);
     timerLoop = false;
     update();
     render();
+  }
+}
+
+function loopAnime(){
+  if (animationInfo.completed && animeState == false) {
+    countDownScreen = document.querySelector(".js-countdown");
+    countDownScreen.style.display = "block";
+    doAnime();
+    animeState = true;
+    gameLoop = setInterval(game, 1000 / framePerSecond);
+    gameState = true;
   }
 }
 
@@ -990,16 +1090,17 @@ const resize = () => {
 function startGame(state, mode_p) {
   console.log("start game");
   if (gameLoop == null || mode_p == "ai") {
+    gameStartSound.play();
     chosenGameMode = mode_p;
     GameMode = mode_p;
     lastPaddleHit = user;
+    bounceX = false;
+    bounceY = false;
     if (state) {
-      //timerInterval = setInterval(function(){timer(ctx,countDownFrom--);},1000);
-      countDownScreen = document.querySelector(".js-countdown");
-      countDownScreen.style.display = "block";
-      doAnime();
-      gameLoop = setInterval(game, 1000 / framePerSecond);
-      gameState = true;
+      infoScreen = document.querySelector(".js-info");
+      infoScreen.style.display = "block";
+      doInfo();
+      animeLoop = setInterval(loopAnime, 1000 / framePerSecond);
       render();
     } else {
       gameState = false;

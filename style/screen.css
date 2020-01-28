@@ -513,6 +513,28 @@ p {
 	opacity: 0;
 }
 
+/* info, eerste tot 11 */
+
+.ml7 {
+	position: relative;
+	font-weight: 900;
+	font-size: 3.7em;
+  }
+  .ml7 .text-wrapper {
+	position: relative;
+	display: inline-block;
+	padding-top: 0.2em;
+	padding-right: 0.05em;
+	padding-bottom: 0.3em;
+	overflow: hidden;
+  }
+  .ml7 .letter {
+	transform-origin: 0 100%;
+	display: inline-block;
+	line-height: 1em;
+	color: #4699db;
+  }
+
 @keyframes pulse {
 	0% {
 		transform: scale(0.9);
