@@ -887,10 +887,9 @@ function drawPrediction() {
 }
 
 function setTimer(){
-  timerLoop = true;
+  doAnime();
+  console.log("anime");
   clearInterval(gameLoop);
-  countDownFrom = 3;
-  timerInterval = setInterval(function(){timer(ctx,countDownFrom--);},1000);
 }
 
 function timer(ctx, countDownFrom){
@@ -947,14 +946,9 @@ function doAnime(){
   }).add({
     targets: '.ml4',
     opacity: 0,
-    duration: 500,
-    delay: 500
+    duration: 0,
+    delay: 0
   });
-  console.log(number3.style.cssText);
-  if(number3.style.cssText == "opacity: 0; transform: scale(10);"){
-    console.log("end");
-  }
-  console.log(animation);
 }
 
 // render function, the function that does al the drawing
@@ -967,8 +961,10 @@ function render() {
 }
 
 function game() {
-  update();
-  render();
+  if(animation.completed){
+    update();
+    render();
+  }
 }
 
 const resize = () => {
@@ -1007,6 +1003,7 @@ function startGame(state, mode_p) {
       number3 = document.querySelector(".letters-3");
       countDownScreen.style.display = "block";
       doAnime();
+      gameLoop = setInterval(game, 1000 / framePerSecond);
       render();
     } else {
       clearInterval(gameLoop);

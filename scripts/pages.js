@@ -459,6 +459,7 @@ const initPages = function() {
 	});
 
 	btnHighscores.addEventListener('click', function() {
+		console.log('yeet');
 		setHighScore();
 		highscores.style.display = 'block';
 	});
@@ -484,7 +485,7 @@ const initPages = function() {
 			} else if (pr != true) {
 				element.style.filter = 'drop-shadow(0 0px 16px rgba(255, 0, 0, 0.459))';
 				avatarr.src = getAvatar(element.id);
-				console.log(avatarl.src);
+				console.log(avatarr.src);
 				pr = true;
 				avatartitle.innerHTML = 'Klik op verder om te spelen.';
 			}

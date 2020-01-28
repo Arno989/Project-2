@@ -334,7 +334,7 @@ p {
 	margin: auto;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	height: 100vh;
+	height: 75vh;
 	width: 60vw;
 }
 
@@ -375,6 +375,10 @@ p {
 .c-scoreboard > tbody > tr > td:first-child {
 	border-left: none;
 	text-align: center;
+}
+
+.c-scoreboard > tbody > tr > th > p {
+	padding: 24px;
 }
 
 .c-scoreboard > tbody > tr > td > p {
@@ -464,9 +468,24 @@ p {
 	transform: scale(1);
 }
 
-.c-heart__text
-{
+.c-heart__text {
 	animation: pulse 1s infinite;
+}
+
+/* Countdown */
+
+.ml4 {
+	align-self: center;
+	font-weight: 900;
+	font-size: 4.5em;
+}
+.ml4 .letters {
+	align-self: center;
+	margin: 0;
+	left: 0;
+	top: 0.3em;
+	right: 0;
+	opacity: 0; 
 }
 
 @keyframes pulse {
@@ -492,22 +511,6 @@ p {
 /*------------------------------------*\
 #UTILITIES
 \*------------------------------------*/
-
-/* Countdown */
-
-.ml4 {
-	position: relative;
-	font-weight: 900;
-	font-size: 4.5em;
-}
-.ml4 .letters {
-	position: absolute;
-	margin: auto;
-	left: 0;
-	top: 0.3em;
-	right: 0;
-	opacity: 0; 
-}
 
 /* Column Span */
 
@@ -540,11 +543,12 @@ p {
 .u-pt-0 {
 	padding-top: 0;
 }
-
+.u-pt-5 {
+	padding-top: 0;
+}
 .u-pt-10 {
 	padding-top: 10vh;
 }
-
 .u-pt-15 {
 	padding-top: 15vh;
 }
@@ -555,8 +559,14 @@ p {
 	margin: 0;
 }
 
+.u-mb-5 {
+	margin-bottom: 5vh;
+}
 .u-mb-7 {
 	margin-bottom: 7vh;
+}
+.u-mb-10 {
+	margin-bottom: 10vh;
 }
 .u-mb-15 {
 	margin-bottom: 15vh;
