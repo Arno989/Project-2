@@ -467,6 +467,22 @@ p {
 	animation: pulse 1s infinite;
 }
 
+/* Countdown */
+
+.ml4 {
+	align-self: center;
+	font-weight: 900;
+	font-size: 4.5em;
+}
+.ml4 .letters {
+	align-self: center;
+	margin: 0;
+	left: 0;
+	top: 0.3em;
+	right: 0;
+	opacity: 0; 
+}
+
 @keyframes pulse {
 	0% {
 		transform: scale(0.9);
@@ -490,22 +506,6 @@ p {
 /*------------------------------------*\
 #UTILITIES
 \*------------------------------------*/
-
-/* Countdown */
-
-.ml4 {
-	position: relative;
-	font-weight: 900;
-	font-size: 4.5em;
-}
-.ml4 .letters {
-	position: absolute;
-	margin: auto;
-	left: 0;
-	top: 0.3em;
-	right: 0;
-	opacity: 0;
-}
 
 /* Column Span */
 
