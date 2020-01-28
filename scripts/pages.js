@@ -15,7 +15,15 @@ let index,
 	progressbar = -84,
 	countHeartRate = 10,
 	pl = false,
+<<<<<<< HEAD
 	pr = false;
+=======
+	pr = false,
+	modeChoiceSingle,
+	modeChoiceMulti,
+	modeChoiceWall,
+	modeStartButton;
+>>>>>>> development
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
