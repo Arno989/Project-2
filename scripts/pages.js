@@ -18,7 +18,7 @@ let index,
 	pr = false,
 	modeChoiceSingle,
 	modeChoiceMulti,
-	modeChoiceWall
+	modeChoiceWall,
 	modeStartButton;
 
 //callbacks na dataophalen
