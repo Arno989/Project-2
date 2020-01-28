@@ -4,6 +4,14 @@ const gotoSavedPos = () => {
 	/* https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage */
 	if (sessionStorage.getItem('position') != null) {
 		position = parseInt(sessionStorage.getItem('position'));
+		device1 = JSON.parse(sessionStorage.getItem('device1'));
+		device2 = sessionStorage.getItem('device2');
+		console.log(device1);
+		console.log(device2);
+		console.log(device1)
+		//connectDevice(device1, 'heart_rate', 'heart_rate_measurement', 1);
+		//connectDevice(device2, 'heart_rate', 'heart_rate_measurement', 2);
+		
 	}
 
 	if (position != 0 && position != null) {
