@@ -19,7 +19,6 @@ let index,
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
-	console.log(data);
 	let d = `
 	<tr>
 		<th>
@@ -47,6 +46,8 @@ const verwerkHighScores = function(data) {
 		</tr>`;
 	});
 	document.querySelector('.js-scoreboard').innerHTML = d;
+	document.querySelector('.js-loading-score').style.display = 'none';
+	document.querySelector('.c-scoreboard').style.display = 'table';
 };
 
 //bluetooth connector
@@ -276,10 +277,8 @@ const setHighScore = function() {
 const setProgress = function(position) {
 	bar = document.querySelector('.js-loadingbar-completed');
 	bar.style.transform = 'translateX(' + progressbar + '%)';
-	console.log('translateX(' + progressbar + '%)');
 	setTimeout(function() {
 		bar.style.transform = 'translateX(' + (-100 + (100 / 6) * position) + '%)';
-		console.log('translateX(' + (-100 + (100 / 6) * position) + '%)');
 	}, 500);
 	progressbar = -100 + (100 / 6) * position;
 };
@@ -362,7 +361,6 @@ const initPages = function() {
 		startGame(true, gamemode);
 	});
 	btnHighscores.addEventListener('click', function() {
-		console.log('yeet');
 		setHighScore();
 		highscores.style.display = 'block';
 	});
@@ -380,37 +378,49 @@ const initPages = function() {
 			switch (gamemode) {
 				case 'single':
 					if (pl != true) {
-						element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+						element.style.filter = 'opacity(.5)';
 						avatarl.src = getAvatar(element.id);
 						avatarr.src = './img/Avatars/Robot.png';
-						console.log(avatarl.src);
 						pl = true;
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
+
+						document.querySelector('.js-heart-r').style.display = 'block';
+						document.querySelector('.js-heart-l').style.display = 'block';
+						document.querySelector('.js-heart-r-img').style.display = 'block';
+						document.querySelector('.js-heart-l-img').style.display = 'block';
 					}
 					break;
 				case 'multi':
 					if (pl != true) {
-						element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+						element.style.filter = 'opacity(.5)';
 						avatarl.src = getAvatar(element.id);
-						console.log(avatarl.src);
 						pl = true;
 						avatartitle.innerHTML = 'Speler 2, kies je avatar.';
-					} else if (pr != true) {
-						element.style.filter = 'drop-shadow(0 0px 16px rgba(255, 0, 0, 0.459))';
+					} else if (pr != true && element.style.filter == '') {
+						element.style.filter = 'opacity(.5)';
 						avatarr.src = getAvatar(element.id);
-						console.log(avatarr.src);
 						pr = true;
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
+
+						document.querySelector('.js-heart-r').style.display = 'block';
+						document.querySelector('.js-heart-l').style.display = 'block';
+						document.querySelector('.js-heart-r-img').style.display = 'block';
+						document.querySelector('.js-heart-l-img').style.display = 'block';
 					}
 					break;
 				case 'wall':
 					if (pl != true) {
-						element.style.filter = 'drop-shadow(0 0px 16px rgba(109, 241, 0, 0.555))';
+						element.style.filter = 'opacity(.5)';
 						avatarl.src = getAvatar(element.id);
-						avatarr.src = './img/Avatars/Robot.png';
-						console.log(avatarl.src);
+						avatarr.src = './img/Avatars/Bricks.png';
+
+						document.querySelector('.js-heart-r').style.display = 'none';
+						document.querySelector('.js-heart-l').style.display = 'none';
+						document.querySelector('.js-heart-r-img').style.display = 'none';
+						document.querySelector('.js-heart-l-img').style.display = 'none';
+
 						pl = true;
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
@@ -467,14 +477,6 @@ const initPages = function() {
 			case 'wall':
 				avatartitle.innerHTML = 'Kies je avatar.';
 				gotoPos('right', 100);
-				/* avatarl.style.display = 'none';
-				avatarr.style.display = 'none';
-				document.querySelector('.js-heart-r').style.display = 'none';
-				document.querySelector('.js-heart-l').style.display = 'none';
-				document.querySelector('.js-heart-r-img').style.display = 'none';
-				document.querySelector('.js-heart-l-img').style.display = 'none';
-				gotoPos('right', 200);
-				startGame(true, gamemode); */
 				break;
 		}
 	});
