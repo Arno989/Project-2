@@ -300,6 +300,18 @@ p {
 	margin: 8px 0;
 }
 
+.c-button-abs-left
+{
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+}
+
+.c-button-abs-left 
+{
+
+}
+
 /* Progress bar */
 
 .c-container-top {
