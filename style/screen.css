@@ -475,18 +475,21 @@ p {
 /* Countdown */
 
 .ml4 {
-	align-self: center;
+	position: relative;
+	margin-right: 30px;
 	font-weight: 900;
 	font-size: 4.5em;
-}
-.ml4 .letters {
-	align-self: center;
-	margin: 0;
+  }
+  .ml4 .letters {
+	position: absolute;
+	color: #4699DB;
+	margin: auto;
+	bottom: 150px;
 	left: 0;
 	top: 0.3em;
-	right: 0;
+	right: 20px;
 	opacity: 0; 
-}
+  }
 
 @keyframes pulse {
 	0% {
