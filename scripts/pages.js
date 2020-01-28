@@ -18,7 +18,8 @@ let index,
 	pr = false,
 	modeChoiceSingle,
 	modeChoiceMulti,
-	modeChoiceWall;
+	modeChoiceWall
+	modeStartButton;
 
 //callbacks na dataophalen
 const verwerkHighScores = function(data) {
@@ -431,6 +432,7 @@ const initPages = function() {
 	modeChoiceSingle = document.querySelector('.js-mode-single');
 	modeChoiceMulti = document.querySelector('.js-mode-multi');
 	modeChoiceWall = document.querySelector('.js-mode-wall');
+	modeStartButton = document.querySelector('.js-mode-start');
 
 	btnBack.addEventListener('click', function() {
 		setProgress(2);
@@ -514,6 +516,11 @@ const initPages = function() {
 		modeChoiceMulti.style.border = "10px solid #FFFFFF";
 		modeChoiceWall.style.border = "10px solid #e5c9ef";
 		gamemode = "wall";
+	});
+
+	modeStartButton.addEventListener('click', function() 
+	{
+		setPage();
 	});
 };
 
