@@ -149,12 +149,12 @@ function getRndInteger(min, max) {
 }
 
 function pauseOn() {
-  gameState = false;
   gameOverScreen = document.querySelector(".js-gameOver");
   if (gameOverScreen.style.display == "" && gameLoop != null && timerLoop == false) {
     gamePausedScreen = document.querySelector(".js-gamePaused");
     gamePausedScreen.style.display = "block";
     clearInterval(gameLoop);
+    gameState = false;
     btnResume = document.querySelector(".js-btn-resume");
     btnMainPause = document.querySelector(".js-btn-mainPagePaused");
     btnResume.addEventListener("click", clickResume);
@@ -256,6 +256,7 @@ function collision(b, p) {
 
 function clickResume() {
   gameLoop = setInterval(game, 1000 / framePerSecond);
+  gameState = true;
   gamePausedScreen.style.display = "none";
 }
 
@@ -290,13 +291,14 @@ function clickMain() {
   gameLoop = null;
   resetPaddles();
   clearInterval(gameLoop);
+  gameState = false;
 }
 
 function logKey(event) {
   var key = event.keyCode;
   if (key == 112 || key == 32) {
     if (gameState == true) {
-      gameState = false;
+      //gameState = false;
       pauseOn();
     }
   }
@@ -890,19 +892,7 @@ function setTimer(){
   doAnime();
   console.log("anime");
   clearInterval(gameLoop);
-}
-
-function timer(ctx, countDownFrom){
-  render();
-  ctx.font = "150px 'Neucha', cursive";
-  ctx.fillStyle = "#96c2e5";
-  ctx.textAlign = "center";
-  ctx.fillText("" + countDownFrom, canvas.width / 2, canvas.height / 2);
-  if (countDownFrom < 1) {
-    clearInterval(timerInterval);
-    timerLoop = false;
-    gameLoop = setInterval(game, 1000 / framePerSecond);
-  }
+  gameState = false;
 }
 
 function doAnime(){
@@ -962,7 +952,11 @@ function render() {
 
 function game() {
   if(animation.completed){
-    update();
+    if(gameState == false){
+      gameLoop = setInterval(game, 1000 / framePerSecond);
+      gameState = true;
+      update();
+    }
     render();
   }
 }
@@ -1004,9 +998,11 @@ function startGame(state, mode_p) {
       countDownScreen.style.display = "block";
       doAnime();
       gameLoop = setInterval(game, 1000 / framePerSecond);
+      gameState = true;
       render();
     } else {
       clearInterval(gameLoop);
+      gameState = false;
       resetBall();
     }
   }
