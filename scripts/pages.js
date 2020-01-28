@@ -427,6 +427,9 @@ const initPages = function() {
 	modeChoiceWall = document.querySelector('.js-mode-wall');
 	modeStartButton = document.querySelector('.js-mode-start');
 
+	backbuttonmode = document.querySelector('.js-clear-selection-mode');
+	backbuttonavatar = document.querySelector('.js-clear-selection-avatar');
+
 	btnBack.addEventListener('click', function() {
 		setProgress(2);
 		setPage('heart');
@@ -467,40 +470,56 @@ const initPages = function() {
 				console.log(avatarr.src);
 				pr = true;
 				avatartitle.innerHTML = 'Klik op verder om te spelen.';
+				btnStart.style.display = 'block';
 			}
 		});
 	});
 
-	modeChoiceSingle.addEventListener('click', function() 
-	{
-		modeChoiceSingle.style.border = "10px solid #e5c9ef";
-		modeChoiceMulti.style.border = "10px solid #FFFFFF";
-		modeChoiceWall.style.border = "10px solid #FFFFFF";
-		gamemode = "single";
-		modeStartButton.style.display = 'block'
-	});
-
-	modeChoiceMulti.addEventListener('click', function() 
-	{
-		modeChoiceSingle.style.border = "10px solid #FFFFFF";
-		modeChoiceMulti.style.border = "10px solid #e5c9ef";
-		modeChoiceWall.style.border = "10px solid #FFFFFF";
-		gamemode = "multi";
+	modeChoiceSingle.addEventListener('click', function() {
+		modeChoiceSingle.style.border = '10px solid #e5c9ef';
+		modeChoiceMulti.style.border = '10px solid #FFFFFF';
+		modeChoiceWall.style.border = '10px solid #FFFFFF';
+		gamemode = 'single';
 		modeStartButton.style.display = 'block';
 	});
 
-	modeChoiceWall.addEventListener('click', function() 
-	{
-		modeChoiceSingle.style.border = "10px solid #FFFFFF";
-		modeChoiceMulti.style.border = "10px solid #FFFFFF";
-		modeChoiceWall.style.border = "10px solid #e5c9ef";
-		gamemode = "wall";
+	modeChoiceMulti.addEventListener('click', function() {
+		modeChoiceSingle.style.border = '10px solid #FFFFFF';
+		modeChoiceMulti.style.border = '10px solid #e5c9ef';
+		modeChoiceWall.style.border = '10px solid #FFFFFF';
+		gamemode = 'multi';
 		modeStartButton.style.display = 'block';
 	});
 
-	modeStartButton.addEventListener('click', function() 
-	{
-		gotoPos('right', 100)
+	modeChoiceWall.addEventListener('click', function() {
+		modeChoiceSingle.style.border = '10px solid #FFFFFF';
+		modeChoiceMulti.style.border = '10px solid #FFFFFF';
+		modeChoiceWall.style.border = '10px solid #e5c9ef';
+		gamemode = 'wall';
+		modeStartButton.style.display = 'block';
+	});
+
+	modeStartButton.addEventListener('click', function() {
+		gotoPos('right', 100);
+	});
+
+	backbuttonmode.addEventListener('click', function() {
+		modeChoiceSingle.style.border = '10px solid #FFFFFF';
+		modeChoiceMulti.style.border = '10px solid #FFFFFF';
+		modeChoiceWall.style.border = '10px solid #FFFFFF';
+		gamemode = 'null';
+
+		modeStartButton.style.display = 'none';
+	});
+	backbuttonavatar.addEventListener('click', function() {
+		avatars.forEach(element => {
+			element.style.filter = 'none';
+		});
+		avatarl.src = '';
+		avatarr.src = '';
+		pl = false;
+		pr = false;
+		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
 	});
 };
 
