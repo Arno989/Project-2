@@ -2,7 +2,10 @@ var position = 0;
 
 const gotoSavedPos = () => {
 	/* https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage */
-	position = sessionStorage.getItem('position');
+	if (sessionStorage.getItem('position') != null) {
+		position = parseInt(sessionStorage.getItem('position'));
+	}
+
 	if (position != 0 && position != null) {
 		document.querySelector('.c-container').style.transform = `translateX(${position}vw)`;
 	}
@@ -14,8 +17,14 @@ const gotoPos = function(direction, amount) {
 	} else if (direction == 'left') {
 		position += amount;
 	}
+	console.log(position);
+	switch (position) {
+		case -300:
+			console.log('saved');
+			sessionStorage.setItem('position', position);
+			break;
+	}
 
-	sessionStorage.setItem('position', position);
 	document.querySelector('.c-container').style.transform = `translateX(${position}vw)`;
 };
 
@@ -35,5 +44,5 @@ const init = function() {
 
 document.addEventListener('DOMContentLoaded', function() {
 	init();
-	/* gotoSavedPos(); */
+	gotoSavedPos();
 });
