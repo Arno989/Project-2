@@ -288,7 +288,7 @@ function clickMain() {
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
-  gotoPos("left", 200);
+  gotoPos("left", 300);
   gameLoop = null;
   resetPaddles();
   clearInterval(gameLoop);

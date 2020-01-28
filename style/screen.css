@@ -286,31 +286,25 @@ p {
 	margin: 8px 0;
 }
 
-.js-mode-single
-{
+.js-mode-single {
 	background-image: url(/img/modes/single.jpg);
 }
 .js-mode-single:hover,
-.js-mode-single:checked
-{
+.js-mode-single:checked {
 	background-image: url(/img/gif/single.gif);
 }
 
-.js-mode-multi 
-{
+.js-mode-multi {
 	background-image: url(/img/modes/multi.jpg);
 }
-.js-mode-multi:hover
-{
+.js-mode-multi:hover {
 	background-image: url(/img/gif/multi.gif);
 }
 
-.js-mode-wall 
-{
+.js-mode-wall {
 	background-image: url(/img/modes/wall.jpg);
 }
-.js-mode-wall:hover
-{
+.js-mode-wall:hover {
 	background-image: url(/img/gif/wall.gif);
 }
 
@@ -489,7 +483,8 @@ p {
 /* Countdown */
 
 .ml4 {
-	align-self: center;
+	position: relative;
+	margin-right: 30px;
 	font-weight: 900;
 	font-size: 4.5em;
 }
