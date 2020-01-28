@@ -48,6 +48,7 @@ var gameState = false;
 var timerInterval = null;
 var timerLoop = true;
 let framePerSecond = 90; // number of frames per second
+var lastPaddleHit;
 
 // prediction variables
 var prediction = true;
@@ -99,8 +100,6 @@ const user = {
   color: "#F9CE5B"
 };
 
-var lastPaddleHit = user;
-
 // User right Paddle right
 const user2 = {
   x: canvas.width - 35, // - width of paddle + 15 pixels space between edge
@@ -147,22 +146,6 @@ function getRndInteger(min, max) {
   return Math.random() * (max - min + 1) + min;
 }
 
-function pauseOn() {
-  gameOverScreen = document.querySelector(".js-gameOver");
-  console.log(gameOverScreen);
-  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
-    console.log("paused");
-    gamePausedScreen = document.querySelector(".js-gamePaused");
-    gamePausedScreen.style.display = "block";
-    clearInterval(gameLoop);
-    gameState = false;
-    btnResume = document.querySelector(".js-btn-resume");
-    btnMainPause = document.querySelector(".js-btn-mainPagePaused");
-    btnResume.addEventListener("click", clickResume);
-    btnMainPause.addEventListener("click", clickMainPaused);
-  }
-}
-
 // draw a rectangle, used to draw paddles
 function drawRect(x, y, w, h, color) {
   ctx.fillStyle = color;
@@ -188,49 +171,6 @@ function drawLine(x, y, xTo, yTo, w, color) {
   ctx.stroke();
 }
 
-function resetBall() {
-  ball.x = canvas.width / 2;
-  ball.y = canvas.height / 2;
-  ball.velocityX = beginVelocityX;
-  ball.velocityY = beginVelocityY;
-}
-
-function resetPaddles(){
-  user.x = 15;
-  user.y = canvas.height / 2 - 190 / 2;
-  user2.x = canvas.width - 35;
-  user2.y = canvas.height / 2 - 190 / 2
-}
-
-function startMovingBall(direction) {
-  // start moving the ball in the chosen direction and sets the speed and velocity to standard.
-  ball.speed = increasementSpeed;
-  ball.velocityY = beginVelocityY;
-  ball.velocityX = beginVelocityX;
-  let dir = getRndInteger(0, 1);
-  if (dir < 0.5) {
-    if (direction == "left") {
-      ball.velocityX = -4 - Math.random();
-      ball.velocityY = ball.velocityX;
-      lastPaddleHit = user2;
-    } else if (direction == "right") {
-      ball.velocityX = 4 + Math.random();
-      ball.velocityY = -ball.velocityX;
-      lastPaddleHit = user;
-    }
-  } else if (dir > 0.5) {
-    if (direction == "left") {
-      ball.velocityX = -4 - Math.random();
-      ball.velocityY = Math.abs(ball.velocityX);
-      lastPaddleHit = user2;
-    } else if (direction == "right") {
-      ball.velocityX = 4 + Math.random();
-      ball.velocityY = ball.velocityX;
-      lastPaddleHit = user;
-    }
-  }
-}
-
 function drawNet() {
   drawRect(net.x, net.y, net.width, net.height, net.color);
 }
@@ -239,60 +179,6 @@ function drawText(text, x, y) {
   ctx.fillStyle = "#96C2E5";
   ctx.font = "75px Neucha";
   ctx.fillText(text, x, y);
-}
-
-function collision(b, p) {
-  p.top = p.y;
-  p.bottom = p.y + p.height;
-  p.left = p.x;
-  p.right = p.x + (p.width);
-
-  b.top = b.y - b.radius;
-  b.bottom = b.y + b.radius;
-  b.left = b.x - b.radius;
-  b.right = b.x + b.radius;
-
-  return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
-}
-
-function clickResume() {
-  gameLoop = setInterval(game, 1000 / framePerSecond);
-  gameState = true;
-  gamePausedScreen.style.display = "none";
-}
-
-function clickMainPaused() {
-  clickMain();
-  gamePausedScreen.style.display = "none";
-}
-
-function clickRestart() {
-  gameOverScreen = document.querySelector(".js-gameOver");
-  resetBall();
-  resetPaddles();
-  startMovingBall("right");
-  gameOverScreen.style.display = "none";
-  /* reset ball speed */
-  user.score = 0;
-  user2.score = 0;
-  com.score = 0;
-  comLeft.score = 0;
-  wall.score = 0;
-  GameMode = chosenGameMode;
-  setTimer();
-}
-
-function clickMain() {
-  user.score = 0;
-  user2.score = 0;
-  com.score = 0;
-  comLeft.score = 0;
-  wall.score = 0;
-  gotoPos("left", 300);
-  gameLoop = null;
-  resetPaddles();
-  clearInterval(gameLoop);
-  gameState = false;
 }
 
 function logKey(event) {
@@ -337,6 +223,141 @@ function keyUpHandler(event) {
   }
 }
 
+function clickResume() {
+  gameLoop = setInterval(game, 1000 / framePerSecond);
+  gameState = true;
+  gamePausedScreen.style.display = "none";
+}
+
+function clickMainPaused() {
+  clickMain();
+  gamePausedScreen.style.display = "none";
+}
+
+function clickMain() {
+  user.score = 0;
+  user2.score = 0;
+  com.score = 0;
+  comLeft.score = 0;
+  wall.score = 0;
+  gotoPos("left", 200);
+  gameLoop = null;
+  resetBall();
+  resetPaddles();
+  clearInterval(gameLoop);
+  gameState = false;
+}
+
+function clickRestart() {
+  gameOverScreen = document.querySelector(".js-gameOver");
+  resetBall();
+  resetPaddles();
+  startMovingBall("right");
+  gameOverScreen.style.display = "none";
+  /* reset ball speed */
+  user.score = 0;
+  user2.score = 0;
+  com.score = 0;
+  comLeft.score = 0;
+  wall.score = 0;
+  GameMode = chosenGameMode;
+  setTimer();
+}
+
+function comAI(playerHit) {
+  console.log(playerHit.x);
+  if (playerHit.x == 15) {
+    movePaddleTo(com, ball.y, "ai");
+  } else if (com.y > canvas.height / 2 && playerHit.x == canvas.width - 35) {
+    movePaddleTo(com, canvas.height / 2 - com.height / 2, "center");
+  } else if (com.y < canvas.height / 2 && playerHit.x == canvas.width - 35) {
+    movePaddleTo(com, canvas.height / 2 - com.height / 2, "center");
+  }
+}
+
+function comLeftAI(playerHit) {
+  if (playerHit.x == canvas.width - 35) {
+    movePaddleTo(comLeft, ball.y, "ai");
+  } else if (comLeft.y > canvas.height / 2 && playerHit.x == 15) {
+    movePaddleTo(comLeft, canvas.height / 2 - com.height / 2, "center");
+  } else if (comLeft.y < canvas.height / 2 && playerHit.x == 15) {
+    movePaddleTo(comLeft, canvas.height / 2 - com.height / 2, "center");
+  }
+}
+
+function resetBall() {
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height / 2;
+  ball.velocityX = beginVelocityX;
+  ball.velocityY = beginVelocityY;
+  prediction = false;
+}
+
+function resetPaddles(){
+  user.x = 15;
+  user.y = canvas.height / 2 - 190 / 2;
+  user2.x = canvas.width - 35;
+  user2.y = canvas.height / 2 - 190 / 2
+}
+
+function pauseOn() {
+  gameOverScreen = document.querySelector(".js-gameOver");
+  if (gameOverScreen.style.display == "" && gameLoop != null && timerLoop == false) {
+    console.log("paused");
+    gamePausedScreen = document.querySelector(".js-gamePaused");
+    gamePausedScreen.style.display = "block";
+    clearInterval(gameLoop);
+    gameState = false;
+    btnResume = document.querySelector(".js-btn-resume");
+    btnMainPause = document.querySelector(".js-btn-mainPagePaused");
+    btnResume.addEventListener("click", clickResume);
+    btnMainPause.addEventListener("click", clickMainPaused);
+  }
+}
+
+function startMovingBall(direction) {
+  // start moving the ball in the chosen direction and sets the speed and velocity to standard.
+  ball.speed = increasementSpeed;
+  ball.velocityY = beginVelocityY;
+  ball.velocityX = beginVelocityX;
+  let dir = getRndInteger(0, 1);
+  if (dir < 0.5) {
+    if (direction == "left") {
+      ball.velocityX = -4 - Math.random();
+      ball.velocityY = ball.velocityX;
+      lastPaddleHit = user2;
+    } else if (direction == "right") {
+      ball.velocityX = 4 + Math.random();
+      ball.velocityY = -ball.velocityX;
+      lastPaddleHit = user;
+    }
+  } else if (dir > 0.5) {
+    if (direction == "left") {
+      ball.velocityX = -4 - Math.random();
+      ball.velocityY = Math.abs(ball.velocityX);
+      lastPaddleHit = user2;
+    } else if (direction == "right") {
+      ball.velocityX = 4 + Math.random();
+      ball.velocityY = ball.velocityX;
+      lastPaddleHit = user;
+    }
+  }
+}
+
+function collision(b, p) {
+  p.top = p.y;
+  p.bottom = p.y + p.height;
+  p.left = p.x;
+  p.right = p.x + (p.width);
+
+  b.top = b.y - b.radius;
+  b.bottom = b.y + b.radius;
+  b.left = b.x - b.radius;
+  b.right = b.x + b.radius;
+
+  return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+}
+
 function movePaddleTo(paddle, y, objectif) {
   if (objectif == "center" || objectif == "none") {
     if (paddle.y < y) {
@@ -363,26 +384,6 @@ function movePaddleTo(paddle, y, objectif) {
     if (paddle.y > ball.y) {
       paddle.y -= paddle.speed;
     }
-  }
-}
-
-function comAI(playerHit) {
-  if (playerHit.x == 15) {
-    movePaddleTo(com, ball.y, "ai");
-  } else if (com.y > canvas.height / 2 && playerHit.x == canvas.width - 35) {
-    movePaddleTo(com, canvas.height / 2 - com.height / 2, "center");
-  } else if (com.y < canvas.height / 2 && playerHit.x == canvas.width - 35) {
-    movePaddleTo(com, canvas.height / 2 - com.height / 2, "center");
-  }
-}
-
-function comLeftAI(playerHit) {
-  if (playerHit.x == canvas.width - 35) {
-    movePaddleTo(comLeft, ball.y, "ai");
-  } else if (comLeft.y > canvas.height / 2 && playerHit.x == 15) {
-    movePaddleTo(comLeft, canvas.height / 2 - com.height / 2, "center");
-  } else if (comLeft.y < canvas.height / 2 && playerHit.x == 15) {
-    movePaddleTo(comLeft, canvas.height / 2 - com.height / 2, "center");
   }
 }
 
@@ -895,6 +896,7 @@ function setTimer(){
 }
 
 function doAnime(){
+  timerLoop = true;
   animation = anime.timeline()
   .add({
     targets: '.ml4 .letters-1',
@@ -942,7 +944,6 @@ function doAnime(){
 
 // render function, the function that does al the drawing
 function render() {
-  console.log(gameState);
   clearCanvas();
   drawNet();
   drawPlayersAndScore();
@@ -952,6 +953,7 @@ function render() {
 
 function game() {
   if(animation.completed){
+    timerLoop = false;
     update();
     render();
   }
@@ -990,6 +992,7 @@ function startGame(state, mode_p) {
   if (gameLoop == null || mode_p == "ai") {
     chosenGameMode = mode_p;
     GameMode = mode_p;
+    lastPaddleHit = user;
     if (state) {
       //timerInterval = setInterval(function(){timer(ctx,countDownFrom--);},1000);
       countDownScreen = document.querySelector(".js-countdown");

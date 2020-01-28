@@ -42,7 +42,7 @@ const gotoPos = function(direction, amount) {
 
 const init = function() {
 	document.querySelectorAll('.js-content__right').forEach(element => {
-		element.addEventListener('click', function() {
+		element.addEventListener('click', function () {
 			gotoPos('right', 100);
 		});
 	});

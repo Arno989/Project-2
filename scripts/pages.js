@@ -17,7 +17,7 @@ let index,
 	pl = false,
 	pr = false;
 
-//callbacks na dataophalen
+//callbacks na data ophalen
 const verwerkHighScores = function(data) {
 	let d = `
 	<tr>
@@ -466,6 +466,8 @@ const initPages = function() {
 	});
 
 	modeStartButton.addEventListener('click', function() {
+		avatarl.src = '';
+		avatarr.src = '';
 		switch (this.id) {
 			case 'single':
 				avatartitle.innerHTML = 'Kies je avatar.';
