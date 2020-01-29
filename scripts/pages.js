@@ -59,7 +59,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	});
 	document.querySelector('.js-loading-score').style.display = 'none';
 	document.querySelector('.c-scoreboard').style.display = 'table';
-	document.querySelector('.js-scoreboard').innerHTML = d;
+	document.querySelectorAll('.js-scoreboard')[1].innerHTML = d;
 };
 
 const verwerkHighScoresWithNewRecord2 = function(data)
