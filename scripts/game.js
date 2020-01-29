@@ -25,6 +25,7 @@ var gameStartSound = new sound("sounds/mp3/start.mp3");
 var gameWonSound = new sound("sounds/mp3/win.mp3");
 var bounceSound = new sound("sounds/bounce.mp3");
 var threeTwoSound = new sound("sounds/mp3/threeTwoOne.mp3");
+var clickSound = new sound("sounds/mp3/click.mp3");
 
 //debug variables
 let bounceY = false;

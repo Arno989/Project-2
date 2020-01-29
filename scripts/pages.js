@@ -401,8 +401,14 @@ const initPages = function() {
 	});
 	btnStart.addEventListener('click', function() {
 		startGame(true, gamemode);
-		avatars.forEach(element => {
+		avatars.forEach(element => 
+			{
 			element.style.filter = '';
+			element.addEventListener('click', function() 
+			{
+				console.log("mimimi");
+				clickSound.play();
+			});
 		});
 
 		pl = false;
@@ -567,6 +573,29 @@ const initPages = function() {
 		pr = false;
 		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
 		btnStart.style.display = 'none';
+	});
+
+	x = document.querySelectorAll('.c-button');
+	x.forEach(y => 
+		{
+			y.addEventListener('click', function() 
+			{
+				clickSound.play();
+			});
+		});
+
+	x = document.querySelectorAll('.swal2-styled');
+	x.forEach(y => {
+		y.addEventListener('click', function () {
+			clickSound.play();
+		});
+	});
+
+	x = document.querySelectorAll('.c-mode-preview');
+	x.forEach(y => {
+		y.addEventListener('click', function () {
+			clickSound.play();
+		});
 	});
 };
 
