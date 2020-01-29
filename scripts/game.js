@@ -256,18 +256,19 @@ function clickMainPaused() {
 }
 
 function clickMain() {
-	user.score = 0;
-	user2.score = 0;
-	com.score = 0;
-	comLeft.score = 0;
-	wall.score = 0;
-	gotoPos('left', 300);
-	gameLoop = null;
-	resetBall();
-	resetPaddles();
-	resetGameMode();
-	clearInterval(gameLoop);
-	gameState = false;
+  user.score = 0;
+  user2.score = 0;
+  com.score = 0;
+  comLeft.score = 0;
+  wall.score = 0;
+  gotoPos("left", 300);
+  gameLoop = null;
+  resetBall();
+  resetPaddles();
+  resetGameMode();
+  clearInterval(gameLoop);
+  console.log(gameLoop);
+  gameState = false;
 }
 
 function clickRestart() {
@@ -1080,11 +1081,11 @@ function render() {
 }
 
 function game() {
-	if (animation.completed) {
-		timerLoop = false;
-		update();
-		render();
-	}
+  if(animation.completed && gameState == true){
+    timerLoop = false;
+    update();
+    render();
+  }
 }
 
 function loopAnime(){
