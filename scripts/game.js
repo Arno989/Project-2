@@ -157,6 +157,27 @@ function getRndInteger(min, max) {
   return Math.random() * (max - min + 1) + min;
 }
 
+function pauseOn() {
+  gameOverScreen = document.querySelector(".js-gameOver");
+  if (gameOverScreen.style.display == "none"){
+    
+    console.log(gameOverScreen);
+  }
+  console.log(gameLoop);
+  console.log(timerLoop);
+  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
+    console.log("paused");
+    gamePausedScreen = document.querySelector(".js-gamePaused");
+    gamePausedScreen.style.display = "block";
+    clearInterval(gameLoop);
+    gameState = false;
+    btnResume = document.querySelector(".js-btn-resume");
+    btnMainPause = document.querySelector(".js-btn-mainPagePaused");
+    btnResume.addEventListener("click", clickResume);
+    btnMainPause.addEventListener("click", clickMainPaused);
+  }
+}
+
 // draw a rectangle, used to draw paddles
 function drawRect(x, y, w, h, color) {
   ctx.fillStyle = color;
@@ -983,7 +1004,7 @@ function doInfo() {
 }
 
 function doAnime(){
-  timerLoop = true;
+  timerLoop = false;
   animation = anime.timeline()
   .add({
     targets: '.ml4 .letters-1',
@@ -1040,8 +1061,6 @@ function render() {
 
 function game() {
   if(animation.completed){
-    animeState = false;
-    clearInterval(animeLoop);
     timerLoop = false;
     update();
     render();
