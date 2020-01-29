@@ -598,6 +598,14 @@ function update() {
 		lastPaddleHit.x = 15;
 		GameMode = 'ai';
 		wall.score = 0;
+		if (btnAgain == null) {
+			btnAgain = document.querySelector('.js-btn-again');
+			btnAgain.addEventListener('click', clickRestart);
+		}
+		if (btnMain == null) {
+			btnMain = document.querySelector('.js-btn-mainPage');
+			btnMain.addEventListener('click', clickMain);
+		}
 	}
 
 	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
