@@ -450,7 +450,9 @@ const initPages = function() {
 	});
 
 	avatars.forEach(element => {
-		element.addEventListener('click', function() {
+		element.addEventListener('click', function() 
+		{
+			clickSound.play();
 			switch (gamemode) {
 				case 'single':
 					if (pl != true) {
@@ -577,6 +579,7 @@ const initPages = function() {
 
 	backbuttonavatar.addEventListener('click', function() {
 		avatars.forEach(element => {
+			
 			element.style.filter = '';
 		});
 
