@@ -25,7 +25,7 @@
 
 <body onresize="resize()">
 	<div class="c-overflow c-hidden">
-		<div class="c-container">
+		<div class="c-container" id="redraw">
 
 			<!-- Page 1 -->
 			<div class="c-content">
@@ -85,7 +85,14 @@
 					</div>
 					<p>Connectie:</p>
 					<img src="/img/svg/kruis.svg" class="js-tekenConnectie" alt="">
-					<div class="lds-dual-ring js-loading"></div>
+					<div class="sk-chase js-loading u-hide">
+						<div class="sk-chase-dot"></div>
+						<div class="sk-chase-dot"></div>
+						<div class="sk-chase-dot"></div>
+						<div class="sk-chase-dot"></div>
+						<div class="sk-chase-dot"></div>
+						<div class="sk-chase-dot"></div>
+					</div>
 				</div>
 			</div>
 
@@ -176,7 +183,7 @@
 					</div>
 					<div class="c-menu-button-duo u-mb-15">
 						<button class="c-button c-color-blue js-clear-selection-avatar js-content__left">Terug</button>
-						<button class="c-button c-color-yellow u-hide js-btn-start js-content__right">Start!</button>
+						<button class="c-button c-color-yellow u-hide js-content__right js-btn-start ">Start!</button>
 					</div>
 				</div>
 			</div>
@@ -201,6 +208,14 @@
 
 				<canvas id="pong" class="c-game"> </canvas>
 				<script src="./scripts/game.js"></script>
+
+				<div class="c-modal js-restmode">
+					<div class="c-modal-content">
+						<h1 class="">Wacht tot de hartslag onder 100 is, of</h1>
+						<h1 class="animated zoomIn js-heartrate-counter"></h1>
+						<h1 class="letters">Seconden</h1>
+					</div>
+				</div>
 
 				<div class="c-modal-countdown js-info">
 					<div class="c-modal-content">
@@ -227,7 +242,7 @@
 						<p class="c-menu-title u-mb-15 u-pt-10 js-menu-score">0 - 0</p>
 						<button class="c-button c-color-blue js-btn-again">Opnieuw</button>
 						<button class="c-button c-color-yellow js-btn-mainPage">Hoofdmenu
-							
+
 						</button>
 					</div>
 				</div>

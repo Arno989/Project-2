@@ -2,8 +2,7 @@ var position = 0;
 
 const gotoSavedPos = () => {
 	/* https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage */
-	if (sessionStorage.getItem('position') != null) 
-	{
+	if (sessionStorage.getItem('position') != null) {
 		position = parseInt(sessionStorage.getItem('position'));
 		Swal.fire({
 			title: '<strong>De bluetoothconnectie met de hartslagmeters is verbroken, opnieuw verbinden?</strong>',
@@ -15,18 +14,33 @@ const gotoSavedPos = () => {
 			confirmButtonAriaLabel: 'Opnieuw verbinden',
 			cancelButtonText: 'Zonder hartslagmeter verdergaan',
 			cancelButtonAriaLabel: 'Zonder hartslagmeter verdergaan'
-		})
-			.then((result) => {
-				if (result.value) 
-				{
-					gotoPos("left", 100);
-				}
-			})
+		}).then(result => {
+			if (result.value) {
+				gotoPos('left', 100);
+			}
+		});
 	}
 
 	if (position != 0 && position != null) {
 		document.querySelector('.c-container').style.transform = `translateX(${position}vw)`;
 	}
+};
+
+var forceRedraw = function(element) {
+	if (!element) {
+		return;
+	}
+
+	var n = document.createTextNode(' ');
+	var disp = element.style.display; // don't worry about previous display style
+
+	element.appendChild(n);
+	element.style.display = 'none';
+
+	setTimeout(function() {
+		element.style.display = disp;
+		n.parentNode.removeChild(n);
+	}, 20); // you can play with this timeout to make it as short as possible
 };
 
 const gotoPos = function(direction, amount) {
@@ -35,7 +49,7 @@ const gotoPos = function(direction, amount) {
 	} else if (direction == 'left') {
 		position += amount;
 	}
-	console.log(position);
+
 	switch (position) {
 		case -300:
 			console.log('saved');
@@ -44,11 +58,15 @@ const gotoPos = function(direction, amount) {
 	}
 
 	document.querySelector('.c-container').style.transform = `translateX(${position}vw)`;
+	console.log(position);
+	forceRedraw(document.getElementById('redraw'));
+	console.log("redrawn");
+	render();
 };
 
 const init = function() {
 	document.querySelectorAll('.js-content__right').forEach(element => {
-		element.addEventListener('click', function () {
+		element.addEventListener('click', function() {
 			gotoPos('right', 100);
 		});
 	});

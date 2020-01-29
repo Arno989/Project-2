@@ -18,7 +18,7 @@ let index,
 	pr = false,
 	heartRateLeft = 0,
 	heartRateRight = 0,
-	playerDouble = "none";
+	playerDouble = 'none';
 
 //callbacks na data ophalen
 const verwerkHighScores = function(data) {
@@ -99,8 +99,7 @@ const connectDevice = function(device, server, service, y) {
 		})
 		.then(d => {
 			if (server === 'heart_rate') {
-				d.addEventListener('characteristicvaluechanged', function() 
-				{
+				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
 					if (y === 1) {
 						countHeartRate1 += 1;
@@ -125,27 +124,20 @@ const connectDevice = function(device, server, service, y) {
 							heartRateRight = parseHeartRate(d.value).heartRate;
 						}
 					}
-					if (gamemode == "multi") 
-					{
-						console.log("we vliegen erin");
-						if (playerOneConnected && playerTwoConnected) 
-						{
-							if (heartRateLeft > heartRateRight) 
-							{
-								document.querySelector('.js-flame-l').style.display = "block";
-								document.querySelector('.js-flame-r').style.display = "none";
-								playerDouble = "left";
-							}
-							else if (heartRateLeft === heartRateRight) {
-								document.querySelector('.js-flame-l').style.display = "none";
-								document.querySelector('.js-flame-r').style.display = "none";
-								playerDouble = "none";
-							}
-							else
-							{
-								document.querySelector('.js-flame-l').style.display = "none";
-								document.querySelector('.js-flame-r').style.display = "block";
-								playerDouble = "right";
+					if (gamemode == 'multi') {
+						if (playerOneConnected && playerTwoConnected) {
+							if (heartRateLeft > heartRateRight) {
+								document.querySelector('.js-flame-l').style.display = 'block';
+								document.querySelector('.js-flame-r').style.display = 'none';
+								playerDouble = 'left';
+							} else if (heartRateLeft === heartRateRight) {
+								document.querySelector('.js-flame-l').style.display = 'none';
+								document.querySelector('.js-flame-r').style.display = 'none';
+								playerDouble = 'none';
+							} else {
+								document.querySelector('.js-flame-l').style.display = 'none';
+								document.querySelector('.js-flame-r').style.display = 'block';
+								playerDouble = 'right';
 							}
 						}
 					}
@@ -160,7 +152,7 @@ const connectDevice = function(device, server, service, y) {
 							document.querySelector('.js-tekenConnectie').src = '/img/svg/vink.svg';
 
 							btn = document.querySelector('.js-btn-connect-player');
-							btn.innerHTML = 'Doorgaan naar speler 2';
+							btn.innerHTML = 'Doorgaan';
 							btn.disabled = false;
 
 							playerOneConnected = true;
@@ -334,8 +326,8 @@ const getAvatar = function(name) {
 			return './img/Avatars/Penguin.png';
 		case 'Goat':
 			return './img/Avatars/Goat2.0.png';
-		case 'Ping':
-			return './img/Avatars/Ping.png';
+		case 'Pig':
+			return './img/Avatars/Pig.png';
 		case 'Shark':
 			return './img/Avatars/Shark.png';
 		case 'Snake':
@@ -361,6 +353,33 @@ function resetGameMode() {
 	avatarr.src = '';
 	pl = false;
 	pr = false;
+}
+
+function sleep(milliseconds) {
+	const date = Date.now();
+	let currentDate = null;
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < milliseconds);
+}
+
+function calmDown() {
+	render();
+	console.log('call calm down');
+	if (playerOneConnected == true && playerTwoConnected == true) {
+		counter = 15;
+		console.log('call down counter made');
+
+		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
+			console.log('counter');
+			document.querySelector('.js-heartrate-counter').innerHTML = `${counter}`;
+			counter--;
+			sleep(500);
+		}
+
+		console.log('stop counter');
+		document.querySelector('.js-restmode').style.display = 'none';
+	}
 }
 
 // Initialize
@@ -461,10 +480,12 @@ const initPages = function() {
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
 
-						document.querySelector('.js-heart-r').style.display = 'block';
-						document.querySelector('.js-heart-l').style.display = 'block';
-						document.querySelector('.js-heart-r-img').style.display = 'block';
-						document.querySelector('.js-heart-l-img').style.display = 'block';
+						if (playerOneConnected == true && playerTwoConnected == true) {
+							document.querySelector('.js-heart-r').style.display = 'block';
+							document.querySelector('.js-heart-l').style.display = 'block';
+							document.querySelector('.js-heart-r-img').style.display = 'block';
+							document.querySelector('.js-heart-l-img').style.display = 'block';
+						}
 					}
 					break;
 				case 'wall':
@@ -495,9 +516,9 @@ const initPages = function() {
 		modeChoiceMulti.style.border = '10px solid #FFFFFF';
 		modeChoiceWall.style.border = '10px solid #FFFFFF';
 		gamemode = 'single';
-		modeChoiceSingle.classList.add("isSelected");
-		modeChoiceMulti.classList.remove("isSelected");
-		modeChoiceWall.classList.remove("isSelected");
+		modeChoiceSingle.classList.add('isSelected');
+		modeChoiceMulti.classList.remove('isSelected');
+		modeChoiceWall.classList.remove('isSelected');
 		modeStartButton.style.display = 'block';
 		modeStartButton.setAttribute('id', 'single');
 		document.querySelector('.js-heart-r').style.display = 'none';
@@ -511,9 +532,9 @@ const initPages = function() {
 		modeChoiceMulti.style.border = '10px solid #e5c9ef';
 		modeChoiceWall.style.border = '10px solid #FFFFFF';
 		gamemode = 'multi';
-		modeChoiceSingle.classList.remove("isSelected");
-		modeChoiceMulti.classList.add("isSelected");
-		modeChoiceWall.classList.remove("isSelected");
+		modeChoiceSingle.classList.remove('isSelected');
+		modeChoiceMulti.classList.add('isSelected');
+		modeChoiceWall.classList.remove('isSelected');
 		modeStartButton.style.display = 'block';
 		modeStartButton.setAttribute('id', 'multi');
 	});
@@ -522,9 +543,9 @@ const initPages = function() {
 		modeChoiceSingle.style.border = '10px solid #FFFFFF';
 		modeChoiceMulti.style.border = '10px solid #FFFFFF';
 		modeChoiceWall.style.border = '10px solid #e5c9ef';
-		modeChoiceSingle.classList.remove("isSelected");
-		modeChoiceMulti.classList.remove("isSelected");
-		modeChoiceWall.classList.add("isSelected");
+		modeChoiceSingle.classList.remove('isSelected');
+		modeChoiceMulti.classList.remove('isSelected');
+		modeChoiceWall.classList.add('isSelected');
 		gamemode = 'wall';
 		modeStartButton.style.display = 'block';
 		modeStartButton.setAttribute('id', 'wall');
