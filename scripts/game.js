@@ -24,6 +24,7 @@ var scoreAgainstSound = new sound("sounds/mp3/lose.mp3");
 var gameStartSound = new sound("sounds/mp3/start.mp3");
 var gameWonSound = new sound("sounds/mp3/win.mp3");
 var bounceSound = new sound("sounds/bounce.mp3");
+var threeTwoSound = new sound("sounds/mp3/threeTwoOne.mp3");
 
 //debug variables
 let bounceY = false;
@@ -997,6 +998,8 @@ function doInfo() {
 function doAnime(){
   console.log(" 3 2 1 ");
   timerLoop = false;
+  threeTwoSound.play();
+
   animation = anime.timeline()
   .add({
     targets: '.ml4 .letters-1',
