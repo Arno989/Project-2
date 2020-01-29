@@ -347,7 +347,9 @@ function pauseOn() {
 	highscoresGameScreen = document.querySelector(".js-gameHighscores");
 	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
 		if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
-			if (gameLoop != null && timerLoop == false) {
+			if (gameLoop != null && timerLoop == false) 
+			{
+				console.log('paused');
 				gamePausedScreen = document.querySelector('.js-gamePaused');
 				gamePausedScreen.style.display = 'block';
 				clearInterval(gameLoop);
@@ -356,6 +358,7 @@ function pauseOn() {
 				btnMainPause = document.querySelector('.js-btn-mainPagePaused');
 				btnResume.addEventListener('click', clickResume);
 				btnMainPause.addEventListener('click', clickMainPaused);
+				//playSound.volume = 0.5;
 			}
 		}
 	}
