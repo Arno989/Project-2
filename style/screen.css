@@ -544,7 +544,8 @@ p {
 	position: relative;
 	margin-right: 30px;
 	font-weight: 900;
-	font-size: 4.5em;
+	font-size: 6em;
+	transform:translateY(-5vh);
 }
 .ml4 .letters {
 	position: absolute;

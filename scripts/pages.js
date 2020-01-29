@@ -338,6 +338,8 @@ const initPages = function() {
 	btnBack = document.querySelector('.js-btn-back');
 	btnConnect = document.querySelector('.js-btn-connect');
 
+	btnMainPage = document.querySelector('.js-btn-mainPage');
+
 	btnStart = document.querySelector('.js-btn-start');
 
 	btnHighscores = document.querySelector('.js-btn-highscores');
@@ -373,6 +375,13 @@ const initPages = function() {
 			element.style.filter = '';
 		});
 
+		pl = false;
+		pr = false;
+		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
+		btnStart.style.display = 'none';
+	});
+
+	btnMainPage.addEventListener('click', function() {
 		pl = false;
 		pr = false;
 		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
@@ -511,13 +520,15 @@ const initPages = function() {
 
 	backbuttonavatar.addEventListener('click', function() {
 		avatars.forEach(element => {
-			element.style.filter = 'none';
+			element.style.filter = '';
 		});
+
 		avatarl.src = '';
 		avatarr.src = '';
 		pl = false;
 		pr = false;
 		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
+		btnStart.style.display = 'none';
 	});
 };
 
