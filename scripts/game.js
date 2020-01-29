@@ -256,7 +256,7 @@ function clickMainPaused() {
 }
 
 function clickMain() {
-	document.querySelector('.js-winner').style.display = 'block';
+	document.querySelector('.c-winner').style.display = 'none';
 	user.score = 0;
 	user2.score = 0;
 	com.score = 0;
@@ -273,7 +273,7 @@ function clickMain() {
 }
 
 function clickRestart() {
-	document.querySelector('.js-winner').style.display = 'block';
+	document.querySelector('.c-winner').style.display = 'none';
 	gameOverScreen = document.querySelector('.js-gameOver');
 	resetBall();
 	resetPaddles();
