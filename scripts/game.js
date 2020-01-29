@@ -357,7 +357,7 @@ function pauseOn() {
 				btnMainPause = document.querySelector('.js-btn-mainPagePaused');
 				btnResume.addEventListener('click', clickResume);
 				btnMainPause.addEventListener('click', clickMainPaused);
-				//playSound.volume = 0.5;
+				playSound.volume(0.2);
 			}
 		}
 	}
@@ -963,7 +963,8 @@ function drawPrediction() {
 	}
 }
 
-function sound(src) {
+function sound(src) 
+{
 	this.sound = document.createElement('audio');
 	this.sound.src = src;
 	this.sound.setAttribute('preload', 'auto');
@@ -976,7 +977,11 @@ function sound(src) {
 	this.stop = function() {
 		this.sound.pause();
 	};
-}
+	this.volume = function(v) 
+	{
+		this.sound.volume = v;	
+	};
+};
 
 function setTimer() {
 	doAnime();
@@ -1117,6 +1122,7 @@ function game()
 		update();
 		render();
 		playSound.play();
+		playSound.volume(1);
 	}
 }
 
