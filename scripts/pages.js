@@ -67,6 +67,12 @@ const bluetooth = function(y) {
 			]
 		})
 		.then(device => {
+			bluetoothDevice.addEventListener('gattserverdisconnected', function() 
+			{
+				
+					connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
+					
+			});
 			connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
 		})
 		.then(x => {
@@ -151,7 +157,9 @@ const connectDevice = function(device, server, service, y) {
 					}
 				});
 				connectDevice(device, 'battery_service', 'battery_level', y);
-			} else if (server === 'battery_service') {
+			} 
+			else if (server === 'battery_service') 
+			{
 				d.readValue()
 					.then(e => {
 						if (y === 1) {
@@ -214,6 +222,10 @@ const connectDevice = function(device, server, service, y) {
 							}
 							document.querySelector('.js-btn-connect-player').innerHTML = 'Verbind opnieuw';
 						});
+				});
+				d.addEventListener('', function() 
+				{
+					console.log(device);
 				});
 			}
 		})
