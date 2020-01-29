@@ -452,6 +452,7 @@ p {
 	width: 40vw !important;
 	height: 60vh !important;
 	min-width: 700px;
+	border-radius: 20px;
 }
 
 .swal2-styled,
