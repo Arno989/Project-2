@@ -67,7 +67,7 @@ var angle = null; //this is to predict the bounce
 var PredictionHitX;
 var PredictionHitY;
 var PredictionBeginStatic = 360; // pixels * begin velocity(4.5)
-var PredictionEndStatic = 300;
+var PredictionEndStatic = 135;
 var predictionColor = "#7474746d";
 var pixelsFromBall = 0;
 
@@ -196,7 +196,7 @@ function drawArc(x, y, r, color) {
 function drawLine(x, y, xTo, yTo, w, color) {
   ctx.strokeStyle = color;
   ctx.beginPath();
-  ctx.setLineDash([0, 0]);
+  ctx.setLineDash([5, 2]);
   ctx.moveTo(x, y);
   ctx.lineTo(xTo, yTo);
   ctx.lineWidth = w;
