@@ -587,6 +587,9 @@ const initPages = function() {
 		modeChoiceSingle.style.border = '10px solid #FFFFFF';
 		modeChoiceMulti.style.border = '10px solid #FFFFFF';
 		modeChoiceWall.style.border = '10px solid #FFFFFF';
+		modeChoiceSingle.classList.remove('isSelected');
+		modeChoiceMulti.classList.remove('isSelected');
+		modeChoiceWall.classList.remove('isSelected');
 		gamemode = 'null';
 
 		modeStartButton.style.display = 'none';
