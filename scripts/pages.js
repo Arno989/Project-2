@@ -98,7 +98,6 @@ const verwerkHighScoresWithNewRecord = function(data, plaats, score)
 				</td>
 			</tr>
 		`;
-		console.log(d);
 }
 console.log(d);
 };
