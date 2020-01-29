@@ -294,7 +294,6 @@ function clickRestart() {
 }
 
 function comAI(playerHit) {
-	console.log(playerHit.x);
 	if (playerHit.x == 15) {
 		movePaddleTo(com, ball.y, 'ai');
 	} else if (com.y > canvas.height / 2 && playerHit.x == canvas.width - 35) {
@@ -369,7 +368,6 @@ function pauseOn() {
 
 function startMovingBall(direction) {
 	// start moving the ball in the chosen direction and sets the speed and velocity to standard.
-	console.log(chosenVelocity + ' start ball');
 	ball.speed = increasementSpeed;
 	ball.velocityY = chosenVelocity;
 	ball.velocityX = chosenVelocity;
@@ -471,7 +469,6 @@ function calcuatePredictionHit(direction) {
 // update function, the function that does most of the calculations
 function update() {
 	gameState = true;
-	console.log(chosenVelocity);
 
 	// the ball has a velocity
 	ball.x += ball.velocityX;
