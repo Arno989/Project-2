@@ -128,7 +128,8 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	});
 	document.querySelector('.js-btn-save').addEventListener('click', function() 
 	{
-		if(tbName.value)
+		let y = tbName.value.trim();
+		if(y)
 		{
 			x = `{'score': ${user.score},'naam': '${tbName.value}','mode': 0}`;
 			try {
@@ -151,6 +152,8 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 					confirmButtonAriaLabel: 'Verder'
 				});
 			}
+			highscoresGameScreen.style.display = 'none';
+			document.querySelector('.js-gameOver').style.display = "block";
 		}
 		else
 		{
@@ -163,8 +166,6 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				confirmButtonAriaLabel: 'Ok'
 			});
 		}
-		highscoresGameScreen.style.display = 'none';
-		document.querySelector('.js-gameOver').style.display = "block";
 	});
 };
 
