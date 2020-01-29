@@ -965,8 +965,8 @@ function drawPrediction() {
 		}
 	}
 }
-
-function sound(src) {
+function sound(src) 
+{
 	this.sound = document.createElement('audio');
 	this.sound.src = src;
 	this.sound.setAttribute('preload', 'auto');
@@ -982,7 +982,13 @@ function sound(src) {
 	this.volume = function(v) {
 		this.sound.volume = v;
 	};
-}
+	this.finished = function(){
+		if(this.sound.currentTime == sound.duration){
+			console.log("audio finished")
+			return(true);
+		}
+	}
+};
 
 function setTimer() {
 	doAnime();
@@ -1166,6 +1172,7 @@ const resize = () => {
 
 function startGame(state, mode_p) {
 	console.log('start game');
+	user.score = 10;
 	gameLoop = null;
 	clearInterval(gameLoop);
 	console.log(gameLoop);
