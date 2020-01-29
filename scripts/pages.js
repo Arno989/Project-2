@@ -25,8 +25,7 @@ let index,
 	selectedAvatarr,
 	plaatsInScoreBoard;
 
-const verwerkHighScoresWithNewRecord3 = function(data) 
-{
+const verwerkHighScoresWithNewRecord3 = function(data) {
 	console.log(user.score);
 	console.log(plaatsInScoreBoard);
 	console.log(data);
@@ -43,7 +42,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 			<p>Score</p>
 		</th>
 	</tr>`;
-	data.forEach(function (element, i) {
+	data.forEach(function(element, i) {
 		d += `
 		<tr>
 			<td>
@@ -62,17 +61,14 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	document.querySelectorAll('.js-scoreboard')[1].innerHTML = d;
 };
 
-const verwerkHighScoresWithNewRecord2 = function(data)
-{
+const verwerkHighScoresWithNewRecord2 = function(data) {
 	plaatsInScoreBoard = data;
 	handleData(`https://project2function.azurewebsites.net/api/highscore/5`, verwerkHighScoresWithNewRecord3);
 };
 
-const verwerkHighScoresWithNewRecord = function(score)
-{
+const verwerkHighScoresWithNewRecord = function(score) {
 	handleData(`https://project2function.azurewebsites.net/api/place/${score}`, verwerkHighScoresWithNewRecord2);
 };
-	
 
 //callbacks na data ophalen
 const verwerkHighScores = function(data) {
@@ -572,15 +568,16 @@ const initPages = function() {
 				case 'multi':
 					if (pl != true) {
 						lastavatar ? (lastavatar.style.filter = '') : '';
+						selectedAvatarl ? (selectedAvatarl.style.filter = '') : '';
 						element.style.filter = 'opacity(.5)';
 						lastavatar = element;
-						selectedAvatarl ? (selectedAvatarl.style.filter = '') : '';
+
 						btnNext.style.display = 'block';
 					} else if (pl == true && element.style.filter == '') {
 						lastavatar ? (lastavatar.style.filter = '') : '';
+						selectedAvatarl.style.filter = 'opacity(.5)';
 						element.style.filter = 'opacity(.5)';
 						lastavatar = element;
-						selectedAvatarl.style.filter = 'opacity(.5)';
 
 						selectedAvatarr = lastavatar;
 						avatarr.src = getAvatar(element.id);
@@ -613,7 +610,7 @@ const initPages = function() {
 						document.querySelector('.js-heart-l').style.display = 'none';
 						document.querySelector('.js-heart-r-img').style.display = 'none';
 						document.querySelector('.js-heart-l-img').style.display = 'none';
-						
+
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
 					}
