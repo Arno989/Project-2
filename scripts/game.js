@@ -44,6 +44,7 @@ var speedUpPressed = false;
 
 // user variables, you can change these
 var beginVelocityX = (beginVelocityY = 4.5);
+var chosenVelocity = 4.5;
 var increasementSpeed = 0.1;
 var increasementSpeedByUser = 0.03;
 var pointsToWin = 3;
@@ -155,27 +156,6 @@ const net = {
 function getRndInteger(min, max) {
   //min and max included
   return Math.random() * (max - min + 1) + min;
-}
-
-function pauseOn() {
-  gameOverScreen = document.querySelector(".js-gameOver");
-  if (gameOverScreen.style.display == "none"){
-    
-    console.log(gameOverScreen);
-  }
-  console.log(gameLoop);
-  console.log(timerLoop);
-  if (gameOverScreen.style.display == "none" && gameLoop != null && timerLoop == false) {
-    console.log("paused");
-    gamePausedScreen = document.querySelector(".js-gamePaused");
-    gamePausedScreen.style.display = "block";
-    clearInterval(gameLoop);
-    gameState = false;
-    btnResume = document.querySelector(".js-btn-resume");
-    btnMainPause = document.querySelector(".js-btn-mainPagePaused");
-    btnResume.addEventListener("click", clickResume);
-    btnMainPause.addEventListener("click", clickMainPaused);
-  }
 }
 
 // draw a rectangle, used to draw paddles
@@ -354,9 +334,10 @@ function pauseOn() {
 
 function startMovingBall(direction) {
   // start moving the ball in the chosen direction and sets the speed and velocity to standard.
+  console.log(chosenVelocity + " start ball");
   ball.speed = increasementSpeed;
-  ball.velocityY = beginVelocityY;
-  ball.velocityX = beginVelocityX;
+  ball.velocityY = chosenVelocity;
+  ball.velocityX = chosenVelocity;
   let dir = getRndInteger(0, 1);
   if (dir < 0.5) {
     if (direction == "left") {
@@ -476,6 +457,9 @@ function update() {
     } else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
       ball.velocityX += increasementSpeedByUser;
       ball.velocityY += increasementSpeedByUser;
+    }
+    if(ball.velocityX < beginVelocityX){
+      chosenVelocity = ball.velocityX;
     }
   } else if (speedUpPressed == true && GameMode != "ai") {
     if (ball.velocityX >= 1 && ball.velocityY >= 1) {
@@ -1004,6 +988,7 @@ function doInfo() {
 }
 
 function doAnime(){
+  console.log(" 3 2 1 ");
   timerLoop = false;
   animation = anime.timeline()
   .add({
@@ -1069,6 +1054,7 @@ function game() {
 
 function loopAnime(){
   if (animationInfo.completed && animeState == false) {
+    console.log(" anime 3 2 1 ");
     countDownScreen = document.querySelector(".js-countdown");
     countDownScreen.style.display = "block";
     doAnime();
@@ -1116,6 +1102,7 @@ function startGame(state, mode_p) {
     bounceX = false;
     bounceY = false;
     if (state) {
+      animeState = false;
       infoScreen = document.querySelector(".js-info");
       infoScreen.style.display = "block";
       doInfo();
