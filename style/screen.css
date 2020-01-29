@@ -279,6 +279,7 @@ p {
 	height: 150px;
 	background-color: var(--color-pink-light);
 	border: 10px solid var(--color-mono-white);
+	transition: 0.5s ease;
 }
 
 .c-mode-text {
@@ -290,21 +291,27 @@ p {
 	background-image: url(/img/modes/single.jpg);
 }
 .js-mode-single:hover,
-.js-mode-single:checked {
+.js-mode-single.isSelected
+{
 	background-image: url(/img/gif/single.gif);
 }
 
-.js-mode-multi {
+.js-mode-multi 
+{
 	background-image: url(/img/modes/multi.jpg);
 }
-.js-mode-multi:hover {
+.js-mode-multi:hover,
+.js-mode-multi.isSelected
+{
 	background-image: url(/img/gif/multi.gif);
 }
 
 .js-mode-wall {
 	background-image: url(/img/modes/wall.jpg);
 }
-.js-mode-wall:hover {
+.js-mode-wall:hover,
+.js-mode-wall.isSelected
+{
 	background-image: url(/img/gif/wall.gif);
 }
 
@@ -551,7 +558,7 @@ p {
 	position: absolute;
 	color: #4699db;
 	margin: auto;
-	bottom: 150px;
+	bottom: 200px;
 	left: 0;
 	top: 0.3em;
 	right: 20px;

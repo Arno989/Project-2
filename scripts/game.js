@@ -19,11 +19,12 @@ let btnResume = null;
 let btnMainPause = null;
 
 //sound
-var scoreSound = new sound('sounds/daddy.mp3');
-var scoreAgainstSound = new sound('sounds/oof.mp3');
-var gameStartSound = new sound('sounds/tadah.mp3');
-var gameWonSound = new sound('sounds/kids.mp3');
-var bounceSound = new sound('sounds/bounce.mp3');
+var scoreSound = new sound("sounds/mp3/score.mp3");
+var scoreAgainstSound = new sound("sounds/mp3/lose.mp3");
+var gameStartSound = new sound("sounds/mp3/start.mp3");
+var gameWonSound = new sound("sounds/mp3/win.mp3");
+var bounceSound = new sound("sounds/bounce.mp3");
+var threeTwoSound = new sound("sounds/mp3/threeTwoOne.mp3");
 
 //debug variables
 let bounceY = false;
@@ -44,10 +45,10 @@ var speedUpPressed = false;
 
 // user variables, you can change these
 var beginVelocityX = (beginVelocityY = 4.5);
+var chosenVelocity = 4.5;
 var increasementSpeed = 0.1;
 var increasementSpeedByUser = 0.03;
 var pointsToWin = 3;
-var countDownFrom = 3;
 
 // game variables, you should not change these
 var chosenGameMode = 'single'; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
@@ -154,26 +155,6 @@ const net = {
 function getRndInteger(min, max) {
 	//min and max included
 	return Math.random() * (max - min + 1) + min;
-}
-
-function pauseOn() {
-	gameOverScreen = document.querySelector('.js-gameOver');
-	if (gameOverScreen.style.display == 'none') {
-		console.log(gameOverScreen);
-	}
-	console.log(gameLoop);
-	console.log(timerLoop);
-	if (gameOverScreen.style.display == 'none' && gameLoop != null && timerLoop == false) {
-		console.log('paused');
-		gamePausedScreen = document.querySelector('.js-gamePaused');
-		gamePausedScreen.style.display = 'block';
-		clearInterval(gameLoop);
-		gameState = false;
-		btnResume = document.querySelector('.js-btn-resume');
-		btnMainPause = document.querySelector('.js-btn-mainPagePaused');
-		btnResume.addEventListener('click', clickResume);
-		btnMainPause.addEventListener('click', clickMainPaused);
-	}
 }
 
 // draw a rectangle, used to draw paddles
@@ -361,32 +342,33 @@ function pauseOn() {
 }
 
 function startMovingBall(direction) {
-	// start moving the ball in the chosen direction and sets the speed and velocity to standard.
-	ball.speed = increasementSpeed;
-	ball.velocityY = beginVelocityY;
-	ball.velocityX = beginVelocityX;
-	let dir = getRndInteger(0, 1);
-	if (dir < 0.5) {
-		if (direction == 'left') {
-			ball.velocityX = -4 - Math.random();
-			ball.velocityY = ball.velocityX;
-			lastPaddleHit = user2;
-		} else if (direction == 'right') {
-			ball.velocityX = 4 + Math.random();
-			ball.velocityY = -ball.velocityX;
-			lastPaddleHit = user;
-		}
-	} else if (dir > 0.5) {
-		if (direction == 'left') {
-			ball.velocityX = -4 - Math.random();
-			ball.velocityY = Math.abs(ball.velocityX);
-			lastPaddleHit = user2;
-		} else if (direction == 'right') {
-			ball.velocityX = 4 + Math.random();
-			ball.velocityY = ball.velocityX;
-			lastPaddleHit = user;
-		}
-	}
+  // start moving the ball in the chosen direction and sets the speed and velocity to standard.
+  console.log(chosenVelocity + " start ball");
+  ball.speed = increasementSpeed;
+  ball.velocityY = chosenVelocity;
+  ball.velocityX = chosenVelocity;
+  let dir = getRndInteger(0, 1);
+  if (dir < 0.5) {
+    if (direction == "left") {
+      ball.velocityX = -4 - Math.random();
+      ball.velocityY = ball.velocityX;
+      lastPaddleHit = user2;
+    } else if (direction == "right") {
+      ball.velocityX = 4 + Math.random();
+      ball.velocityY = -ball.velocityX;
+      lastPaddleHit = user;
+    }
+  } else if (dir > 0.5) {
+    if (direction == "left") {
+      ball.velocityX = -4 - Math.random();
+      ball.velocityY = Math.abs(ball.velocityX);
+      lastPaddleHit = user2;
+    } else if (direction == "right") {
+      ball.velocityX = 4 + Math.random();
+      ball.velocityY = ball.velocityX;
+      lastPaddleHit = user;
+    }
+  }
 }
 
 function collision(b, p) {
@@ -471,49 +453,50 @@ function update() {
 	PredictionBegin = PredictionBeginStatic / Math.abs(ball.velocityX); // this is to keep the prediction end and begining always the same
 	PredictionEnd = PredictionEndStatic / Math.abs(ball.velocityX); // if you want it to depend on the velocity, then delete these 2 lines and rename the vars to the same name without "static".
 
-	if (speedDownPressed == true && GameMode != 'ai') {
-		//controlls to speed up and down the ball when pressed h or g
-		if (ball.velocityX >= 1 && ball.velocityY >= 1) {
-			ball.velocityX -= increasementSpeedByUser;
-			ball.velocityY -= increasementSpeedByUser;
-		} else if (ball.velocityX >= 1 && ball.velocityY <= -1) {
-			ball.velocityX -= increasementSpeedByUser;
-			ball.velocityY += increasementSpeedByUser;
-		} else if (ball.velocityX <= -1 && ball.velocityY >= 1) {
-			ball.velocityX += increasementSpeedByUser;
-			ball.velocityY -= increasementSpeedByUser;
-		} else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
-			ball.velocityX += increasementSpeedByUser;
-			ball.velocityY += increasementSpeedByUser;
-		}
-	} else if (speedUpPressed == true && GameMode != 'ai') {
-		if (ball.velocityX >= 1 && ball.velocityY >= 1) {
-			ball.velocityX += increasementSpeedByUser;
-			ball.velocityY += increasementSpeedByUser;
-		} else if (ball.velocityX >= 1 && ball.velocityY <= -1) {
-			ball.velocityX += increasementSpeedByUser;
-			ball.velocityY -= increasementSpeedByUser;
-		} else if (ball.velocityX <= -1 && ball.velocityY >= 1) {
-			ball.velocityX -= increasementSpeedByUser;
-			ball.velocityY += increasementSpeedByUser;
-		} else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
-			ball.velocityX -= increasementSpeedByUser;
-			ball.velocityY -= increasementSpeedByUser;
-		}
-	}
-	ball.velocityX.toFixed(1); //keep the velocity to 1 number after the comma
-	ball.velocityY.toFixed(1);
-	if (ball.velocityX < 1 && ball.velocityX > 0) {
-		//make sure the user cant stop the ball by making the velocity lower than 1
-		ball.velocityX = 1;
-	} else if (ball.velocityX > -1 && ball.velocityX < 0) {
-		ball.velocityX = -1;
-	}
-	if (ball.velocityY < 1 && ball.velocityY > 0) {
-		ball.velocityY = 1;
-	} else if (ball.velocityY > -1 && ball.velocityY < 0) {
-		ball.velocityY = -1;
-	}
+  if (speedDownPressed == true && GameMode != "ai") { //controlls to speed up and down the ball when pressed h or g
+    if (ball.velocityX >= 1 && ball.velocityY >= 1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    } else if (ball.velocityX >= 1 && ball.velocityY <= -1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY >= 1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    }
+    if(ball.velocityX < beginVelocityX){
+      chosenVelocity = ball.velocityX;
+    }
+  } else if (speedUpPressed == true && GameMode != "ai") {
+    if (ball.velocityX >= 1 && ball.velocityY >= 1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    } else if (ball.velocityX >= 1 && ball.velocityY <= -1) {
+      ball.velocityX += increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY >= 1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY += increasementSpeedByUser;
+    } else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
+      ball.velocityX -= increasementSpeedByUser;
+      ball.velocityY -= increasementSpeedByUser;
+    }
+  }
+  ball.velocityX.toFixed(1);  //keep the velocity to 1 number after the comma
+  ball.velocityY.toFixed(1);
+  if(ball.velocityX < 1 && ball.velocityX > 0){ //make sure the user cant stop the ball by making the velocity lower than 1
+    ball.velocityX = 1;
+  }else if(ball.velocityX > -1 && ball.velocityX < 0){
+    ball.velocityX = -1;
+  }
+  if(ball.velocityY < 1 && ball.velocityY > 0){
+    ball.velocityY = 1;
+  }else if(ball.velocityY > -1 && ball.velocityY < 0){
+    ball.velocityY = -1;
+  }
 
 	// check if paddle is too high or too low
 	if (user2.y - user2.width / 2 <= 0) {
@@ -547,93 +530,100 @@ function update() {
 		user.y = user.y - user.speed;
 	}
 
-	// game has ended
-	// show game over menu and set the score board on the menu
-	if (GameMode != 'wall') {
-		if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin) {
-			gameOverScore = document.querySelector('.js-menu-score');
-			gameOverScreen = document.querySelector('.js-gameOver');
-			if (GameMode == 'multi') {
-				gameOverScreen.style.display = 'block';
-				gameOverScore.innerText = 'Gewonnen!';
-				gameWonSound.play();
-				GameMode = 'ai';
-			} else if (GameMode == 'single') {
-				if (com.score > user.score) {
-					gameOverScore.innerText = 'verloren!';
-				} else {
-					gameOverScore.innerText = 'Gewonnen!';
-					gameWonSound.play();
-				}
-				gameOverScreen.style.display = 'block';
-				GameMode = 'ai';
-			}
-			if (btnAgain == null) {
-				btnAgain = document.querySelector('.js-btn-again');
-				btnAgain.addEventListener('click', clickRestart);
-			}
-			if (btnMain == null) {
-				btnMain = document.querySelector('.js-btn-mainPage');
-				btnMain.addEventListener('click', clickMain);
-			}
-		}
-	} else if (GameMode == 'wall' && wall.score > 0) {
-		gameOverScore = document.querySelector('.js-menu-score');
-		gameOverScreen = document.querySelector('.js-gameOver');
-		if (gameOverScreen.style.display == 'none' && wall.score > 0) {
-			ball.velocityX = beginVelocityX;
-			ball.velocityY = beginVelocityY;
-			lastPaddleHit = user;
-		}
-		if (btnAgain == null) {
-			btnAgain = document.querySelector('.js-btn-again');
-			btnAgain.addEventListener('click', clickRestart);
-		}
-		if (btnMain == null) {
-			btnMain = document.querySelector('.js-btn-mainPage');
-			btnMain.addEventListener('click', clickMain);
-		}
-		bounceY = false;
-		bounceX = false;
-		gameOverScreen.style.display = 'block';
-		gameOverScore.innerText = user.score;
-		GameMode = 'ai';
-		wall.score = 0;
-	}
+  // game has ended
+  // show game over menu and set the score board on the menu
+  if(GameMode != "wall"){
+    if (user.score >= pointsToWin || user2.score >= pointsToWin || com.score >= pointsToWin) {
+      gameOverScore = document.querySelector(".js-menu-score");
+      gameOverScreen = document.querySelector(".js-gameOver");
+      if (GameMode == "multi") {
+        gameOverScreen.style.display = "block";
+        gameOverScore.innerText = "Gewonnen!";
+        gameWonSound.play();
+        GameMode = "ai";
+      } else if (GameMode == "single") {
+        if (com.score > user.score) {
+          gameOverScore.innerText = "verloren!";
+        } else {
+          gameOverScore.innerText = "Gewonnen!";
+          gameWonSound.play();
+        }
+        gameOverScreen.style.display = "block";
+        GameMode = "ai";
+      }
+      if (btnAgain == null) {
+        btnAgain = document.querySelector(".js-btn-again");
+        btnAgain.addEventListener("click", clickRestart);
+      }
+      if (btnMain == null) {
+        btnMain = document.querySelector(".js-btn-mainPage");
+        btnMain.addEventListener("click", clickMain);
+      }
+    }
+  } else if (GameMode == "wall" && wall.score > 0) {
+    gameOverScore = document.querySelector(".js-menu-score");
+    gameOverScreen = document.querySelector(".js-gameOver");
+    if(gameOverScreen.style.display == "none" && wall.score > 0){
+      ball.velocityX = beginVelocityX; ball.velocityY = beginVelocityY; lastPaddleHit = user;
+    }
+    if (btnAgain == null) {
+      btnAgain = document.querySelector(".js-btn-again");
+      btnAgain.addEventListener("click", clickRestart);
+    }
+    if (btnMain == null) {
+      btnMain = document.querySelector(".js-btn-mainPage");
+      btnMain.addEventListener("click", clickMain);
+    }
+    bounceY = false; bounceX = false;
+    gameOverScreen.style.display = "block";
+    gameOverScore.innerText = user.score;
+    GameMode = "ai";
+    wall.score = 0;
+  }
 
-	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
-	if (ball.x - ball.radius < 0 && GameMode == 'single') {
-		com.score++;
-		resetBall();
-		resetPaddles();
-		startMovingBall('right');
-		scoreAgainstSound.play();
-		if (com.score < pointsToWin) {
-			setTimer();
-		}
-	} else if (ball.x - ball.radius < 0 && GameMode == 'multi') {
-		user2.score++;
-		resetBall();
-		resetPaddles();
-		startMovingBall('right');
-		scoreSound.play();
-		if (user2.score < pointsToWin) {
-			setTimer();
-		}
-	} else if (ball.x - ball.radius < 0 && GameMode == 'wall') {
-		wall.score++;
-		resetBall();
-		scoreAgainstSound.play();
-	} else if (ball.x + ball.radius > canvas.width && GameMode != 'wall') {
-		user.score++;
-		resetBall();
-		resetPaddles();
-		startMovingBall('left');
-		scoreSound.play();
-		if (user.score < pointsToWin) {
-			setTimer();
-		}
-	}
+  // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
+  if (ball.x - ball.radius < 0 && GameMode == "single") {
+    com.score++;
+    resetBall();
+    resetPaddles();
+    startMovingBall("right");
+    scoreAgainstSound.play();
+    if(com.score < pointsToWin){
+      setTimer();
+    }
+  } else if (ball.x - ball.radius < 0 && GameMode == "multi") {
+    if(playerDouble == "right"){
+      user2.score += 2;
+    }else if (playerDouble == "none" || playerDouble == "left") {
+      user2.score++;
+    }
+    resetBall();
+    resetPaddles();
+    startMovingBall("right");
+    scoreSound.play();
+    if(user2.score < pointsToWin){
+      setTimer();
+    }
+  } else if (ball.x - ball.radius < 0 && GameMode == "wall") {
+    wall.score++;
+    resetBall();
+    scoreAgainstSound.play();
+  } else if (ball.x + ball.radius > canvas.width && GameMode != "wall") {
+    console.log("links user scoort");
+    console.log(playerDouble);
+    if(playerDouble == "left"){
+      user.score += 2;
+    } else if (playerDouble == "right" || playerDouble == "none") {
+      user.score++;
+    }
+    resetBall();
+    resetPaddles();
+    startMovingBall("left");
+    scoreSound.play();
+    if(user.score < pointsToWin){
+      setTimer();
+    }
+  }
 
 	// when the ball collides with bottom and top walls, inverse the y velocity.
 	if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
@@ -1030,64 +1020,54 @@ function doInfo() {
 	}
 }
 
-function doAnime() {
-	timerLoop = false;
-	animation = anime
-		.timeline()
-		.add({
-			targets: '.ml4 .letters-1',
-			translateY: ['5em', 0],
-			opacity: ml4.opacityIn,
-			scale: ml4.scaleIn,
-			duration: ml4.durationIn,
-			color: '#F07575'
-		})
-		.add({
-			targets: '.ml4 .letters-1',
-			opacity: 0,
-			scale: ml4.scaleOut,
-			duration: ml4.durationOut,
-			easing: 'easeInExpo',
-			delay: ml4.delay
-		})
-		.add({
-			targets: '.ml4 .letters-2',
-			translateY: ['5em', 0],
-			opacity: ml4.opacityIn,
-			scale: ml4.scaleIn,
-			duration: ml4.durationIn,
-			color: '#FBDB86'
-		})
-		.add({
-			targets: '.ml4 .letters-2',
-			opacity: 0,
-			scale: ml4.scaleOut,
-			duration: ml4.durationOut,
-			easing: 'easeInExpo',
-			delay: ml4.delay
-		})
-		.add({
-			targets: '.ml4 .letters-3',
-			translateY: ['5em', 0],
-			opacity: ml4.opacityIn,
-			scale: ml4.scaleIn,
-			duration: ml4.durationIn,
-			color: '#7AD8A0'
-		})
-		.add({
-			targets: '.ml4 .letters-3',
-			opacity: 0,
-			scale: ml4.scaleOut,
-			duration: ml4.durationOut,
-			easing: 'easeInExpo',
-			delay: ml4.delay
-		})
-		.add({
-			targets: '.ml4',
-			opacity: 0,
-			duration: 0,
-			delay: 0
-		});
+function doAnime(){
+  console.log(" 3 2 1 ");
+  timerLoop = false;
+  threeTwoSound.play();
+
+  animation = anime.timeline()
+  .add({
+    targets: '.ml4 .letters-1',
+    opacity: ml4.opacityIn,
+    scale: ml4.scaleIn,
+    duration: ml4.durationIn
+  }).add({
+    targets: '.ml4 .letters-1',
+    opacity: 0,
+    scale: ml4.scaleOut,
+    duration: ml4.durationOut,
+    easing: "easeInExpo",
+    delay: ml4.delay
+  }).add({
+    targets: '.ml4 .letters-2',
+    opacity: ml4.opacityIn,
+    scale: ml4.scaleIn,
+    duration: ml4.durationIn
+  }).add({
+    targets: '.ml4 .letters-2',
+    opacity: 0,
+    scale: ml4.scaleOut,
+    duration: ml4.durationOut,
+    easing: "easeInExpo",
+    delay: ml4.delay
+  }).add({
+    targets: '.ml4 .letters-3',
+    opacity: ml4.opacityIn,
+    scale: ml4.scaleIn,
+    duration: ml4.durationIn
+  }).add({
+    targets: '.ml4 .letters-3',
+    opacity: 0,
+    scale: ml4.scaleOut,
+    duration: ml4.durationOut,
+    easing: "easeInExpo",
+    delay: ml4.delay
+  }).add({
+    targets: '.ml4',
+    opacity: 0,
+    duration: 0,
+    delay: 0
+  });
 }
 
 // render function, the function that does al the drawing
@@ -1107,15 +1087,16 @@ function game() {
 	}
 }
 
-function loopAnime() {
-	if (animationInfo.completed && animeState == false) {
-		countDownScreen = document.querySelector('.js-countdown');
-		countDownScreen.style.display = 'block';
-		doAnime();
-		animeState = true;
-		gameLoop = setInterval(game, 1000 / framePerSecond);
-		gameState = true;
-	}
+function loopAnime(){
+  if (animationInfo.completed && animeState == false) {
+    console.log(" anime 3 2 1 ");
+    countDownScreen = document.querySelector(".js-countdown");
+    countDownScreen.style.display = "block";
+    doAnime();
+    animeState = true;
+    gameLoop = setInterval(game, 1000 / framePerSecond);
+    gameState = true;
+  }
 }
 
 const resize = () => {
@@ -1147,23 +1128,24 @@ const resize = () => {
 };
 
 function startGame(state, mode_p) {
-	console.log('start game');
-	if (gameLoop == null || mode_p == 'ai') {
-		gameStartSound.play();
-		chosenGameMode = mode_p;
-		GameMode = mode_p;
-		lastPaddleHit = user;
-		bounceX = false;
-		bounceY = false;
-		if (state) {
-			infoScreen = document.querySelector('.js-info');
-			infoScreen.style.display = 'block';
-			doInfo();
-			animeLoop = setInterval(loopAnime, 1000 / framePerSecond);
-			render();
-		} else {
-			gameState = false;
-			resetBall();
-		}
-	}
+  console.log("start game");
+  if (gameLoop == null || mode_p == "ai") {
+    gameStartSound.play();
+    chosenGameMode = mode_p;
+    GameMode = mode_p;
+    lastPaddleHit = user;
+    bounceX = false;
+    bounceY = false;
+    if (state) {
+      animeState = false;
+      infoScreen = document.querySelector(".js-info");
+      infoScreen.style.display = "block";
+      doInfo();
+      animeLoop = setInterval(loopAnime, 1000 / framePerSecond);
+      render();
+    } else {
+      gameState = false;
+      resetBall();
+    }
+  }
 }
