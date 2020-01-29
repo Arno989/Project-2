@@ -26,6 +26,7 @@ var gameWonSound = new sound('sounds/mp3/win.mp3');
 var bounceSound = new sound('sounds/bounce.mp3');
 var threeTwoSound = new sound('sounds/mp3/threeTwoOne.mp3');
 var clickSound = new sound('sounds/mp3/click.mp3');
+var playSound = new sound('sounds/wav/play.wav')
 
 //debug variables
 let bounceY = false;
@@ -1039,7 +1040,8 @@ function doInfo() {
 	}
 }
 
-function doAnime() {
+function doAnime() 
+{
 	console.log(' 3 2 1 ');
 	timerLoop = true;
 	threeTwoSound.play();
@@ -1111,11 +1113,14 @@ function render() {
 	drawPrediction();
 }
 
-function game() {
-	if (animation.completed) {
+function game() 
+{
+	if (animation.completed) 
+	{
 		timerLoop = false;
 		update();
 		render();
+		playSound.play();
 	}
 }
 
