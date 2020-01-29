@@ -601,7 +601,7 @@ function update() {
     console.log(playerDouble);
     if(playerDouble == "left"){
       user.score += 2;
-    }else if(playerDouble == "none"){
+    } else if (playerDouble == "right" || playerDouble == "none") {
       user.score++;
     }
     resetBall();
