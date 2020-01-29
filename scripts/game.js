@@ -253,20 +253,21 @@ function clickResume() {
 
 function clickMainPaused() {
 	clickMain();
-	gamePausedScreen.style.display = 'none';
 }
 
 function clickMain() {
+  gameOverScreen.style.display = 'none';
+  gamePausedScreen.style.display = 'none';
   user.score = 0;
   user2.score = 0;
   com.score = 0;
   comLeft.score = 0;
   wall.score = 0;
   gotoPos("left", 300);
-  gameLoop = null;
   resetBall();
   resetPaddles();
   resetGameMode();
+  console.log(gameLoop);
   clearInterval(gameLoop);
   console.log(gameLoop);
   gameState = false;
@@ -1082,7 +1083,7 @@ function render() {
 }
 
 function game() {
-  if(animation.completed && gameState == true){
+  if(animation.completed){
     timerLoop = false;
     update();
     render();
@@ -1131,14 +1132,15 @@ const resize = () => {
 
 function startGame(state, mode_p) {
   console.log("start game");
+  clearInterval(gameLoop);
   if (gameLoop == null || mode_p == "ai") {
-    gameStartSound.play();
     chosenGameMode = mode_p;
     GameMode = mode_p;
     lastPaddleHit = user;
     bounceX = false;
     bounceY = false;
     if (state) {
+      gameStartSound.play();
       animeState = false;
       infoScreen = document.querySelector(".js-info");
       infoScreen.style.display = "block";

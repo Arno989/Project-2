@@ -400,6 +400,7 @@ const initPages = function() {
 		setPage('connect');
 	});
 	btnStart.addEventListener('click', function() {
+		console.log(gamemode);
 		startGame(true, gamemode);
 		avatars.forEach(element => 
 			{
