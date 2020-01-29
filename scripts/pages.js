@@ -124,6 +124,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	document.querySelectorAll('.c-scoreboard')[1].style.display = 'table';
 	document.querySelectorAll('.js-scoreboard')[1].innerHTML = d;
 	tbName = document.querySelector('.js-name');
+	tbName.focus();
 	document.querySelector('.js-btn-annuleren').addEventListener('click', function() 
 	{
 		document.querySelector('.js-gameOver').style.display = "block";
