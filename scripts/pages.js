@@ -45,9 +45,9 @@ const verwerkHighScores = function(data) {
 			</td>
 		</tr>`;
 	});
-	document.querySelector('.js-scoreboard').innerHTML = d;
 	document.querySelector('.js-loading-score').style.display = 'none';
 	document.querySelector('.c-scoreboard').style.display = 'table';
+	document.querySelector('.js-scoreboard').innerHTML = d;
 };
 
 //bluetooth connector

@@ -363,7 +363,7 @@ p {
 /* Scoreboeard */
 
 .c-scoreboard {
-	min-width: 40vw;
+	min-width: 35vw;
 	background-color: var(--color-mono-white);
 	border: none;
 	border-radius: 20px;
@@ -386,12 +386,12 @@ p {
 
 .c-scoreboard > tbody > tr > th > p {
 	color: var(--color-blue-light);
-	padding: 24px;
+	padding: 18px;
 }
 
 .c-scoreboard > tbody > tr > td > p {
 	color: var(--color-blue-light);
-	padding: 16px;
+	padding: 12px;
 }
 
 /* buttons */
