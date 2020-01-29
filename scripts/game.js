@@ -278,6 +278,7 @@ function clickRestart() {
 	resetBall();
 	resetPaddles();
 	startMovingBall('right');
+	render();
 	gameOverScreen.style.display = 'none';
 	/* reset ball speed */
 	user.score = 0;
@@ -986,6 +987,7 @@ function setTimer() {
 }
 
 function doInfo() {
+	console.log("do info anime");
 	var textWrapper = document.querySelector('.ml7 .letters');
 	textWrapper.innerHTML = 'De eerste met 11 punten wint!';
 	if (GameMode == 'wall') {
@@ -1035,69 +1037,6 @@ function doInfo() {
 				delay: 1000
 			});
 	}
-}
-
-function doAnime() {
-	console.log(' 3 2 1 ');
-	timerLoop = true;
-	threeTwoSound.play();
-
-	animation = anime
-		.timeline()
-		.add({
-			targets: '.ml4 .letters-1',
-			translateY: ['5em', 0],
-			opacity: ml4.opacityIn,
-			scale: ml4.scaleIn,
-			duration: ml4.durationIn,
-			color: '#F07575'
-		})
-		.add({
-			targets: '.ml4 .letters-1',
-			opacity: 0,
-			scale: ml4.scaleOut,
-			duration: ml4.durationOut,
-			easing: 'easeInExpo',
-			delay: ml4.delay
-		})
-		.add({
-			targets: '.ml4 .letters-2',
-			translateY: ['5em', 0],
-			opacity: ml4.opacityIn,
-			scale: ml4.scaleIn,
-			duration: ml4.durationIn,
-			color: '#FBDB86'
-		})
-		.add({
-			targets: '.ml4 .letters-2',
-			opacity: 0,
-			scale: ml4.scaleOut,
-			duration: ml4.durationOut,
-			easing: 'easeInExpo',
-			delay: ml4.delay
-		})
-		.add({
-			targets: '.ml4 .letters-3',
-			translateY: ['5em', 0],
-			opacity: ml4.opacityIn,
-			scale: ml4.scaleIn,
-			duration: ml4.durationIn,
-			color: '#7AD8A0'
-		})
-		.add({
-			targets: '.ml4 .letters-3',
-			opacity: 0,
-			scale: ml4.scaleOut,
-			duration: ml4.durationOut,
-			easing: 'easeInExpo',
-			delay: ml4.delay
-		})
-		.add({
-			targets: '.ml4',
-			opacity: 0,
-			duration: 0,
-			delay: 0
-		});
 }
 
 function doAnime() {
@@ -1222,7 +1161,9 @@ const resize = () => {
 
 function startGame(state, mode_p) {
 	console.log('start game');
+	gameLoop = null;
 	clearInterval(gameLoop);
+	console.log(gameLoop);
 	if (gameLoop == null || mode_p == 'ai') {
 		chosenGameMode = mode_p;
 		GameMode = mode_p;
