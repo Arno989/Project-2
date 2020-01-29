@@ -483,25 +483,6 @@ function sleep(milliseconds) {
 	} while (currentDate - date < milliseconds);
 }
 
-function calmDown() {
-	render();
-	console.log('call calm down');
-	if (playerOneConnected == true && playerTwoConnected == true) {
-		counter = 15;
-		console.log('call down counter made');
-
-		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
-			console.log('counter');
-			document.querySelector('.js-heartrate-counter').innerHTML = `${counter}`;
-			counter--;
-			sleep(500);
-		}
-
-		console.log('stop counter');
-		document.querySelector('.js-restmode').style.display = 'none';
-	}
-}
-
 // Initialize
 const initPages = function() {
 	btnBack = document.querySelector('.js-btn-back');
