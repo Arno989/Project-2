@@ -331,16 +331,21 @@ function resetPaddles() {
 
 function pauseOn() {
 	gameOverScreen = document.querySelector('.js-gameOver');
-	if (gameOverScreen.style.display == '' && gameLoop != null && timerLoop == false) {
-		console.log('paused');
-		gamePausedScreen = document.querySelector('.js-gamePaused');
-		gamePausedScreen.style.display = 'block';
-		clearInterval(gameLoop);
-		gameState = false;
-		btnResume = document.querySelector('.js-btn-resume');
-		btnMainPause = document.querySelector('.js-btn-mainPagePaused');
-		btnResume.addEventListener('click', clickResume);
-		btnMainPause.addEventListener('click', clickMainPaused);
+	console.log(gameOverScreen.style.display);
+	console.log(gameLoop);
+	console.log(timerLoop);
+	if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
+		if (gameLoop != null && timerLoop == false) {
+			console.log('paused');
+			gamePausedScreen = document.querySelector('.js-gamePaused');
+			gamePausedScreen.style.display = 'block';
+			clearInterval(gameLoop);
+			gameState = false;
+			btnResume = document.querySelector('.js-btn-resume');
+			btnMainPause = document.querySelector('.js-btn-mainPagePaused');
+			btnResume.addEventListener('click', clickResume);
+			btnMainPause.addEventListener('click', clickMainPaused);
+		}
 	}
 }
 
@@ -1034,7 +1039,7 @@ function doInfo() {
 
 function doAnime() {
 	console.log(' 3 2 1 ');
-	timerLoop = false;
+	timerLoop = true;
 	threeTwoSound.play();
 
 	animation = anime
@@ -1097,7 +1102,7 @@ function doAnime() {
 
 function doAnime() {
 	console.log(' 3 2 1 ');
-	timerLoop = false;
+	timerLoop = true;
 	threeTwoSound.play();
 
 	animation = anime
