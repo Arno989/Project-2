@@ -592,6 +592,8 @@ function update() {
 			}
 		}
 	} else if (GameMode == 'wall' && wall.score > 0) {
+		gameOverScore = document.querySelector('.js-menu-score');
+		gameOverScore.innerText = user.score;
 		doHighscores();
 		bounceY = false;
 		bounceX = false;
@@ -1008,7 +1010,7 @@ function startTimer(duration, display) {
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = minutes + ":" + seconds;
+        display.textContent = seconds;
 
         if (--timer < 0) {
             timer = duration;
@@ -1018,10 +1020,12 @@ function startTimer(duration, display) {
 
 function calmDown() {
 	render();
-	console.log('call calm down');
+	console.log('call calm down he maker');
 	//if (playerOneConnected == true && playerTwoConnected == true) {
 		counter = 15;
 		console.log('call down counter made');
+		calmDownLetter = document.querySelector('.js-heartrate-counter');
+		startTimer(15, calmDownLetter);
 
 		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
 			console.log('counter');
@@ -1228,9 +1232,8 @@ function startGame(state, mode_p) {
 		bounceX = false;
 		bounceY = false;
 		if (state) {
-			calmDownLetter = document.querySelector('.js-calmLetters');
-			//document.querySelector('.js-restmode').style.display = 'block';
-			//calmDown();
+			document.querySelector('.js-restmode').style.display = 'block';
+			calmDown();
 			console.log(heartRateRight + ', ' + heartRateLeft);
 			gameStartSound.play();
 			animeState = false;
