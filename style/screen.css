@@ -398,8 +398,7 @@ p {
 
 .c-button,
 .swal2-styled,
-.swal2-confirm 
-{
+.swal2-confirm {
 	background-color: var(--topbar-color);
 	color: var(--color-brown) !important;
 	font-size: var(--font-size-button) !important;
@@ -415,7 +414,7 @@ p {
 	transition: 0.5s ease;
 }
 
-.swal2-popup{
+.swal2-popup {
 	width: 40vw !important;
 	height: 60vh !important;
 	min-width: 700px;
@@ -427,8 +426,7 @@ p {
 	min-width: 536px !important;
 }
 
-.swal2-confirm
-{
+.swal2-confirm {
 	background-color: var(--color-blue-light) !important;
 }
 
@@ -444,8 +442,40 @@ p {
 
 .c-button:active,
 .swal2-styled:active,
-.swal2-confirm:active{
+.swal2-confirm:active {
 	box-shadow: inset 0px 3px 6px 0px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Hartslag */
+
+.c-heart {
+	height: 100;
+	animation: pulse 1s infinite;
+	transform: scale(1);
+}
+
+.c-heart__text {
+	animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.9);
+		filter: drop-shadow(0 0px 16px rgba(255, 0, 0, 0.7));
+		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); */
+	}
+
+	70% {
+		transform: scale(1);
+		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
+		/* box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); */
+	}
+
+	100% {
+		transform: scale(0.9);
+		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
+		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); */
+	}
 }
 
 /* loading icons */
@@ -508,16 +538,6 @@ p {
 	background-color: var(--color-blue-light-X);
 }
 
-.c-heart {
-	height: 100;
-	animation: pulse 1s infinite;
-	transform: scale(1);
-}
-
-.c-heart__text {
-	animation: pulse 1s infinite;
-}
-
 /* Countdown */
 
 .ml4 {
@@ -543,40 +563,20 @@ p {
 	position: relative;
 	font-weight: 900;
 	font-size: 3.7em;
-  }
-  .ml7 .text-wrapper {
+}
+.ml7 .text-wrapper {
 	position: relative;
 	display: inline-block;
 	padding-top: 0.2em;
 	padding-right: 0.05em;
 	padding-bottom: 0.3em;
 	overflow: hidden;
-  }
-  .ml7 .letter {
+}
+.ml7 .letter {
 	transform-origin: 0 100%;
 	display: inline-block;
 	line-height: 1em;
 	color: #4699db;
-  }
-
-@keyframes pulse {
-	0% {
-		transform: scale(0.9);
-		filter: drop-shadow(0 0px 16px rgba(255, 0, 0, 0.7));
-		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); */
-	}
-
-	70% {
-		transform: scale(1);
-		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
-		/* box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); */
-	}
-
-	100% {
-		transform: scale(0.9);
-		filter: drop-shadow(0 16px 16px rgba(255, 0, 0, 0));
-		/* box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); */
-	}
 }
 
 /* Loading icon */
