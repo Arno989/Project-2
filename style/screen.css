@@ -427,6 +427,11 @@ p {
 	transition: 0.5s ease;
 }
 
+.c-button:focus
+{
+	outline: none;
+}
+
 .swal2-popup {
 	width: 40vw !important;
 	height: 60vh !important;
