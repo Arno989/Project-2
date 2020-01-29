@@ -614,6 +614,7 @@ function update() {
 
 	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
 	if (ball.x - ball.radius < 0 && GameMode == 'single') {
+		lastPaddleHit.x = 15;
 		com.score++;
 		resetBall();
 		resetPaddles();
@@ -1003,44 +1004,6 @@ function sound(src)
 	}
 };
 
-function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = seconds;
-
-        if (--timer < 0) {
-            timer = duration;
-        }
-    }, 1000);
-}
-
-function calmDown() {
-	render();
-	console.log('call calm down he maker');
-	//if (playerOneConnected == true && playerTwoConnected == true) {
-		counter = 15;
-		console.log('call down counter made');
-		calmDownLetter = document.querySelector('.js-heartrate-counter');
-		startTimer(15, calmDownLetter);
-
-		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
-			console.log('counter');
-			document.querySelector('.js-heartrate-counter').innerHTML = `${counter}`;
-			counter--;
-			//sleep(500);
-		}
-
-		console.log('stop counter');
-		document.querySelector('.js-restmode').style.display = 'none';
-	//}
-}
-
 function setTimer() {
 	doAnime();
 	console.log('anime');
@@ -1234,9 +1197,6 @@ function startGame(state, mode_p) {
 		bounceX = false;
 		bounceY = false;
 		if (state) {
-			document.querySelector('.js-restmode').style.display = 'block';
-			calmDown();
-			console.log(heartRateRight + ', ' + heartRateLeft);
 			gameStartSound.play();
 			animeState = false;
 			infoScreen = document.querySelector('.js-info');
