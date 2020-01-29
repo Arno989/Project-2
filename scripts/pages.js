@@ -18,7 +18,90 @@ let index,
 	pr = false,
 	heartRateLeft = 0,
 	heartRateRight = 0,
-	playerDouble = 'none';
+	playerDouble = 'none',
+	place = 123;
+
+let x = "[{'score': 600,'mode': 0,'naam': 'Lotte','id': '4bf8735c-c771-474f-bfb0-06f4190592c3','tijd': '2020-01-26T13:20:30.449Z'},{'score': 500,'mode': 0,'naam': 'Stijn','id': '1c98eb7d-ce64-40f6-9d8c-c5e87c286eaa','tijd': '2020-01-24T14:03:07.8065183Z'}, {'score': 500,'mode': 0,'naam': 'Tom','id': '449de373-454c-40ef-a2b0-caa0e05f0ac0','tijd': '2020-01-26T13:19:34.77418Z'}, {'score': 500,'mode': 0,'naam': 'Bram','id': '9dfbaf68-b940-4f7b-a85c-bd9fcbd4ad33','tijd': '2020-01-26T13:19:42.8904952Z'}, {'score': 400,'mode': 0,'naam':'Stijn','id':'c89daa2c-6fd7-4074-877d-23e7a449424b','tijd': '2020-01-24T13:58:37.2611421Z'}, {'score': 333,'mode': 0,'naam': 'Stijn','id': '8f9d6a74-8bee-4014-be07-11174e073bd4','tijd': '2020-01-24T13:57:37.5000044Z'}, {'score': 333,'mode': 0,'naam': 'Veronique','id': 'ae4246cb-7c03-451e-810d-92f96dff9c6f','tijd': '2020-01-26T13:20:26.9807516Z'}, {'score': 333,'mode': 0,'naam': 'Tine','id': '6645bdaa-e4ab-4827-a0cf-571c3f25a92f','tijd': '2020-01-26T13:20:34.2959585Z'}, {'score': 333,'mode': 0,'naam': 'Johan','id': 'fa24bd51-f7f3-4933-bef8-abc81f9dd891','tijd': '2020-01-26T13:20:38.9737641Z'}, {'score': 333,'mode': 0,'naam': 'arno','id': '5e7df477-1857-4f47-bf62-771170c4a80e','tijd': '2020-01-27T13:53:16.1091145Z'}]";
+
+const verwerkHighScoresWithNewRecord = function(data, plaats, score) 
+{
+	console.log("maken");
+	let d = `
+	<tr>
+		<th>
+			<p>Plaats</p>
+		</th>
+		<th>
+			<p>Naam</p>
+		</th>
+		<th>
+			<p>Score</p>
+		</th>
+	</tr>`;
+	if(plaats > 10)
+	{
+		data.forEach(function (element, i) 
+		{
+		d += `
+			<tr>
+				<td>
+					<p class="u-margin-reset">${i + 1}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${element.naam}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${element.score}</p>
+				</td>
+			</tr>`;
+		})
+		d += `
+			<tr>
+				<td>
+					<p class="u-margin-reset">${plaats}</p>
+				</td>
+				<td>
+					<input type="text"></input>
+				</td>
+				<td>
+					<p class="u-margin-reset">${score}</p>
+				</td>
+			</tr>`
+	}
+	else
+	{
+		for(let i = 0; i < plaats; i++)
+		{
+			d += `
+			<tr>
+				<td>
+					<p class="u-margin-reset">${i + 1}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].naam}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].score}</p>
+				</td>
+			</tr>`;
+		}
+		d += `
+			<tr>
+				<td>
+					<p class="u-margin-reset">${plaats}</p>
+				</td>
+				<td>
+					<input type="text"></input>
+				</td>
+				<td>
+					<p class="u-margin-reset">${score}</p>
+				</td>
+			</tr>
+		`;
+		console.log(d);
+}
+console.log(d);
+};
 
 //callbacks na data ophalen
 const verwerkHighScores = function(data) {
@@ -629,6 +712,7 @@ const initPages = function() {
 			clickSound.play();
 		});
 	});
+	verwerkHighScoresWithNewRecord(x, place, 10);
 };
 
 document.addEventListener('DOMContentLoaded', function() {
