@@ -66,7 +66,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
 			<td>
-				<input type="text"/>
+				<input type="text" class="js-name"/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
@@ -112,7 +112,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
 			<td>
-				<input type="text"/>
+				<input type="text" class="js-name"/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
@@ -123,6 +123,23 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	document.querySelectorAll('.js-loading-score')[1].style.display = 'none';
 	document.querySelectorAll('.c-scoreboard')[1].style.display = 'table';
 	document.querySelectorAll('.js-scoreboard')[1].innerHTML = d;
+	tbName = document.querySelector('.js-name');
+	document.querySelector('.js-btn-annuleren').addEventListener('click', function() 
+	{
+		document.querySelector('.js-gameOver').style.display = "block";
+	});
+	document.querySelector('.js-btn-save').addEventListener('click', function() 
+	{
+		x = `{'score': ${user.score},'naam': '${tbName.value}','mode': 0}`;
+		handleData('https://project2function.azurewebsites.net/api/highscore', callbackPost, methode="POST", body = x);
+		highscoresGameScreen.style.display = 'none';
+		document.querySelector('.js-gameOver').style.display = "block";
+	});
+};
+
+const callbackPost = function(data) 
+{
+	console.log(data);
 };
 
 const verwerkHighScoresWithNewRecord2 = function(data) {
