@@ -11,6 +11,7 @@ let ScoreDivc = document.querySelector('.js-score-c');
 let gameOverScreen = null;
 let gameOverScore = null;
 let gamePausedScreen = null;
+let highscoresGameScreen = null;
 let countDownScreen = null;
 let infoScreen = null;
 let btnAgain = null;
@@ -331,22 +332,33 @@ function resetPaddles() {
 	com.y = canvas.height / 2 - 190 / 2;
 }
 
+function doHighscores(){
+	highscoresGameScreen = document.querySelector(".js-gameHighscores");
+	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
+		console.log("showing highscores");
+		highscoresGameScreen.style.display = 'block';
+	}
+	GameMode = "ai";
+}
+
 function pauseOn() {
 	gameOverScreen = document.querySelector('.js-gameOver');
 	console.log(gameOverScreen.style.display);
 	console.log(gameLoop);
 	console.log(timerLoop);
-	if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
-		if (gameLoop != null && timerLoop == false) {
-			console.log('paused');
-			gamePausedScreen = document.querySelector('.js-gamePaused');
-			gamePausedScreen.style.display = 'block';
-			clearInterval(gameLoop);
-			gameState = false;
-			btnResume = document.querySelector('.js-btn-resume');
-			btnMainPause = document.querySelector('.js-btn-mainPagePaused');
-			btnResume.addEventListener('click', clickResume);
-			btnMainPause.addEventListener('click', clickMainPaused);
+	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
+		if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
+			if (gameLoop != null && timerLoop == false) {
+				console.log('paused');
+				gamePausedScreen = document.querySelector('.js-gamePaused');
+				gamePausedScreen.style.display = 'block';
+				clearInterval(gameLoop);
+				gameState = false;
+				btnResume = document.querySelector('.js-btn-resume');
+				btnMainPause = document.querySelector('.js-btn-mainPagePaused');
+				btnResume.addEventListener('click', clickResume);
+				btnMainPause.addEventListener('click', clickMainPaused);
+			}
 		}
 	}
 }
@@ -577,25 +589,9 @@ function update() {
 			}
 		}
 	} else if (GameMode == 'wall' && wall.score > 0) {
-		gameOverScore = document.querySelector('.js-menu-score');
-		gameOverScreen = document.querySelector('.js-gameOver');
-		if (gameOverScreen.style.display == 'none' && wall.score > 0) {
-			ball.velocityX = beginVelocityX;
-			ball.velocityY = beginVelocityY;
-			lastPaddleHit = user;
-		}
-		if (btnAgain == null) {
-			btnAgain = document.querySelector('.js-btn-again');
-			btnAgain.addEventListener('click', clickRestart);
-		}
-		if (btnMain == null) {
-			btnMain = document.querySelector('.js-btn-mainPage');
-			btnMain.addEventListener('click', clickMain);
-		}
+		doHighscores();
 		bounceY = false;
 		bounceX = false;
-		gameOverScreen.style.display = 'block';
-		gameOverScore.innerText = user.score;
 		GameMode = 'ai';
 		wall.score = 0;
 	}
