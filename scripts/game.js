@@ -596,6 +596,8 @@ function update() {
     resetBall();
     scoreAgainstSound.play();
   } else if (ball.x + ball.radius > canvas.width && GameMode != "wall") {
+    console.log("links user scoort");
+    console.log(playerDouble);
     if(playerDouble == "left"){
       user.score += 2;
     }else if(playerDouble == "none"){
