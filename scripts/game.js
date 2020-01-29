@@ -256,8 +256,6 @@ function clickMainPaused() {
 }
 
 function clickMain() {
-  gameOverScreen.style.display = 'none';
-  gamePausedScreen.style.display = 'none';
   user.score = 0;
   user2.score = 0;
   com.score = 0;
@@ -267,9 +265,9 @@ function clickMain() {
   resetBall();
   resetPaddles();
   resetGameMode();
-  console.log(gameLoop);
   clearInterval(gameLoop);
-  console.log(gameLoop);
+  gameOverScreen.style.display = 'none';
+  gamePausedScreen.style.display = 'none';
   gameState = false;
 }
 
