@@ -67,6 +67,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 			</td>
 			<td>
 				<input class="c-scoreboard-input" type="text"/>
+				<input type="text" class="js-name"/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
@@ -112,7 +113,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
 			<td>
-				<input type="text"/>
+				<input type="text" class="js-name"/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
@@ -123,6 +124,23 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	document.querySelectorAll('.js-loading-score')[1].style.display = 'none';
 	document.querySelectorAll('.c-scoreboard')[1].style.display = 'table';
 	document.querySelectorAll('.js-scoreboard')[1].innerHTML = d;
+	tbName = document.querySelector('.js-name');
+	document.querySelector('.js-btn-annuleren').addEventListener('click', function() 
+	{
+		document.querySelector('.js-gameOver').style.display = "block";
+	});
+	document.querySelector('.js-btn-save').addEventListener('click', function() 
+	{
+		x = `{'score': ${user.score},'naam': '${tbName.value}','mode': 0}`;
+		handleData('https://project2function.azurewebsites.net/api/highscore', callbackPost, methode="POST", body = x);
+		highscoresGameScreen.style.display = 'none';
+		document.querySelector('.js-gameOver').style.display = "block";
+	});
+};
+
+const callbackPost = function(data) 
+{
+	console.log(data);
 };
 
 const verwerkHighScoresWithNewRecord2 = function(data) {
@@ -481,25 +499,6 @@ function sleep(milliseconds) {
 	do {
 		currentDate = Date.now();
 	} while (currentDate - date < milliseconds);
-}
-
-function calmDown() {
-	render();
-	console.log('call calm down');
-	if (playerOneConnected == true && playerTwoConnected == true) {
-		counter = 15;
-		console.log('call down counter made');
-
-		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
-			console.log('counter');
-			document.querySelector('.js-heartrate-counter').innerHTML = `${counter}`;
-			counter--;
-			sleep(500);
-		}
-
-		console.log('stop counter');
-		document.querySelector('.js-restmode').style.display = 'none';
-	}
 }
 
 // Initialize
