@@ -66,7 +66,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
 			<td>
-				<input type="text"/>
+				<input class="c-scoreboard-input" type="text"/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
