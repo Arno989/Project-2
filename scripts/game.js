@@ -52,7 +52,7 @@ var beginVelocityX = (beginVelocityY = 4.5);
 var chosenVelocity = 4.5;
 var increasementSpeed = 0.1;
 var increasementSpeedByUser = 0.03;
-var pointsToWin = 3;
+var pointsToWin = 11;
 
 // game variables, you should not change these
 var chosenGameMode = 'single'; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
@@ -282,7 +282,6 @@ function clickRestart() {
 	resetBall();
 	resetPaddles();
 	startMovingBall('right');
-	render();
 	gameOverScreen.style.display = 'none';
 	/* reset ball speed */
 	user.score = 0;
@@ -290,7 +289,10 @@ function clickRestart() {
 	com.score = 0;
 	comLeft.score = 0;
 	wall.score = 0;
+	wall.x = canvas.width - 35;
+	wall.y = 0;
 	GameMode = chosenGameMode;
+	render();
 	setTimer();
 }
 
