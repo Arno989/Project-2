@@ -580,7 +580,11 @@ function update() {
       setTimer();
     }
   } else if (ball.x - ball.radius < 0 && GameMode == "multi") {
-    user2.score++;
+    if(playerDouble == "right"){
+      user2.score += 2;
+    }else{
+      user2.score++;
+    }
     resetBall();
     resetPaddles();
     startMovingBall("right");
@@ -593,7 +597,11 @@ function update() {
     resetBall();
     scoreAgainstSound.play();
   } else if (ball.x + ball.radius > canvas.width && GameMode != "wall") {
-    user.score++;
+    if(playerDouble == "left"){
+      user.score += 2;
+    }else if(playerDouble == "none"){
+      user.score++;
+    }
     resetBall();
     resetPaddles();
     startMovingBall("left");
