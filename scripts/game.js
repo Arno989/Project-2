@@ -373,22 +373,22 @@ function startMovingBall(direction) {
 	let dir = getRndInteger(0, 1);
 	if (dir < 0.5) {
 		if (direction == 'left') {
-			ball.velocityX = -4 - Math.random();
-			ball.velocityY = ball.velocityX;
+			ball.velocityX = chosenVelocity;
+			ball.velocityY = chosenVelocity;
 			lastPaddleHit = user2;
 		} else if (direction == 'right') {
-			ball.velocityX = 4 + Math.random();
-			ball.velocityY = -ball.velocityX;
+			ball.velocityX = chosenVelocity;
+			ball.velocityY = -chosenVelocity;
 			lastPaddleHit = user;
 		}
 	} else if (dir > 0.5) {
 		if (direction == 'left') {
-			ball.velocityX = -4 - Math.random();
-			ball.velocityY = Math.abs(ball.velocityX);
+			ball.velocityX = -chosenVelocity;
+			ball.velocityY = chosenVelocity;
 			lastPaddleHit = user2;
 		} else if (direction == 'right') {
-			ball.velocityX = 4 + Math.random();
-			ball.velocityY = ball.velocityX;
+			ball.velocityX = chosenVelocity;
+			ball.velocityY = chosenVelocity;
 			lastPaddleHit = user;
 		}
 	}
@@ -468,6 +468,7 @@ function calcuatePredictionHit(direction) {
 // update function, the function that does most of the calculations
 function update() {
 	gameState = true;
+	console.log(chosenVelocity);
 
 	// the ball has a velocity
 	ball.x += ball.velocityX;
@@ -491,7 +492,7 @@ function update() {
 			ball.velocityX += increasementSpeedByUser;
 			ball.velocityY += increasementSpeedByUser;
 		}
-		if (ball.velocityX < beginVelocityX) {
+		if (Math.abs(ball.velocityX) < beginVelocityX) {
 			chosenVelocity = ball.velocityX;
 		}
 	} else if (speedUpPressed == true && GameMode != 'ai') {
@@ -507,6 +508,9 @@ function update() {
 		} else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
 			ball.velocityX -= increasementSpeedByUser;
 			ball.velocityY -= increasementSpeedByUser;
+		}
+		if (Math.abs(ball.velocityX) < beginVelocityX) {
+			chosenVelocity = ball.velocityX;
 		}
 	}
 	ball.velocityX.toFixed(1); //keep the velocity to 1 number after the comma
@@ -593,6 +597,7 @@ function update() {
 		doHighscores();
 		bounceY = false;
 		bounceX = false;
+		lastPaddleHit.x = 15;
 		GameMode = 'ai';
 		wall.score = 0;
 	}
