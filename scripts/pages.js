@@ -29,8 +29,8 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 {
 	console.log("lengte van data: " + data.length);
 
-	let d = `
-	<tr>
+	let d = 
+	`<tr>
 		<th>
 			<p>Plaats</p>
 		</th>
@@ -46,22 +46,21 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	{
 		for(let i = 0; i < plaatsInScoreBoard-1; i++)
 		{
-			d += `
-		<tr>
-			<td>
-				<p class="u-margin-reset">${i + 1}</p>
-			</td>
-			<td>
-				<p class="u-margin-reset">${data[i].naam}</p>
-			</td>
-			<td>
-				<p class="u-margin-reset">${data[i].score}</p>
-			</td>
-		</tr>`;
-			}
-			d +=
-				`
-		<tr>
+			d += 
+			`<tr>
+				<td>
+					<p class="u-margin-reset">${i + 1}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].naam}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].score}</p>
+				</td>
+			</tr>`;
+		}
+		d +=
+		`<tr class="c-scoreboard-new">
 			<td>
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
@@ -71,54 +70,51 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
 			</td>
-		</tr>
-		`;
+		</tr>`;
 		for(let i = plaatsInScoreBoard-1; i < data.length; i++)
 		{
-			d += `
-		<tr>
-			<td>
-				<p class="u-margin-reset">${i + 2}</p>
-			</td>
-			<td>
-				<p class="u-margin-reset">${data[i].naam}</p>
-			</td>
-			<td>
-				<p class="u-margin-reset">${data[i].score}</p>
-			</td>
-		</tr>`;
+			d += 
+			`<tr>
+				<td>
+					<p class="u-margin-reset">${i + 2}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].naam}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].score}</p>
+				</td>
+			</tr>`;
 		}
 	}
 	else
 	{
 		data.forEach(function (element, i) {
-			d += `
-		<tr>
-			<td>
-				<p class="u-margin-reset">${i + 1}</p>
-			</td>
-			<td>
-				<p class="u-margin-reset">${element.naam}</p>
-			</td>
-			<td>
-				<p class="u-margin-reset">${element.score}</p>
-			</td>
-		</tr>`;
+			d += 
+			`<tr>
+				<td>
+					<p class="u-margin-reset">${i + 1}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${element.naam}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${element.score}</p>
+				</td>
+			</tr>`;
 		});
 		d += 
-		`
-		<tr>
+		`<tr class="c-scoreboard-new">
 			<td>
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
 			<td>
-				<input type="text" class="js-name"/>
+				<input class="c-scoreboard-input js-name" type="text" autofocus/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
 			</td>
-		</tr>
-		`;
+		</tr>`;
 	}
 	document.querySelectorAll('.js-loading-score')[1].style.display = 'none';
 	document.querySelectorAll('.c-scoreboard')[1].style.display = 'table';

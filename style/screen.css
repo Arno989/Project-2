@@ -373,8 +373,19 @@ p {
 	border-spacing: 0;
 }
 
-.c-highscore-title{
-	color:var(--color-yellow)
+.c-scoreboard-new > td {
+	background-color: var(--color-yellow-light);
+}
+.c-scoreboard-new > td:first-child {
+	border-radius: 0 0 0 20px;
+}
+
+.c-scoreboard-new > td:last-child {
+	border-radius: 0 0 20px 0;
+}
+
+.c-highscore-title {
+	color: var(--color-yellow);
 }
 
 .c-scoreboard > tbody > tr > th {
@@ -401,7 +412,7 @@ p {
 	padding: 12px;
 }
 
-.c-scoreboard > tbody > tr > td > input[type=text]{
+.c-scoreboard > tbody > tr > td > input[type='text'] {
 	font-size: var(--font-size-text);
 	font-family: var(--global-font);
 	text-align: center;
@@ -432,8 +443,8 @@ p {
 }
 
 .c-button:focus,
-.js-name
-{
+.js-name,
+.swal2-close {
 	outline: none;
 }
 
