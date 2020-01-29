@@ -67,6 +67,12 @@ const bluetooth = function(y) {
 			]
 		})
 		.then(device => {
+			bluetoothDevice.addEventListener('gattserverdisconnected', function() 
+			{
+				
+					connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
+					
+			});
 			connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
 		})
 		.then(x => {
@@ -143,7 +149,9 @@ const connectDevice = function(device, server, service, y) {
 					}
 				});
 				connectDevice(device, 'battery_service', 'battery_level', y);
-			} else if (server === 'battery_service') {
+			} 
+			else if (server === 'battery_service') 
+			{
 				d.readValue()
 					.then(e => {
 						if (y === 1) {
@@ -206,6 +214,10 @@ const connectDevice = function(device, server, service, y) {
 							}
 							document.querySelector('.js-btn-connect-player').innerHTML = 'Verbind opnieuw';
 						});
+				});
+				d.addEventListener('', function() 
+				{
+					console.log(device);
 				});
 			}
 		})
@@ -419,9 +431,16 @@ const initPages = function() {
 		setPage('connect');
 	});
 	btnStart.addEventListener('click', function() {
+		console.log(gamemode);
 		startGame(true, gamemode);
-		avatars.forEach(element => {
+		avatars.forEach(element => 
+			{
 			element.style.filter = '';
+			element.addEventListener('click', function() 
+			{
+				console.log("mimimi");
+				clickSound.play();
+			});
 		});
 
 		pl = false;
@@ -450,7 +469,9 @@ const initPages = function() {
 	});
 
 	avatars.forEach(element => {
-		element.addEventListener('click', function() {
+		element.addEventListener('click', function() 
+		{
+			clickSound.play();
 			switch (gamemode) {
 				case 'single':
 					if (pl != true) {
@@ -579,6 +600,7 @@ const initPages = function() {
 
 	backbuttonavatar.addEventListener('click', function() {
 		avatars.forEach(element => {
+			
 			element.style.filter = '';
 		});
 
@@ -588,6 +610,29 @@ const initPages = function() {
 		pr = false;
 		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
 		btnStart.style.display = 'none';
+	});
+
+	x = document.querySelectorAll('.c-button');
+	x.forEach(y => 
+		{
+			y.addEventListener('click', function() 
+			{
+				clickSound.play();
+			});
+		});
+
+	x = document.querySelectorAll('.swal2-styled');
+	x.forEach(y => {
+		y.addEventListener('click', function () {
+			clickSound.play();
+		});
+	});
+
+	x = document.querySelectorAll('.c-mode-preview');
+	x.forEach(y => {
+		y.addEventListener('click', function () {
+			clickSound.play();
+		});
 	});
 };
 
