@@ -27,7 +27,7 @@ var gameWonSound = new sound('sounds/mp3/win.mp3');
 var bounceSound = new sound('sounds/bounce.mp3');
 var threeTwoSound = new sound('sounds/mp3/threeTwoOne.mp3');
 var clickSound = new sound('sounds/mp3/click.mp3');
-var playSound = new sound('sounds/wav/play.wav')
+var playSound = new sound('sounds/wav/play.wav');
 
 //debug variables
 let bounceY = false;
@@ -332,25 +332,22 @@ function resetPaddles() {
 	com.y = canvas.height / 2 - 190 / 2;
 }
 
-function doHighscores()
-{
-	highscoresGameScreen = document.querySelector(".js-gameHighscores");
-	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none')
-	{
-		console.log("showing highscores");
+function doHighscores() {
+	highscoresGameScreen = document.querySelector('.js-gameHighscores');
+	if (highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none') {
+		console.log('showing highscores');
 		highscoresGameScreen.style.display = 'block';
 		verwerkHighScoresWithNewRecord(user.score);
 	}
-	GameMode = "ai";
+	GameMode = 'ai';
 }
 
 function pauseOn() {
 	gameOverScreen = document.querySelector('.js-gameOver');
-	highscoresGameScreen = document.querySelector(".js-gameHighscores");
-	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
-		if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
-			if (gameLoop != null && timerLoop == false) 
-			{
+	highscoresGameScreen = document.querySelector('.js-gameHighscores');
+	if (highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none') {
+		if (gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none') {
+			if (gameLoop != null && timerLoop == false) {
 				console.log('paused');
 				gamePausedScreen = document.querySelector('.js-gamePaused');
 				gamePausedScreen.style.display = 'block';
@@ -969,8 +966,7 @@ function drawPrediction() {
 	}
 }
 
-function sound(src) 
-{
+function sound(src) {
 	this.sound = document.createElement('audio');
 	this.sound.src = src;
 	this.sound.setAttribute('preload', 'auto');
@@ -983,11 +979,10 @@ function sound(src)
 	this.stop = function() {
 		this.sound.pause();
 	};
-	this.volume = function(v) 
-	{
-		this.sound.volume = v;	
+	this.volume = function(v) {
+		this.sound.volume = v;
 	};
-};
+}
 
 function setTimer() {
 	doAnime();
@@ -995,7 +990,7 @@ function setTimer() {
 }
 
 function doInfo() {
-	console.log("do info anime");
+	console.log('do info anime');
 	var textWrapper = document.querySelector('.ml7 .letters');
 	textWrapper.innerHTML = 'De eerste met 11 punten wint!';
 	if (GameMode == 'wall') {
@@ -1047,8 +1042,7 @@ function doInfo() {
 	}
 }
 
-function doAnime() 
-{
+function doAnime() {
 	console.log(' 3 2 1 ');
 	timerLoop = true;
 	threeTwoSound.play();
@@ -1120,10 +1114,8 @@ function render() {
 	drawPrediction();
 }
 
-function game() 
-{
-	if (animation.completed) 
-	{
+function game() {
+	if (animation.completed) {
 		timerLoop = false;
 		update();
 		render();
@@ -1184,6 +1176,9 @@ function startGame(state, mode_p) {
 		bounceX = false;
 		bounceY = false;
 		if (state) {
+			/* document.querySelector('.js-restmode').style.display = 'block';
+			calmDown();
+			console.log(heartRateRight + ', ' + heartRateLeft); */
 			gameStartSound.play();
 			animeState = false;
 			infoScreen = document.querySelector('.js-info');
@@ -1196,8 +1191,4 @@ function startGame(state, mode_p) {
 			resetBall();
 		}
 	}
-	/* document.querySelector('.js-restmode').style.display = 'block';
-			calmDown(); */
-	console.log(heartRateRight + ', ' + heartRateLeft);
-	document.querySelector('.js-info').style.display = 'block';
 }
