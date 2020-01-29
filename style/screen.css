@@ -291,18 +291,15 @@ p {
 	background-image: url(/img/modes/single.jpg);
 }
 .js-mode-single:hover,
-.js-mode-single.isSelected
-{
+.js-mode-single.isSelected {
 	background-image: url(/img/gif/single.gif);
 }
 
-.js-mode-multi 
-{
+.js-mode-multi {
 	background-image: url(/img/modes/multi.jpg);
 }
 .js-mode-multi:hover,
-.js-mode-multi.isSelected
-{
+.js-mode-multi.isSelected {
 	background-image: url(/img/gif/multi.gif);
 }
 
@@ -310,8 +307,7 @@ p {
 	background-image: url(/img/modes/wall.jpg);
 }
 .js-mode-wall:hover,
-.js-mode-wall.isSelected
-{
+.js-mode-wall.isSelected {
 	background-image: url(/img/gif/wall.gif);
 }
 
@@ -485,6 +481,19 @@ p {
 	}
 }
 
+/* winner avatar */
+
+.c-winner > img {
+	width: 128px;
+}
+
+.c-winner-crown {
+	transform: translateX(-64px);
+}
+.c-winner-avatar {
+	transform: translateX(64px) translateY(70px);
+}
+
 /* loading icons */
 
 .lds-dual-ring {
@@ -552,7 +561,7 @@ p {
 	margin-right: 30px;
 	font-weight: 900;
 	font-size: 6em;
-	transform:translateY(-5vh);
+	transform: translateY(-5vh);
 }
 .ml4 .letters {
 	position: absolute;
@@ -681,6 +690,9 @@ p {
 
 .u-hide {
 	display: none;
+}
+.u-show {
+	display: block;
 }
 
 /* Column Span */
