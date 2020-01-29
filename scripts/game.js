@@ -13,6 +13,7 @@ let gameOverScore = null;
 let gamePausedScreen = null;
 let highscoresGameScreen = null;
 let countDownScreen = null;
+let calmDownLetter;
 let infoScreen = null;
 let btnAgain = null;
 let btnMain = null;
@@ -597,6 +598,14 @@ function update() {
 		lastPaddleHit.x = 15;
 		GameMode = 'ai';
 		wall.score = 0;
+		if (btnAgain == null) {
+			btnAgain = document.querySelector('.js-btn-again');
+			btnAgain.addEventListener('click', clickRestart);
+		}
+		if (btnMain == null) {
+			btnMain = document.querySelector('.js-btn-mainPage');
+			btnMain.addEventListener('click', clickMain);
+		}
 	}
 
 	// change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
@@ -990,6 +999,42 @@ function sound(src)
 	}
 };
 
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+function calmDown() {
+	render();
+	console.log('call calm down');
+	//if (playerOneConnected == true && playerTwoConnected == true) {
+		counter = 15;
+		console.log('call down counter made');
+
+		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
+			console.log('counter');
+			document.querySelector('.js-heartrate-counter').innerHTML = `${counter}`;
+			counter--;
+			//sleep(500);
+		}
+
+		console.log('stop counter');
+		document.querySelector('.js-restmode').style.display = 'none';
+	//}
+}
+
 function setTimer() {
 	doAnime();
 	console.log('anime');
@@ -1182,16 +1227,17 @@ function startGame(state, mode_p) {
 		bounceX = false;
 		bounceY = false;
 		if (state) {
-			/* document.querySelector('.js-restmode').style.display = 'block';
-			calmDown();
-			console.log(heartRateRight + ', ' + heartRateLeft); */
+			calmDownLetter = document.querySelector('.js-calmLetters');
+			//document.querySelector('.js-restmode').style.display = 'block';
+			//calmDown();
+			console.log(heartRateRight + ', ' + heartRateLeft);
 			gameStartSound.play();
 			animeState = false;
 			infoScreen = document.querySelector('.js-info');
 			infoScreen.style.display = 'block';
+			render();
 			doInfo();
 			animeLoop = setInterval(loopAnime, 1000 / framePerSecond);
-			render();
 		} else {
 			gameState = false;
 			resetBall();

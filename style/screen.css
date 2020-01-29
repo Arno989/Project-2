@@ -397,6 +397,16 @@ p {
 	padding: 12px;
 }
 
+.c-scoreboard > tbody > tr > td > input[type=text]{
+	font-size: var(--font-size-text);
+	font-family: var(--global-font);
+	text-align: center;
+	padding: 7px;
+	border: 1px solid var(--color-blue-light);
+	border-radius: 50px;
+	margin: 5px;
+}
+
 /* buttons */
 
 .c-button,

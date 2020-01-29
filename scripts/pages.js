@@ -66,7 +66,7 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
 			</td>
 			<td>
-				<input type="text" class="js-name"/>
+				<input class="c-scoreboard-input js-name" type="text"/>
 			</td>
 			<td>
 				<p class="u-margin-reset">${user.score}</p>
@@ -520,25 +520,6 @@ function sleep(milliseconds) {
 	do {
 		currentDate = Date.now();
 	} while (currentDate - date < milliseconds);
-}
-
-function calmDown() {
-	render();
-	console.log('call calm down');
-	if (playerOneConnected == true && playerTwoConnected == true) {
-		counter = 15;
-		console.log('call down counter made');
-
-		while ((heartRateLeft < !50 && heartRateRight < !50) || counter > 0) {
-			console.log('counter');
-			document.querySelector('.js-heartrate-counter').innerHTML = `${counter}`;
-			counter--;
-			sleep(500);
-		}
-
-		console.log('stop counter');
-		document.querySelector('.js-restmode').style.display = 'none';
-	}
 }
 
 // Initialize
