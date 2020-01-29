@@ -265,6 +265,8 @@ function clickMain() {
 	com.score = 0;
 	comLeft.score = 0;
 	wall.score = 0;
+	wall.x = canvas.width - 35;
+	wall.y = 0;
 	gotoPos('left', 300);
 	resetBall();
 	resetPaddles();
