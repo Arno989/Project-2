@@ -343,9 +343,7 @@ function doHighscores(){
 
 function pauseOn() {
 	gameOverScreen = document.querySelector('.js-gameOver');
-	console.log(gameOverScreen.style.display);
-	console.log(gameLoop);
-	console.log(timerLoop);
+	highscoresGameScreen = document.querySelector(".js-gameHighscores");
 	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
 		if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
 			if (gameLoop != null && timerLoop == false) 
