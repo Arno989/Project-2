@@ -403,10 +403,10 @@ const initPages = function() {
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
 
-						document.querySelector('.js-heart-r').style.display = 'block';
-						document.querySelector('.js-heart-l').style.display = 'block';
-						document.querySelector('.js-heart-r-img').style.display = 'block';
-						document.querySelector('.js-heart-l-img').style.display = 'block';
+						document.querySelector('.js-heart-r').style.display = 'none';
+						document.querySelector('.js-heart-l').style.display = 'none';
+						document.querySelector('.js-heart-r-img').style.display = 'none';
+						document.querySelector('.js-heart-l-img').style.display = 'none';
 					}
 					break;
 				case 'multi':
