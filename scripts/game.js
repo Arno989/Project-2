@@ -336,9 +336,11 @@ function resetPaddles() {
 function doHighscores()
 {
 	highscoresGameScreen = document.querySelector(".js-gameHighscores");
-	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
+	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none')
+	{
 		console.log("showing highscores");
 		highscoresGameScreen.style.display = 'block';
+		verwerkHighScoresWithNewRecord(user.score);
 	}
 	GameMode = "ai";
 }
