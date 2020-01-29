@@ -1001,6 +1001,17 @@ function sound(src)
 			return(true);
 		}
 	}
+	this.loop = function() 
+	{
+		if(this.sound.loop)
+		{
+			this.sound.loop = false;
+		}	
+		else
+		{
+			this.sound.loop = true;
+		}
+	};
 };
 
 function startTimer(duration, display) {
@@ -1177,7 +1188,8 @@ function game() {
 		update();
 		render();
 		playSound.play();
-		playSound.volume(1);
+		playSound.loop();
+		playSound.volume(0.8);
 	}
 }
 
