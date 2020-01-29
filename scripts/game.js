@@ -48,7 +48,6 @@ var chosenVelocity = 4.5;
 var increasementSpeed = 0.1;
 var increasementSpeedByUser = 0.03;
 var pointsToWin = 3;
-var countDownFrom = 3;
 
 // game variables, you should not change these
 var chosenGameMode = "single"; //when you have chosen a gamemode, then set that game mode to chosenGameMode and GameMode, because GameMode can change during the game and we have to
@@ -521,7 +520,7 @@ function update() {
   // game has ended
   // show game over menu and set the score board on the menu
   if(GameMode != "wall"){
-    if (user.score == pointsToWin || user2.score == pointsToWin || com.score == pointsToWin) {
+    if (user.score >= pointsToWin || user2.score >= pointsToWin || com.score >= pointsToWin) {
       gameOverScore = document.querySelector(".js-menu-score");
       gameOverScreen = document.querySelector(".js-gameOver");
       if (GameMode == "multi") {
@@ -582,7 +581,7 @@ function update() {
   } else if (ball.x - ball.radius < 0 && GameMode == "multi") {
     if(playerDouble == "right"){
       user2.score += 2;
-    }else{
+    }else if (playerDouble == "none" || playerDouble == "left") {
       user2.score++;
     }
     resetBall();
