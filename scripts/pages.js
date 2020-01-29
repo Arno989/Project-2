@@ -515,6 +515,13 @@ const initPages = function() {
 				clickSound.play();
 			});
 		});
+		lastavatar = '';
+
+		avatarl.src = selectedAvatarl.src;
+		/* selectedAvatarr ? avatarr.src = selectedAvatarr.src :''; */
+
+		selectedAvatarl = '';
+		selectedAvatarr = '';
 
 		pl = false;
 		pr = false;
@@ -573,10 +580,12 @@ const initPages = function() {
 			switch (gamemode) {
 				case 'single':
 					if (pl != true) {
+						lastavatar ? (lastavatar.style.filter = '') : '';
 						element.style.filter = 'opacity(.5)';
-						avatarl.src = getAvatar(element.id);
+						lastavatar = element;
+
+						selectedAvatarl = element;
 						avatarr.src = './img/Avatars/Robot.png';
-						pl = true;
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
 
@@ -619,16 +628,18 @@ const initPages = function() {
 					break;
 				case 'wall':
 					if (pl != true) {
+						lastavatar ? (lastavatar.style.filter = '') : '';
 						element.style.filter = 'opacity(.5)';
-						avatarl.src = getAvatar(element.id);
+						lastavatar = element;
+
+						selectedAvatarl = element;
 						avatarr.src = './img/Avatars/Bricks.png';
 
 						document.querySelector('.js-heart-r').style.display = 'none';
 						document.querySelector('.js-heart-l').style.display = 'none';
 						document.querySelector('.js-heart-r-img').style.display = 'none';
 						document.querySelector('.js-heart-l-img').style.display = 'none';
-
-						pl = true;
+						
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
 					}
@@ -719,6 +730,7 @@ const initPages = function() {
 		pl = false;
 		pr = false;
 		selectedAvatarl = '';
+		selectedAvatarr = '';
 		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
 		document.querySelector('.js-btn-back-avatar').style.display = 'none';
 		btnStart.style.display = 'none';
