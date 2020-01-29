@@ -27,9 +27,7 @@ let index,
 
 const verwerkHighScoresWithNewRecord3 = function(data) 
 {
-	console.log(user.score);
-	console.log(plaatsInScoreBoard);
-	console.log(data);
+	console.log("lengte van data: " + data.length);
 
 	let d = `
 	<tr>
@@ -43,8 +41,58 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 			<p>Score</p>
 		</th>
 	</tr>`;
-	data.forEach(function (element, i) {
-		d += `
+
+	if(data.length > plaatsInScoreBoard)
+	{
+		for(let i = 0; i < plaatsInScoreBoard-1; i++)
+		{
+			d += `
+		<tr>
+			<td>
+				<p class="u-margin-reset">${i + 1}</p>
+			</td>
+			<td>
+				<p class="u-margin-reset">${data[i].naam}</p>
+			</td>
+			<td>
+				<p class="u-margin-reset">${data[i].score}</p>
+			</td>
+		</tr>`;
+			}
+			d +=
+				`
+		<tr>
+			<td>
+				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
+			</td>
+			<td>
+				<input type="text"/>
+			</td>
+			<td>
+				<p class="u-margin-reset">${user.score}</p>
+			</td>
+		</tr>
+		`;
+		for(let i = plaatsInScoreBoard-1; i < data.length; i++)
+		{
+			d += `
+		<tr>
+			<td>
+				<p class="u-margin-reset">${i + 2}</p>
+			</td>
+			<td>
+				<p class="u-margin-reset">${data[i].naam}</p>
+			</td>
+			<td>
+				<p class="u-margin-reset">${data[i].score}</p>
+			</td>
+		</tr>`;
+		}
+	}
+	else
+	{
+		data.forEach(function (element, i) {
+			d += `
 		<tr>
 			<td>
 				<p class="u-margin-reset">${i + 1}</p>
@@ -56,9 +104,24 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 				<p class="u-margin-reset">${element.score}</p>
 			</td>
 		</tr>`;
-	});
-	document.querySelector('.js-loading-score').style.display = 'none';
-	document.querySelector('.c-scoreboard').style.display = 'table';
+		});
+		d += 
+		`
+		<tr>
+			<td>
+				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
+			</td>
+			<td>
+				<input type="text"/>
+			</td>
+			<td>
+				<p class="u-margin-reset">${user.score}</p>
+			</td>
+		</tr>
+		`;
+	}
+	document.querySelectorAll('.js-loading-score')[1].style.display = 'none';
+	document.querySelectorAll('.c-scoreboard')[1].style.display = 'table';
 	document.querySelectorAll('.js-scoreboard')[1].innerHTML = d;
 };
 
