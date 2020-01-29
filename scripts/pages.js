@@ -127,32 +127,44 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	tbName.focus();
 	document.querySelector('.js-btn-annuleren').addEventListener('click', function() 
 	{
+		highscoresGameScreen.style.display = 'none';
 		document.querySelector('.js-gameOver').style.display = "block";
 	});
 	document.querySelector('.js-btn-save').addEventListener('click', function() 
 	{
-		x = `{'score': ${user.score},'naam': '${tbName.value}','mode': 0}`;
-		try 
+		if(tbName.value)
 		{
-			handleData('https://project2function.azurewebsites.net/api/highscore', callbackPost, methode = "POST", body = x);
+			x = `{'score': ${user.score},'naam': '${tbName.value}','mode': 0}`;
+			try {
+				handleData('https://project2function.azurewebsites.net/api/highscore', callbackPost, methode = "POST", body = x);
+				Swal.fire({
+					title: '<strong>Succesvol opgeslaan</strong>',
+					imageUrl: './img/svg/vink.svg',
+					showCloseButton: true,
+					focusConfirm: false,
+					confirmButtonText: 'Super!',
+					confirmButtonAriaLabel: 'Super!'
+				});
+			} catch (error) {
+				Swal.fire({
+					title: '<strong>Fout bij opslaan</strong>',
+					imageUrl: './img/svg/vink.svg',
+					showCloseButton: true,
+					focusConfirm: false,
+					confirmButtonText: 'Verder',
+					confirmButtonAriaLabel: 'Verder'
+				});
+			}
+		}
+		else
+		{
 			Swal.fire({
-				title: '<strong>Succesvol opgeslaan</strong>',
-				imageUrl: './img/svg/vink.svg',
+				title: '<strong>Vul je naam in om te kunnen opslaan</strong>',
+				imageUrl: './img/svg/alert.svg',
 				showCloseButton: true,
 				focusConfirm: false,
-				confirmButtonText: 'Super!',
-				confirmButtonAriaLabel: 'Super!'
-			});
-		} 
-		catch (error) 
-		{
-			Swal.fire({
-				title: '<strong>Fout bij opslaan</strong>',
-				imageUrl: './img/svg/vink.svg',
-				showCloseButton: true,
-				focusConfirm: false,
-				confirmButtonText: 'Verder',
-				confirmButtonAriaLabel: 'Verder'
+				confirmButtonText: 'Ok',
+				confirmButtonAriaLabel: 'Ok'
 			});
 		}
 		highscoresGameScreen.style.display = 'none';
