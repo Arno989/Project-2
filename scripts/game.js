@@ -646,8 +646,10 @@ function update() {
 		console.log('links user scoort');
 		console.log(playerDouble);
 		if (playerDouble == 'left') {
+			lastPaddleHit.x = canvas.width - 35;
 			user.score += 2;
 		} else if (playerDouble == 'right' || playerDouble == 'none') {
+			lastPaddleHit.x = canvas.width - 35;
 			user.score++;
 		}
 		resetBall();
