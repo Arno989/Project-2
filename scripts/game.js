@@ -19,10 +19,10 @@ let btnResume = null;
 let btnMainPause = null;
 
 //sound
-var scoreSound = new sound("sounds/daddy.mp3");
-var scoreAgainstSound = new sound("sounds/oof.mp3");
-var gameStartSound = new sound("sounds/tadah.mp3");
-var gameWonSound = new sound("sounds/kids.mp3");
+var scoreSound = new sound("sounds/mp3/score.mp3");
+var scoreAgainstSound = new sound("sounds/mp3/lose.mp3");
+var gameStartSound = new sound("sounds/mp3/start.mp3");
+var gameWonSound = new sound("sounds/mp3/win.mp3");
 var bounceSound = new sound("sounds/bounce.mp3");
 
 //debug variables

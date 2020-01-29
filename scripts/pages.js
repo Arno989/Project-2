@@ -18,7 +18,7 @@ let index,
 	pr = false,
 	heartRateLeft = 0,
 	heartRateRight = 0,
-	playerDouble;
+	playerDouble = "none";
 
 //callbacks na data ophalen
 const verwerkHighScores = function(data) {
