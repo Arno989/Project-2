@@ -333,7 +333,8 @@ function resetPaddles() {
 	com.y = canvas.height / 2 - 190 / 2;
 }
 
-function doHighscores(){
+function doHighscores()
+{
 	highscoresGameScreen = document.querySelector(".js-gameHighscores");
 	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
 		console.log("showing highscores");
