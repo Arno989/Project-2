@@ -1217,6 +1217,7 @@ const resize = () => {
 
 function startGame(state, mode_p) {
 	console.log('start game');
+	//user.score = 10;
 	gameLoop = null;
 	clearInterval(gameLoop);
 	console.log(gameLoop);
