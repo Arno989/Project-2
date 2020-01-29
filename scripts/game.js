@@ -19,13 +19,13 @@ let btnResume = null;
 let btnMainPause = null;
 
 //sound
-var scoreSound = new sound("sounds/mp3/score.mp3");
-var scoreAgainstSound = new sound("sounds/mp3/lose.mp3");
-var gameStartSound = new sound("sounds/mp3/start.mp3");
-var gameWonSound = new sound("sounds/mp3/win.mp3");
-var bounceSound = new sound("sounds/bounce.mp3");
-var threeTwoSound = new sound("sounds/mp3/threeTwoOne.mp3");
-var clickSound = new sound("sounds/mp3/click.mp3");
+var scoreSound = new sound('sounds/mp3/score.mp3');
+var scoreAgainstSound = new sound('sounds/mp3/lose.mp3');
+var gameStartSound = new sound('sounds/mp3/start.mp3');
+var gameWonSound = new sound('sounds/mp3/win.mp3');
+var bounceSound = new sound('sounds/bounce.mp3');
+var threeTwoSound = new sound('sounds/mp3/threeTwoOne.mp3');
+var clickSound = new sound('sounds/mp3/click.mp3');
 
 //debug variables
 let bounceY = false;
@@ -256,22 +256,24 @@ function clickMainPaused() {
 }
 
 function clickMain() {
-  user.score = 0;
-  user2.score = 0;
-  com.score = 0;
-  comLeft.score = 0;
-  wall.score = 0;
-  gotoPos("left", 300);
-  resetBall();
-  resetPaddles();
-  resetGameMode();
-  clearInterval(gameLoop);
-  gameOverScreen.style.display = 'none';
-  gamePausedScreen.style.display = 'none';
-  gameState = false;
+	document.querySelector('.js-winner').style.display = 'block';
+	user.score = 0;
+	user2.score = 0;
+	com.score = 0;
+	comLeft.score = 0;
+	wall.score = 0;
+	gotoPos('left', 300);
+	resetBall();
+	resetPaddles();
+	resetGameMode();
+	clearInterval(gameLoop);
+	gameOverScreen.style.display = 'none';
+	gamePausedScreen.style.display = 'none';
+	gameState = false;
 }
 
 function clickRestart() {
+	document.querySelector('.js-winner').style.display = 'block';
 	gameOverScreen = document.querySelector('.js-gameOver');
 	resetBall();
 	resetPaddles();
@@ -544,11 +546,15 @@ function update() {
 				gameOverScore.innerText = 'Gewonnen!';
 				gameWonSound.play();
 				GameMode = 'ai';
+				document.querySelector('.c-winner').style.display = 'block';
+				document.querySelector('.js-winner-avatar').src = user.score > user2.score ? document.querySelector('.js-avatar-l').src : document.querySelector('.js-avatar-r').src;
 			} else if (GameMode == 'single') {
 				if (com.score > user.score) {
 					gameOverScore.innerText = 'verloren!';
 				} else {
 					gameOverScore.innerText = 'Gewonnen!';
+					document.querySelector('.c-winner').style.display = 'block';
+					document.querySelector('.js-winner-avatar').src = document.querySelector('.js-avatar-l').src;
 					gameWonSound.play();
 				}
 				gameOverScreen.style.display = 'block';
@@ -1162,11 +1168,11 @@ function render() {
 }
 
 function game() {
-  if(animation.completed){
-    timerLoop = false;
-    update();
-    render();
-  }
+	if (animation.completed) {
+		timerLoop = false;
+		update();
+		render();
+	}
 }
 
 function loopAnime() {
@@ -1210,29 +1216,29 @@ const resize = () => {
 };
 
 function startGame(state, mode_p) {
-  console.log("start game");
-  clearInterval(gameLoop);
-  if (gameLoop == null || mode_p == "ai") {
-    chosenGameMode = mode_p;
-    GameMode = mode_p;
-    lastPaddleHit = user;
-    bounceX = false;
-    bounceY = false;
-    if (state) {
-      gameStartSound.play();
-      animeState = false;
-      infoScreen = document.querySelector(".js-info");
-      infoScreen.style.display = "block";
-      doInfo();
-      animeLoop = setInterval(loopAnime, 1000 / framePerSecond);
-      render();
-    } else {
-      gameState = false;
-      resetBall();
-    }
-  }
-			/* document.querySelector('.js-restmode').style.display = 'block';
+	console.log('start game');
+	clearInterval(gameLoop);
+	if (gameLoop == null || mode_p == 'ai') {
+		chosenGameMode = mode_p;
+		GameMode = mode_p;
+		lastPaddleHit = user;
+		bounceX = false;
+		bounceY = false;
+		if (state) {
+			gameStartSound.play();
+			animeState = false;
+			infoScreen = document.querySelector('.js-info');
+			infoScreen.style.display = 'block';
+			doInfo();
+			animeLoop = setInterval(loopAnime, 1000 / framePerSecond);
+			render();
+		} else {
+			gameState = false;
+			resetBall();
+		}
+	}
+	/* document.querySelector('.js-restmode').style.display = 'block';
 			calmDown(); */
-			console.log(heartRateRight + ', ' + heartRateLeft);
-			document.querySelector('.js-info').style.display = 'block';
+	console.log(heartRateRight + ', ' + heartRateLeft);
+	document.querySelector('.js-info').style.display = 'block';
 }
