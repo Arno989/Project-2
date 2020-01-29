@@ -294,7 +294,6 @@ function clickRestart() {
 }
 
 function comAI(playerHit) {
-	console.log(playerHit.x);
 	if (playerHit.x == 15) {
 		movePaddleTo(com, ball.y, 'ai');
 	} else if (com.y > canvas.height / 2 && playerHit.x == canvas.width - 35) {
@@ -333,11 +332,14 @@ function resetPaddles() {
 	com.y = canvas.height / 2 - 190 / 2;
 }
 
-function doHighscores(){
+function doHighscores()
+{
 	highscoresGameScreen = document.querySelector(".js-gameHighscores");
-	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
+	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none')
+	{
 		console.log("showing highscores");
 		highscoresGameScreen.style.display = 'block';
+		verwerkHighScoresWithNewRecord(user.score);
 	}
 	GameMode = "ai";
 }
@@ -366,7 +368,6 @@ function pauseOn() {
 
 function startMovingBall(direction) {
 	// start moving the ball in the chosen direction and sets the speed and velocity to standard.
-	console.log(chosenVelocity + ' start ball');
 	ball.speed = increasementSpeed;
 	ball.velocityY = chosenVelocity;
 	ball.velocityX = chosenVelocity;
@@ -468,7 +469,6 @@ function calcuatePredictionHit(direction) {
 // update function, the function that does most of the calculations
 function update() {
 	gameState = true;
-	console.log(chosenVelocity);
 
 	// the ball has a velocity
 	ball.x += ball.velocityX;
