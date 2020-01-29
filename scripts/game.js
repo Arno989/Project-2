@@ -268,6 +268,7 @@ function clickMain() {
 	resetBall();
 	resetPaddles();
 	resetGameMode();
+	playSound.stop();
 	clearInterval(gameLoop);
 	gameOverScreen.style.display = 'none';
 	gamePausedScreen.style.display = 'none';
