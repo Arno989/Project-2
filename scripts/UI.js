@@ -16,6 +16,12 @@ const gotoSavedPos = () => {
 			cancelButtonText: 'Zonder hartslagmeter verdergaan',
 			cancelButtonAriaLabel: 'Zonder hartslagmeter verdergaan'
 		})
+			.then((result) => {
+				if (result.value) 
+				{
+					gotoPos("left", 100);
+				}
+			})
 	}
 
 	if (position != 0 && position != null) {

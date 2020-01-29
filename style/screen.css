@@ -401,7 +401,7 @@ p {
 .swal2-confirm 
 {
 	background-color: var(--topbar-color);
-	color: var(--color-brown);
+	color: var(--color-brown) !important;
 	font-size: var(--font-size-button);
 	text-align: center !important;
 	margin: 16px !important;
@@ -416,13 +416,11 @@ p {
 
 .swal2-confirm
 {
-	background-color: var(--color-blue) !important;
-	color: var(--color-blue-light);
+	background-color: var(--color-blue-light) !important;
 }
 
 .swal2-cancel {
 	background-color: var(--color-pink) !important;
-	color: var(--color-pink-light);
 }
 
 .c-button:hover,
