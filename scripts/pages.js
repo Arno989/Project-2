@@ -404,7 +404,7 @@ const setbetweenConnections = function() {
 	betweenConnections = true;
 	document.querySelector('.js-tekenConnectie').src = '/img/svg/kruis.svg';
 	document.querySelector('.js-btn-connect-player').innerHTML = 'Verbind speler 2';
-	document.querySelector('.js-polar-instructions').src = './img/Hartslagmeter2.svg';
+	document.querySelector('.js-polar-instructions').src = './img/Hartslagmeter2.png';
 	document.querySelector('.js-hartslag-title').innerHTML = 'Hartslagmeter 2';
 
 	/* document.querySelector('.js-bar-three').style.width = (100 / 6) * 5 + '%'; */
