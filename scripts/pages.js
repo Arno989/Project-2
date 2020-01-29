@@ -718,6 +718,7 @@ const initPages = function() {
 		avatarr.src = '';
 		pl = false;
 		pr = false;
+		selectedAvatarl = '';
 		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
 		document.querySelector('.js-btn-back-avatar').style.display = 'none';
 		btnStart.style.display = 'none';
