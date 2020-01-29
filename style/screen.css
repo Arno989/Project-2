@@ -373,6 +373,10 @@ p {
 	border-spacing: 0;
 }
 
+.c-highscore-title{
+	color:var(--color-yellow)
+}
+
 .c-scoreboard > tbody > tr > th {
 	border-bottom: 1px solid var(--color-blue-light);
 }
