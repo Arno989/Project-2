@@ -17,7 +17,8 @@ let index,
 	pl = false,
 	pr = false,
 	heartRateLeft = 0,
-	heartRateRight = 0;
+	heartRateRight = 0,
+	playerDouble;
 
 //callbacks na data ophalen
 const verwerkHighScores = function(data) {
@@ -110,6 +111,7 @@ const connectDevice = function(device, server, service, y) {
 							document.querySelector('.js-heart-l-img').style.animationDuration = speed;
 							document.querySelector('.js-heart-l').style.animationDuration = speed;
 							countHeartRate1 = 0;
+							heartRateLeft = parseHeartRate(d.value).heartRate;
 						}
 					} else {
 						countHeartRate2 += 1;
@@ -120,6 +122,7 @@ const connectDevice = function(device, server, service, y) {
 							document.querySelector('.js-heart-r-img').style.animationDuration = speed;
 							document.querySelector('.js-heart-r').style.animationDuration = speed;
 							countHeartRate2 = 0;
+							heartRateRight = parseHeartRate(d.value).heartRate;
 						}
 					}
 					if (gamemode == "multi") 
@@ -127,19 +130,22 @@ const connectDevice = function(device, server, service, y) {
 						console.log("we vliegen erin");
 						if (playerOneConnected && playerTwoConnected) 
 						{
-							if (heartRateLeft < heartRateRight) 
+							if (heartRateLeft > heartRateRight) 
 							{
 								document.querySelector('.js-flame-l').style.display = "block";
 								document.querySelector('.js-flame-r').style.display = "none";
+								playerDouble = "left";
 							}
-							else if (heartRateLeft = heartRateRight) {
+							else if (heartRateLeft === heartRateRight) {
 								document.querySelector('.js-flame-l').style.display = "none";
 								document.querySelector('.js-flame-r').style.display = "none";
+								playerDouble = "none";
 							}
 							else
 							{
 								document.querySelector('.js-flame-l').style.display = "none";
 								document.querySelector('.js-flame-r').style.display = "block";
+								playerDouble = "right";
 							}
 						}
 					}
