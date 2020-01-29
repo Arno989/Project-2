@@ -98,8 +98,7 @@ const connectDevice = function(device, server, service, y) {
 			if (server === 'heart_rate') {
 				d.addEventListener('characteristicvaluechanged', function() {
 					//hier hebben we de hartslag
-					if (y === 1) 
-					{
+					if (y === 1) {
 						countHeartRate1 += 1;
 						//console.log('hartslag 1: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-l').innerHTML = parseHeartRate(d.value).heartRate;
@@ -109,9 +108,7 @@ const connectDevice = function(device, server, service, y) {
 							document.querySelector('.js-heart-l').style.animationDuration = speed;
 							countHeartRate1 = 0;
 						}
-					} 
-					else 
-					{
+					} else {
 						countHeartRate2 += 1;
 						//console.log('hartslag 2: ' + parseHeartRate(d.value).heartRate);
 						document.querySelector('.js-heart-r').innerHTML = parseHeartRate(d.value).heartRate;
@@ -323,13 +320,13 @@ const getAvatar = function(name) {
 	}
 };
 
-function resetGameMode(){
-	gamemode = "null";
+function resetGameMode() {
+	gamemode = 'null';
 
 	modeChoiceSingle.style.border = '10px solid #FFFFFF';
 	modeChoiceMulti.style.border = '10px solid #FFFFFF';
 	modeChoiceWall.style.border = '10px solid #FFFFFF';
-	
+
 	avatarl.src = '';
 	avatarr.src = '';
 	pl = false;
@@ -372,6 +369,14 @@ const initPages = function() {
 	});
 	btnStart.addEventListener('click', function() {
 		startGame(true, gamemode);
+		avatars.forEach(element => {
+			element.style.filter = '';
+		});
+
+		pl = false;
+		pr = false;
+		avatartitle.innerHTML = 'Speler 1, kies je avatar.';
+		btnStart.style.display = 'none';
 	});
 	btnHighscores.addEventListener('click', function() {
 		setHighScore();
