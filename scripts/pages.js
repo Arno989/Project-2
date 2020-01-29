@@ -67,11 +67,8 @@ const bluetooth = function(y) {
 			]
 		})
 		.then(device => {
-			bluetoothDevice.addEventListener('gattserverdisconnected', function() 
-			{
-				
-					connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
-					
+			bluetoothDevice.addEventListener('gattserverdisconnected', function() {
+				connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
 			});
 			connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
 		})
@@ -149,9 +146,7 @@ const connectDevice = function(device, server, service, y) {
 					}
 				});
 				connectDevice(device, 'battery_service', 'battery_level', y);
-			} 
-			else if (server === 'battery_service') 
-			{
+			} else if (server === 'battery_service') {
 				d.readValue()
 					.then(e => {
 						if (y === 1) {
@@ -215,8 +210,7 @@ const connectDevice = function(device, server, service, y) {
 							document.querySelector('.js-btn-connect-player').innerHTML = 'Verbind opnieuw';
 						});
 				});
-				d.addEventListener('', function() 
-				{
+				d.addEventListener('', function() {
 					console.log(device);
 				});
 			}
@@ -433,12 +427,10 @@ const initPages = function() {
 	btnStart.addEventListener('click', function() {
 		console.log(gamemode);
 		startGame(true, gamemode);
-		avatars.forEach(element => 
-			{
+		avatars.forEach(element => {
 			element.style.filter = '';
-			element.addEventListener('click', function() 
-			{
-				console.log("mimimi");
+			element.addEventListener('click', function() {
+				console.log('mimimi');
 				clickSound.play();
 			});
 		});
@@ -469,8 +461,7 @@ const initPages = function() {
 	});
 
 	avatars.forEach(element => {
-		element.addEventListener('click', function() 
-		{
+		element.addEventListener('click', function() {
 			clickSound.play();
 			switch (gamemode) {
 				case 'single':
@@ -501,6 +492,10 @@ const initPages = function() {
 						avatartitle.innerHTML = 'Klik op verder om te spelen.';
 						btnStart.style.display = 'block';
 
+						document.querySelector('.js-heart-r').style.display = 'none';
+						document.querySelector('.js-heart-l').style.display = 'none';
+						document.querySelector('.js-heart-r-img').style.display = 'none';
+						document.querySelector('.js-heart-l-img').style.display = 'none';
 						if (playerOneConnected == true && playerTwoConnected == true) {
 							document.querySelector('.js-heart-r').style.display = 'block';
 							document.querySelector('.js-heart-l').style.display = 'block';
@@ -600,7 +595,6 @@ const initPages = function() {
 
 	backbuttonavatar.addEventListener('click', function() {
 		avatars.forEach(element => {
-			
 			element.style.filter = '';
 		});
 
@@ -613,24 +607,22 @@ const initPages = function() {
 	});
 
 	x = document.querySelectorAll('.c-button');
-	x.forEach(y => 
-		{
-			y.addEventListener('click', function() 
-			{
-				clickSound.play();
-			});
+	x.forEach(y => {
+		y.addEventListener('click', function() {
+			clickSound.play();
 		});
+	});
 
 	x = document.querySelectorAll('.swal2-styled');
 	x.forEach(y => {
-		y.addEventListener('click', function () {
+		y.addEventListener('click', function() {
 			clickSound.play();
 		});
 	});
 
 	x = document.querySelectorAll('.c-mode-preview');
 	x.forEach(y => {
-		y.addEventListener('click', function () {
+		y.addEventListener('click', function() {
 			clickSound.play();
 		});
 	});
