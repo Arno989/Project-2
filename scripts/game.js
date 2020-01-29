@@ -968,6 +968,7 @@ function drawPrediction() {
 		}
 	}
 }
+
 function sound(src) 
 {
 	this.sound = document.createElement('audio');
@@ -986,12 +987,6 @@ function sound(src)
 	{
 		this.sound.volume = v;	
 	};
-	this.finished = function(){
-		if(this.sound?currentTime == sound.duration){
-			console.log("audio finished")
-			return(true);
-		}
-	}
 };
 
 function setTimer() {
