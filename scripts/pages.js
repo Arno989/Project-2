@@ -67,12 +67,6 @@ const bluetooth = function(y) {
 			]
 		})
 		.then(device => {
-			bluetoothDevice.addEventListener('gattserverdisconnected', function() 
-			{
-				
-					connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
-					
-			});
 			connectDevice(device, 'heart_rate', 'heart_rate_measurement', y);
 		})
 		.then(x => {
@@ -82,6 +76,7 @@ const bluetooth = function(y) {
 		})
 		.catch(error => {
 			document.querySelector('.js-tekenConnectie').src = '/img/svg/kruis.svg';
+			console.log('probleem bij verbinden');
 		});
 };
 
@@ -189,6 +184,7 @@ const connectDevice = function(device, server, service, y) {
 						document.querySelector('.js-tekenConnectie').style.display = 'block';
 						document.querySelector('.js-loading').style.display = 'none';
 						document.querySelector('.js-btn-connect-player').disabled = false;
+						console.log('probleem bij verbinden');
 					});
 				d.addEventListener('characteristicvaluechanged', function() {
 					d.readValue()
@@ -226,6 +222,7 @@ const connectDevice = function(device, server, service, y) {
 			document.querySelector('.js-tekenConnectie').style.display = 'block';
 			document.querySelector('.js-loading').style.display = 'none';
 			document.querySelector('.js-btn-connect-player').disabled = false;
+			console.log('probleem bij verbinden');
 		});
 };
 
