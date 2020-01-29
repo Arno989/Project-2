@@ -11,6 +11,7 @@ let ScoreDivc = document.querySelector('.js-score-c');
 let gameOverScreen = null;
 let gameOverScore = null;
 let gamePausedScreen = null;
+let highscoresGameScreen = null;
 let countDownScreen = null;
 let infoScreen = null;
 let btnAgain = null;
@@ -26,6 +27,7 @@ var gameWonSound = new sound('sounds/mp3/win.mp3');
 var bounceSound = new sound('sounds/bounce.mp3');
 var threeTwoSound = new sound('sounds/mp3/threeTwoOne.mp3');
 var clickSound = new sound('sounds/mp3/click.mp3');
+var playSound = new sound('sounds/wav/play.wav')
 
 //debug variables
 let bounceY = false;
@@ -266,6 +268,7 @@ function clickMain() {
 	resetBall();
 	resetPaddles();
 	resetGameMode();
+	playSound.stop();
 	clearInterval(gameLoop);
 	gameOverScreen.style.display = 'none';
 	gamePausedScreen.style.display = 'none';
@@ -330,22 +333,33 @@ function resetPaddles() {
 	com.y = canvas.height / 2 - 190 / 2;
 }
 
+function doHighscores(){
+	highscoresGameScreen = document.querySelector(".js-gameHighscores");
+	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
+		console.log("showing highscores");
+		highscoresGameScreen.style.display = 'block';
+	}
+	GameMode = "ai";
+}
+
 function pauseOn() {
 	gameOverScreen = document.querySelector('.js-gameOver');
-	console.log(gameOverScreen.style.display);
-	console.log(gameLoop);
-	console.log(timerLoop);
-	if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
-		if (gameLoop != null && timerLoop == false) {
-			console.log('paused');
-			gamePausedScreen = document.querySelector('.js-gamePaused');
-			gamePausedScreen.style.display = 'block';
-			clearInterval(gameLoop);
-			gameState = false;
-			btnResume = document.querySelector('.js-btn-resume');
-			btnMainPause = document.querySelector('.js-btn-mainPagePaused');
-			btnResume.addEventListener('click', clickResume);
-			btnMainPause.addEventListener('click', clickMainPaused);
+	highscoresGameScreen = document.querySelector(".js-gameHighscores");
+	if(highscoresGameScreen.style.display == '' || highscoresGameScreen.style.display == 'none'){
+		if(gameOverScreen.style.display == '' || gameOverScreen.style.display == 'none'){
+			if (gameLoop != null && timerLoop == false) 
+			{
+				console.log('paused');
+				gamePausedScreen = document.querySelector('.js-gamePaused');
+				gamePausedScreen.style.display = 'block';
+				clearInterval(gameLoop);
+				gameState = false;
+				btnResume = document.querySelector('.js-btn-resume');
+				btnMainPause = document.querySelector('.js-btn-mainPagePaused');
+				btnResume.addEventListener('click', clickResume);
+				btnMainPause.addEventListener('click', clickMainPaused);
+				playSound.volume(0.2);
+			}
 		}
 	}
 }
@@ -359,22 +373,22 @@ function startMovingBall(direction) {
 	let dir = getRndInteger(0, 1);
 	if (dir < 0.5) {
 		if (direction == 'left') {
-			ball.velocityX = -4 - Math.random();
-			ball.velocityY = ball.velocityX;
+			ball.velocityX = chosenVelocity;
+			ball.velocityY = chosenVelocity;
 			lastPaddleHit = user2;
 		} else if (direction == 'right') {
-			ball.velocityX = 4 + Math.random();
-			ball.velocityY = -ball.velocityX;
+			ball.velocityX = chosenVelocity;
+			ball.velocityY = -chosenVelocity;
 			lastPaddleHit = user;
 		}
 	} else if (dir > 0.5) {
 		if (direction == 'left') {
-			ball.velocityX = -4 - Math.random();
-			ball.velocityY = Math.abs(ball.velocityX);
+			ball.velocityX = -chosenVelocity;
+			ball.velocityY = chosenVelocity;
 			lastPaddleHit = user2;
 		} else if (direction == 'right') {
-			ball.velocityX = 4 + Math.random();
-			ball.velocityY = ball.velocityX;
+			ball.velocityX = chosenVelocity;
+			ball.velocityY = chosenVelocity;
 			lastPaddleHit = user;
 		}
 	}
@@ -454,6 +468,7 @@ function calcuatePredictionHit(direction) {
 // update function, the function that does most of the calculations
 function update() {
 	gameState = true;
+	console.log(chosenVelocity);
 
 	// the ball has a velocity
 	ball.x += ball.velocityX;
@@ -477,7 +492,7 @@ function update() {
 			ball.velocityX += increasementSpeedByUser;
 			ball.velocityY += increasementSpeedByUser;
 		}
-		if (ball.velocityX < beginVelocityX) {
+		if (Math.abs(ball.velocityX) < beginVelocityX) {
 			chosenVelocity = ball.velocityX;
 		}
 	} else if (speedUpPressed == true && GameMode != 'ai') {
@@ -493,6 +508,9 @@ function update() {
 		} else if (ball.velocityX <= -1 && ball.velocityY <= -1) {
 			ball.velocityX -= increasementSpeedByUser;
 			ball.velocityY -= increasementSpeedByUser;
+		}
+		if (Math.abs(ball.velocityX) < beginVelocityX) {
+			chosenVelocity = ball.velocityX;
 		}
 	}
 	ball.velocityX.toFixed(1); //keep the velocity to 1 number after the comma
@@ -576,25 +594,10 @@ function update() {
 			}
 		}
 	} else if (GameMode == 'wall' && wall.score > 0) {
-		gameOverScore = document.querySelector('.js-menu-score');
-		gameOverScreen = document.querySelector('.js-gameOver');
-		if (gameOverScreen.style.display == 'none' && wall.score > 0) {
-			ball.velocityX = beginVelocityX;
-			ball.velocityY = beginVelocityY;
-			lastPaddleHit = user;
-		}
-		if (btnAgain == null) {
-			btnAgain = document.querySelector('.js-btn-again');
-			btnAgain.addEventListener('click', clickRestart);
-		}
-		if (btnMain == null) {
-			btnMain = document.querySelector('.js-btn-mainPage');
-			btnMain.addEventListener('click', clickMain);
-		}
+		doHighscores();
 		bounceY = false;
 		bounceX = false;
-		gameOverScreen.style.display = 'block';
-		gameOverScore.innerText = user.score;
+		lastPaddleHit.x = 15;
 		GameMode = 'ai';
 		wall.score = 0;
 	}
@@ -966,7 +969,8 @@ function drawPrediction() {
 	}
 }
 
-function sound(src) {
+function sound(src) 
+{
 	this.sound = document.createElement('audio');
 	this.sound.src = src;
 	this.sound.setAttribute('preload', 'auto');
@@ -979,7 +983,11 @@ function sound(src) {
 	this.stop = function() {
 		this.sound.pause();
 	};
-}
+	this.volume = function(v) 
+	{
+		this.sound.volume = v;	
+	};
+};
 
 function setTimer() {
 	doAnime();
@@ -1039,7 +1047,8 @@ function doInfo() {
 	}
 }
 
-function doAnime() {
+function doAnime() 
+{
 	console.log(' 3 2 1 ');
 	timerLoop = true;
 	threeTwoSound.play();
@@ -1111,11 +1120,15 @@ function render() {
 	drawPrediction();
 }
 
-function game() {
-	if (animation.completed) {
+function game() 
+{
+	if (animation.completed) 
+	{
 		timerLoop = false;
 		update();
 		render();
+		playSound.play();
+		playSound.volume(1);
 	}
 }
 
