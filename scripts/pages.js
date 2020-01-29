@@ -131,7 +131,29 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 	document.querySelector('.js-btn-save').addEventListener('click', function() 
 	{
 		x = `{'score': ${user.score},'naam': '${tbName.value}','mode': 0}`;
-		handleData('https://project2function.azurewebsites.net/api/highscore', callbackPost, methode="POST", body = x);
+		try 
+		{
+			handleData('https://project2function.azurewebsites.net/api/highscore', callbackPost, methode = "POST", body = x);
+			Swal.fire({
+				title: '<strong>Succesvol opgeslaan</strong>',
+				imageUrl: './img/svg/vink.svg',
+				showCloseButton: true,
+				focusConfirm: false,
+				confirmButtonText: 'Super!',
+				confirmButtonAriaLabel: 'Super!'
+			});
+		} 
+		catch (error) 
+		{
+			Swal.fire({
+				title: '<strong>Fout bij opslaan</strong>',
+				imageUrl: './img/svg/vink.svg',
+				showCloseButton: true,
+				focusConfirm: false,
+				confirmButtonText: 'Verder',
+				confirmButtonAriaLabel: 'Verder'
+			});
+		}
 		highscoresGameScreen.style.display = 'none';
 		document.querySelector('.js-gameOver').style.display = "block";
 	});
