@@ -249,6 +249,7 @@ function keyUpHandler(event) {
 }
 
 function clickResume() {
+	clearInterval(gameLoop);
 	gameLoop = setInterval(game, 1000 / framePerSecond);
 	gameState = true;
 	gamePausedScreen.style.display = 'none';
