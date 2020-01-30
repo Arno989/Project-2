@@ -87,6 +87,36 @@ const verwerkHighScoresWithNewRecord3 = function(data)
 			</tr>`;
 		}
 	}
+	else if(data.length === plaatsInScoreBoard)
+	{
+		for(let i = 0; i < 4; i++)
+		{
+			d +=
+				`<tr>
+				<td>
+					<p class="u-margin-reset">${i + 1}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].naam}</p>
+				</td>
+				<td>
+					<p class="u-margin-reset">${data[i].score}</p>
+				</td>
+			</tr>`;
+		}
+		d +=
+			`<tr class="c-scoreboard-new">
+			<td>
+				<p class="u-margin-reset">${plaatsInScoreBoard}</p>
+			</td>
+			<td>
+				<input class="c-scoreboard-input js-name" type="text" autofocus/>
+			</td>
+			<td>
+				<p class="u-margin-reset">${user.score}</p>
+			</td>
+		</tr>`;
+	}
 	else
 	{
 		data.forEach(function (element, i) {
